@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32M412CBT7,USE_STDPERIPH_DRIVER</Define>
+              <Define>AT32M412KBU7_4,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\..\mclib\inc;..\inc;..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc;..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support;..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\device_support;..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\dsp\include;..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\dsp\PrivateInclude</IncludePath>
             </VariousControls>

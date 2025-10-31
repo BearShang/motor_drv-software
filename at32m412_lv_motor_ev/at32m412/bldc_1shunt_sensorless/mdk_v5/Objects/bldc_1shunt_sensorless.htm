@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\bldc_1shunt_sensorless.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\bldc_1shunt_sensorless.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Mon Oct 27 13:22:03 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Wed Oct 29 13:29:17 2025
 <BR><P>
 <H3>Maximum Stack Usage =        416 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -508,7 +508,7 @@ Global Symbols
 <P><STRONG><a name="[7]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, at32m412_416_int.o(.text.DebugMon_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32m412_416.o(RESET)
 </UL>
-<P><STRONG><a name="[58]"></a>ESC_State_Init</STRONG> (Thumb, 772 bytes, Stack size 16 bytes, mc_bldc_esc_state_sensorless.o(.text.ESC_State_Init))
+<P><STRONG><a name="[58]"></a>ESC_State_Init</STRONG> (Thumb, 768 bytes, Stack size 16 bytes, mc_bldc_esc_state_sensorless.o(.text.ESC_State_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = ESC_State_Init &rArr; param_clear &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_parameter_ID_config
@@ -562,7 +562,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32m412_416.o(RESET)
 </UL>
 <P><STRONG><a name="[79]"></a>I_offset_init</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, motor_control_bldc.o(.text.I_offset_init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = I_offset_init &rArr; current_offset_tmr_setting &rArr; gpio_init
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = I_offset_init &rArr; current_offset_tmr_setting &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_interrupt_enable
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_flag_clear
@@ -636,7 +636,7 @@ Global Symbols
 <P><STRONG><a name="[6]"></a>SVC_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, at32m412_416_int.o(.text.SVC_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32m412_416.o(RESET)
 </UL>
-<P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 320 bytes, Stack size 16 bytes, mc_isr.o(.text.SysTick_Handler))
+<P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 316 bytes, Stack size 16 bytes, mc_isr.o(.text.SysTick_Handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 416<LI>Call Chain = SysTick_Handler &rArr; ESC_State_Task &rArr; motor_parameter_id_process &rArr; param_id_process &rArr; __hardfp_log &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_state_led_blink
@@ -1167,8 +1167,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I_offset_init
 </UL>
 
-<P><STRONG><a name="[7a]"></a>current_offset_tmr_setting</STRONG> (Thumb, 308 bytes, Stack size 40 bytes, motor_control_bldc.o(.text.current_offset_tmr_setting))
-<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = current_offset_tmr_setting &rArr; gpio_init
+<P><STRONG><a name="[7a]"></a>current_offset_tmr_setting</STRONG> (Thumb, 300 bytes, Stack size 32 bytes, motor_control_bldc.o(.text.current_offset_tmr_setting))
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = current_offset_tmr_setting &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_write
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_output_enable
@@ -1399,7 +1399,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;param_init
 </UL>
 
-<P><STRONG><a name="[cc]"></a>led_init</STRONG> (Thumb, 100 bytes, Stack size 32 bytes, mc_hwio.o(.text.led_init))
+<P><STRONG><a name="[cc]"></a>led_init</STRONG> (Thumb, 94 bytes, Stack size 32 bytes, mc_hwio.o(.text.led_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = led_init &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_init
@@ -2137,8 +2137,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_pwm_init
 </UL>
 
-<P><STRONG><a name="[d9]"></a>tmr_pwm_init</STRONG> (Thumb, 674 bytes, Stack size 72 bytes, mc_hwio.o(.text.tmr_pwm_init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = tmr_pwm_init &rArr; gpio_init
+<P><STRONG><a name="[d9]"></a>tmr_pwm_init</STRONG> (Thumb, 666 bytes, Stack size 56 bytes, mc_hwio.o(.text.tmr_pwm_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = tmr_pwm_init &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_primary_mode_select
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_sub_sync_mode_set

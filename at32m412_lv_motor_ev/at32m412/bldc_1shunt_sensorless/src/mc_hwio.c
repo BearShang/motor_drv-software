@@ -818,7 +818,7 @@ void cmp2_config(void)
  * @param None
  * @return None
  */
-void gpio_output_init(void)
+/* void gpio_output_init(void)
 {
   gpio_init_type gpio_init_struct = {0};
 
@@ -827,7 +827,7 @@ void gpio_output_init(void)
   gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
 
   crm_periph_clock_enable(TMR_ADC_TRIG_GPIO_CRM_CLK, TRUE);
-  gpio_init_struct.gpio_pins = TMR_ADC_TRIG_GPIO_PIN;    /* T1C4 for ADC*/
+  gpio_init_struct.gpio_pins = TMR_ADC_TRIG_GPIO_PIN;    // T1C4 for ADC
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
 
   gpio_init(TMR_ADC_TRIG_PORT, &gpio_init_struct);
@@ -862,7 +862,7 @@ void gpio_output_init(void)
 
   gpio_init_struct.gpio_pins = TEST_C_GPIO_PIN;
   gpio_init(TEST_C_PORT, &gpio_init_struct);
-}
+} */
 
 /**
  * @brief Initializes the internal Operational Amplifier (OPA) for motor bus current sensing.

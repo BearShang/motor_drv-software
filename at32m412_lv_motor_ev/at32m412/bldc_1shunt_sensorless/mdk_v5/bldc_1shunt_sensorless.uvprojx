@@ -14,15 +14,15 @@
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>AT32M412CBT7</Device>
+          <Device>AT32M412KBU7-4</Device>
           <Vendor>ArteryTek</Vendor>
           <PackID>ArteryTek.AT32M412_416_DFP.2.0.2</PackID>
           <Cpu>IRAM(0x20000000,0x4000) IROM(0x08000000,0x20000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0AT32M412_128 -FS08000000 -FL020000 -FP0($$Device:AT32M412CBT7$Flash\AT32M412_128.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0AT32M412_128 -FS08000000 -FL020000 -FP0($$Device:AT32M412KBU7-4$Flash\AT32M412_128.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:AT32M412CBT7$Device\Include\at32m412_416.h</RegisterFile>
+          <RegisterFile>$$Device:AT32M412KBU7-4$Device\Include\at32m412_416.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -32,7 +32,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:AT32M412CBT7$SVD\AT32M412xx_v2.svd</SFDFile>
+          <SFDFile>$$Device:AT32M412KBU7-4$SVD\AT32M412xx_v2.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32M412CBT7,USE_STDPERIPH_DRIVER</Define>
+              <Define>AT32M412KBU7_4,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\..\mclib\inc;..\inc;..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc;..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support;..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\device_support;..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\dsp\include;..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\dsp\PrivateInclude</IncludePath>
             </VariousControls>

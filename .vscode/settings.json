@@ -1,6 +1,8 @@
 {
     "cmake.sourceDirectory": "D:/Project/hwzx/drone/motor_drv/Software/V2.1.5-main/libraries/dsp/Source",
     "files.associations": {
-        "type_traits": "c"
+        "type_traits": "c",
+        "cmath": "c",
+        "cstdlib": "c"
     }
 }

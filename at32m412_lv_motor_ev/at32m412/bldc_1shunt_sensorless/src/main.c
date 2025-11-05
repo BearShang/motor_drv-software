@@ -121,8 +121,9 @@ int main(void)
     /* calculate motor speed */
     if(calc_spd_rdy == SET)
     {
+      /* 弧度/相邻零交叉事件之间的时间间隔 * 方向矢量 */
       rotor_speed.filtered = (uint32_t)(PWM_CVAL_TO_RPM / rotor_speed.interval_filter.long_word) * (1 - 2 * rotor_speed.dir);
-      i32_speed_filterd = lowpass_filtering(&speed_LPF, rotor_speed.filtered);
+      i32_speed_filterd = lowpass_filtering(&speed_LPF, rotor_speed.filtered);  //对电机速度进行低通滤波
       calc_spd_rdy = RESET;
     }
 

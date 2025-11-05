@@ -226,10 +226,10 @@ void CHANGE_PHASE_IRQ(void)
       sense_hall_steps++;
     }
 
-    if(closeloop_rdy != RESET)
+    if(closeloop_rdy != RESET)  //当闭环控制已准备好（进入稳定 ZCP 区间）
     {
       adc_sample.emf.emf_avoid_noise_times = EMF_AVOID_NOISE_TIMES;
-      tmr_event_sw_trigger(PWM_ADVANCE_TIMER, TMR_HALL_SWTRIG);
+      tmr_event_sw_trigger(PWM_ADVANCE_TIMER, TMR_HALL_SWTRIG); //向“相位提前/换相定时器”发软触发，通知它开始按照当前设定的延时去切换相位
       hall.state = hall.next_state;
       rotor_speed.val = (rotor_speed.speed_count >> 1) + rotor_speed.speed_count;
       cmp_init_struct.cmp_inverting = emf_detect_cmp_channel[hall.state];

@@ -3,6 +3,7 @@
     "files.associations": {
         "type_traits": "c",
         "cmath": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "compare": "c"
     }
 }

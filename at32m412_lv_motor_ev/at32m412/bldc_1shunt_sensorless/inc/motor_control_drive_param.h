@@ -100,11 +100,11 @@ extern "C" {
 
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
-#define RS_LL                        (1.89)           /* Stator resistance, ohm */
+#define RS_LL                        (0.51)           /* Stator resistance, ohm */
 #define LS_LL                        (0.002387)       /* Stator inductance, H */
-#define POLE_PAIRS                   (8/2)
-#define KE                           (0.003437f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
-#define NOMINAL_CURRENT              (1.7)
+#define POLE_PAIRS                   (14/2)
+#define KE                           (0.001443f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
+#define NOMINAL_CURRENT              (20.0)
 
 /* angle detect duty */
 #define ANGLE_INIT_DETECT_DUTY       ((int16_t)(0.15*ANGLE_INIT_PERIOD))  /* 15% of ANGLE_INIT_PERIOD */
@@ -131,10 +131,10 @@ extern "C" {
 
 /********************************* Drive-related parameter *********************************/
 /* basic */
-#define VDC_RATED                 ((double)24.0f)
-#define BAT_LOW_VOLT              ((double)10.0f)                    /*!< minimum allowable battery voltage*/
+#define VDC_RATED                 ((double)16.8f)
+#define BAT_LOW_VOLT              ((double)12.8f)                    /*!< minimum allowable battery voltage*/
 #define V_SENSE_GAIN              (3.0f/(47.0f+3.0f))                  /*!< 0.051573 */
-#define MAX_CURRENT               (35.0f)
+#define MAX_CURRENT               (38.0f)
 #define MIN_CURRENT               (-MAX_CURRENT)
 #define CURRENT_SPAN_SHIFT        (1)
 #define ADC_REFERENCE_VOLT        (3.329f)                           /*!< V */

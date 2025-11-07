@@ -100,8 +100,8 @@ extern "C" {
 
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
-#define RS_LL                        (0.51)           /* Stator resistance, ohm */
-#define LS_LL                        (0.002387)       /* Stator inductance, H */
+#define RS_LL                        (0.31)           /* Stator resistance, ohm */
+#define LS_LL                        (0.0092)       /* Stator inductance, H */
 #define POLE_PAIRS                   (14/2)
 #define KE                           (0.001443f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
 #define NOMINAL_CURRENT              (20.0)

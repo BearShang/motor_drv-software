@@ -325,12 +325,12 @@ extern "C" {
 #define COMM_UART_TX_PORT                GPIOA
 #define COMM_UART_TX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE15
 #define COMM_UART_TX_PIN                 GPIO_PINS_15
-#define COMM_UART_TX_IOMUX               GPIO_MUX_6
+#define COMM_UART_TX_IOMUX               GPIO_MUX_7
 #define COMM_UART_RX_GPIO_CRM_CLK        CRM_GPIOB_PERIPH_CLOCK
 #define COMM_UART_RX_PORT                GPIOB
 #define COMM_UART_RX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE7
 #define COMM_UART_RX_PIN                 GPIO_PINS_7
-#define COMM_UART_RX_IOMUX               GPIO_MUX_6
+#define COMM_UART_RX_IOMUX               GPIO_MUX_7
 #define COMM_UART_IOMUX                  NULL
 #define COMM_UART_IRQn                   USART1_IRQn
 #define COMM_UART_IRQHandler             USART1_IRQHandler

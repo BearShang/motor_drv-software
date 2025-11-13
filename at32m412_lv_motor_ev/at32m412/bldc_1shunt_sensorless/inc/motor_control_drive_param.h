@@ -133,11 +133,11 @@ extern "C" {
 /* basic */
 #define VDC_RATED                 ((double)16.8f)
 #define BAT_LOW_VOLT              ((double)12.8f)                    /*!< minimum allowable battery voltage*/
-#define V_SENSE_GAIN              (3.0f/(47.0f+3.0f))                  /*!< 0.051573 */
+#define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))                  /*!< 0.175439 */
 #define MAX_CURRENT               (38.0f)
 #define MIN_CURRENT               (-MAX_CURRENT)
 #define CURRENT_SPAN_SHIFT        (1)
-#define ADC_REFERENCE_VOLT        (3.329f)                           /*!< V */
+#define ADC_REFERENCE_VOLT        (3.271f)                           /*!< V */
 #define ADC_DIGITAL_SCALE_12BITS  (4095.0f)
 /* Clock */
 #if defined AT32F413xx
@@ -209,8 +209,8 @@ extern "C" {
 #define TMR_BRK_FILTER_COUNT      (3)
 #endif
 /* Bus voltage */
-#define OVER_VOLT_THRESHOLD       (40)         /*!< V */
-#define UNDER_VOLT_THRESHOLD      (8)          /*!< V */
+#define OVER_VOLT_THRESHOLD       (17)         /*!< V */
+#define UNDER_VOLT_THRESHOLD      (12)          /*!< V */
 /* Temperature sensing section */
 /* V[V]=V0+dV/dT[V/Celsius]*(T-T0)[Celsius]*/
 #define V0_V                      (2.81943)    /*!< in Volts */

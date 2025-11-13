@@ -117,7 +117,7 @@ extern "C" {
 #define I_SENSE_GAIN               (R_SHUNT*OP_GAIN)                           /*!< 0.0445 */
 /* Basic */
 #define CURRENT_BASE               ((float)((ADC_REFERENCE_VOLT-CURR_OFFSET_VOLT)/I_SENSE_GAIN))       /*!< 55.8 A*/
-#define VOLTAGE_BASE               ((float)(ADC_REFERENCE_VOLT/V_SENSE_GAIN))  /*!< 63.987 V */
+#define VOLTAGE_BASE               ((float)(ADC_REFERENCE_VOLT/V_SENSE_GAIN))  /*!< 18.6447 V */
 
 #define PWM_PERIOD                 ((uint16_t)(TMR_CLK/PWM_FREQ))              /*!<  6666(PWM:30K Hz) */
 #define PWM_PERIOD_DIV_100         ((uint16_t)(TMR_CLK/PWM_FREQ/100))

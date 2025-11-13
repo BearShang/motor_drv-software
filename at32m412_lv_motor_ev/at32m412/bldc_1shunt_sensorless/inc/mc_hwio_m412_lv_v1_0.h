@@ -64,7 +64,7 @@ extern "C" {
 #define PWM_PHASE_A_LOW_PORT           GPIOA
 #define PWM_PHASE_A_LOW_GPIO_PIN       GPIO_PINS_11
 #define PWM_PHASE_A_LOW_PIN_SOURCE     GPIO_PINS_SOURCE11
-#define PWM_PHASE_A_LOW_IOMUX          GPIO_MUX_9
+#define PWM_PHASE_A_LOW_IOMUX          GPIO_MUX_10
 #define PWM_PHASE_B_LOW_GPIO_CRM_CLK   CRM_GPIOA_PERIPH_CLOCK
 #define PWM_PHASE_B_LOW_PORT           GPIOA
 #define PWM_PHASE_B_LOW_GPIO_PIN       GPIO_PINS_12
@@ -74,7 +74,7 @@ extern "C" {
 #define PWM_PHASE_C_LOW_PORT           GPIOB
 #define PWM_PHASE_C_LOW_GPIO_PIN       GPIO_PINS_6
 #define PWM_PHASE_C_LOW_PIN_SOURCE     GPIO_PINS_SOURCE6
-#define PWM_PHASE_C_LOW_IOMUX          GPIO_MUX_0
+#define PWM_PHASE_C_LOW_IOMUX          GPIO_MUX_1
 
 /* timer for adc trigger source */
 #define ADC_TIMER                      TMR1

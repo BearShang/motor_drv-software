@@ -1019,8 +1019,8 @@ void led_config(void)
   gpio_init_struct.gpio_out_type  = GPIO_OUTPUT_PUSH_PULL;
   gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
   gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-  gpio_init_struct.gpio_pins = ERROR_LED_GPIO_PIN;
-  gpio_init(ERROR_LED_PORT, &gpio_init_struct);
+  // gpio_init_struct.gpio_pins = ERROR_LED_GPIO_PIN;
+  // gpio_init(ERROR_LED_PORT, &gpio_init_struct);
 
   gpio_init_struct.gpio_pins = LED_R_GPIO_PIN;
   gpio_init(LED_R_PORT, &gpio_init_struct);

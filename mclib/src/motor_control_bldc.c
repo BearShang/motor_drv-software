@@ -703,8 +703,8 @@ void current_auto_tuning(i_auto_tune_type *i_tune_handler)
   */
 void normal_state_led_blink(uint16_t *led_blink_count, gpio_type *led_gpio_port, uint16_t led_gpio_pin)
 {
-  if (esc_state_old != ESC_STATE_ERROR)
-  {
+/*   if (esc_state_old != ESC_STATE_ERROR)
+  { */
     if ((esc_state_old == ESC_STATE_IDLE) || (esc_state_old == ESC_STATE_SAFETY_READY))
     {
       led_on(led_gpio_port, led_gpio_pin);
@@ -721,12 +721,12 @@ void normal_state_led_blink(uint16_t *led_blink_count, gpio_type *led_gpio_port,
         (*led_blink_count)++;
       }
     }
-  }
+/*   }
   else
   {
     led_off(led_gpio_port, led_gpio_pin);
     led_blink_count = 0;
-  }
+  } */
 }
 
 /**

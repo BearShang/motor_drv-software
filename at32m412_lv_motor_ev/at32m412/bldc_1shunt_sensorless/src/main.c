@@ -116,6 +116,8 @@ int main(void)
 
   param_init();
 
+  led_blink();
+
   while(1)
   {
     /* calculate motor speed */

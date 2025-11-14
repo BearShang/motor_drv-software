@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\bldc_1shunt_sensorless.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\bldc_1shunt_sensorless.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Thu Nov 13 18:19:54 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Fri Nov 14 10:02:37 2025
 <BR><P>
 <H3>Maximum Stack Usage =        416 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1392,7 +1392,7 @@ Global Symbols
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;current_offset_tmr_setting
 </UL>
 
-<P><STRONG><a name="[106]"></a>hall_to_tmr_register_setting</STRONG> (Thumb, 352 bytes, Stack size 36 bytes, motor_control_bldc.o(.text.hall_to_tmr_register_setting))
+<P><STRONG><a name="[106]"></a>hall_to_tmr_register_setting</STRONG> (Thumb, 356 bytes, Stack size 36 bytes, motor_control_bldc.o(.text.hall_to_tmr_register_setting))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = hall_to_tmr_register_setting
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;param_init
@@ -1520,7 +1520,7 @@ Global Symbols
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESC_State_Init
 </UL>
 
-<P><STRONG><a name="[6c]"></a>motor_parameter_ID_config</STRONG> (Thumb, 362 bytes, Stack size 32 bytes, mc_hwio.o(.text.motor_parameter_ID_config))
+<P><STRONG><a name="[6c]"></a>motor_parameter_ID_config</STRONG> (Thumb, 360 bytes, Stack size 32 bytes, mc_hwio.o(.text.motor_parameter_ID_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = motor_parameter_ID_config &rArr; adc_preempt_channel_set
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_channel_enable
@@ -2143,8 +2143,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_pwm_init
 </UL>
 
-<P><STRONG><a name="[db]"></a>tmr_pwm_init</STRONG> (Thumb, 666 bytes, Stack size 56 bytes, mc_hwio.o(.text.tmr_pwm_init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = tmr_pwm_init &rArr; gpio_init
+<P><STRONG><a name="[db]"></a>tmr_pwm_init</STRONG> (Thumb, 664 bytes, Stack size 64 bytes, mc_hwio.o(.text.tmr_pwm_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = tmr_pwm_init &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_primary_mode_select
 <LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_sub_sync_mode_set

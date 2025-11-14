@@ -41,7 +41,7 @@ extern "C" {
 /* mosfet low side complement(high side PWM) setting */
 #define COMPLEMENT
 /* gate driver low side inverting logic input or non-inverting logic input*/
-//#define GATE_DRIVER_LOW_SIDE_INVERT
+#define GATE_DRIVER_LOW_SIDE_INVERT
 
 /* choose sensor */
 //#define HALL_SENSORS
@@ -134,7 +134,7 @@ extern "C" {
 #define VDC_RATED                 ((double)16.8f)
 #define BAT_LOW_VOLT              ((double)12.8f)                    /*!< minimum allowable battery voltage*/
 #define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))                  /*!< 0.175439 */
-#define MAX_CURRENT               (38.0f)
+#define MAX_CURRENT               (20.0f)
 #define MIN_CURRENT               (-MAX_CURRENT)
 #define CURRENT_SPAN_SHIFT        (1)
 #define ADC_REFERENCE_VOLT        (3.271f)                           /*!< V */
@@ -200,7 +200,7 @@ extern "C" {
 
 /***************** Protection *****************/
 /* Current */
-#define OVER_CURRENT_SW           (48.0)       /*!< A */
+#define OVER_CURRENT_SW           (30.0)       /*!< A */
 
 #if defined AT32M412xx || defined AT32M416xx
 #define DAC_VREF_SOURCE           (DAC_VDDA)

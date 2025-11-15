@@ -340,20 +340,20 @@ void SysTick_Handler(void)
   zcp_highspd_rise = (adc_sample.emf.emf_half_vdc_val) + (adc_sample.emf.emf_high_spd_offset_rising);
 
   /* Over/under voltage protection */
-  if (adc_in_tab[ADC_BUS_VOLT_IDX] < UNDERVOLTAGE_THRESHOLD_d)
+  /* if (adc_in_tab[ADC_BUS_VOLT_IDX] < UNDERVOLTAGE_THRESHOLD_d)
   {
     error_code |= error_code_mask & MC_UNDER_VOLT_ERROR;
   }
   else if (adc_in_tab[ADC_BUS_VOLT_IDX] > OVERVOLTAGE_THRESHOLD_d)
   {
     error_code |= error_code_mask & MC_OVER_VOLT_ERROR;
-  }
+  } */
 
   /* MOS Temperature protection */
-  if (adc_in_tab[ADC_MOS_TEMP_IDX] < TEMPERATURE_THRESHOLD_d)
+ /*  if (adc_in_tab[ADC_MOS_TEMP_IDX] < TEMPERATURE_THRESHOLD_d)
   {
     error_code |= error_code_mask & MC_OVER_TEMP_ERROR;
-  }
+  } */
 
   /* Enter error state handler */
   if (error_code != MC_NO_ERROR)

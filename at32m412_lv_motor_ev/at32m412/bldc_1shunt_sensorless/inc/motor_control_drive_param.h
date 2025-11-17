@@ -40,8 +40,8 @@ extern "C" {
 
 /* mosfet low side complement(high side PWM) setting */
 #define COMPLEMENT
-/* gate driver low side inverting logic input or non-inverting logic input*/
-#define GATE_DRIVER_LOW_SIDE_INVERT
+/* gate driver low side inverting logic input or non-inverting logic input */
+//#define GATE_DRIVER_LOW_SIDE_INVERT
 
 /* choose sensor */
 //#define HALL_SENSORS
@@ -253,7 +253,7 @@ extern "C" {
 /* SPEED PARAMETER */
 #if defined LOW_SPEED_VOLT_CTRL
 #if defined SENSORLESS
-#define MIN_SPEED_RPM              (200)      /*!< rpm */
+#define MIN_SPEED_RPM              (100)      /*!< rpm */
 #elif defined HALL_SENSORS 
 #define MIN_SPEED_RPM              (120)      /*!< rpm */
 #endif
@@ -290,8 +290,8 @@ extern "C" {
 #define OLC_INIT_SPD               (100)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
 #define OLC_TIMES                  (120)     /*!< Accumulated 90 times to reach the final speed */
-#define OLC_INIT_VOLT              (0.75)    /*!< V */
-#define OLC_VOLT_INC               (0.006)
+#define OLC_INIT_VOLT              (0.13)    /*!< V */
+#define OLC_VOLT_INC               (0.004)
 /* open loop start-up */
 #define OLC_STARTUP_PERIOD         (500)     /*!< msec */
 /* lock start-up */

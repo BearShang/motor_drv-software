@@ -82,7 +82,7 @@ extern "C" {
 
 #ifdef BLDC_SENSORLESS_COMP
 /* EMF continous sample */
-//#define EMF_CONTINOUS_SAMPLE
+#define EMF_CONTINOUS_SAMPLE
 #define SPECIFIC_EACH_EMF_PIN
 #elif defined BLDC_SENSORLESS_ADC
 /* choose EMF pull up or not */
@@ -289,11 +289,11 @@ extern "C" {
 /* open loop control */
 #define OLC_INIT_SPD               (100)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
-#define OLC_TIMES                  (120)     /*!< Accumulated 90 times to reach the final speed */
-#define OLC_INIT_VOLT              (0.13)    /*!< V */
-#define OLC_VOLT_INC               (0.004)
+#define OLC_TIMES                  (200)     /*!< Accumulated 90 times to reach the final speed */
+#define OLC_INIT_VOLT              (0.14)    /*!< V */
+#define OLC_VOLT_INC               (0.003)
 /* open loop start-up */
-#define OLC_STARTUP_PERIOD         (500)     /*!< msec */
+#define OLC_STARTUP_PERIOD         (1500)     /*!< msec */
 /* lock start-up */
 #define LOCK_VOLT                  (2.5)     /*!< V */
 #define LOCK_PERIOD                (500)     /*!< msec */
@@ -308,11 +308,11 @@ extern "C" {
 #define PID_IS_KI_DIV              32768
 #define PID_IS_KI_DIV_LOG          LOG2(PID_IS_KI_DIV)
 
-#define PID_SPD_KP_DEFUALT         1000
-#define PID_SPD_KI_DEFUALT         20
-#define PID_SPD_KP_DIV             4096
+#define PID_SPD_KP_DEFUALT         5000
+#define PID_SPD_KI_DEFUALT         100
+#define PID_SPD_KP_DIV             1024
 #define PID_SPD_KP_DIV_LOG         LOG2(PID_SPD_KP_DIV)
-#define PID_SPD_KI_DIV             32768
+#define PID_SPD_KI_DIV             1024
 #define PID_SPD_KI_DIV_LOG         LOG2(PID_SPD_KI_DIV)
 
 /* low speed voltage control parameter */

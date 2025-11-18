@@ -319,7 +319,7 @@ extern "C" {
 #define HYSTERESIS_LOW_SPEED       (800)      /*!< rpm */
 #define HYSTERESIS_HIGH_SPEED      (1000)     /*!< rpm */
 /* low speed pid parameter for voltage control */
-#define PID_SPD_VOLT_KP_DEFUALT         3000
+#define PID_SPD_VOLT_KP_DEFUALT         5000
 #define PID_SPD_VOLT_KI_DEFUALT         100
 #define PID_SPD_VOLT_KP_GAIN_DIV        1024
 #define PID_SPD_VOLT_KP_GAIN_DIV_LOG    LOG2(PID_SPD_VOLT_KP_GAIN_DIV)

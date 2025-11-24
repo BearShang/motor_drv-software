@@ -210,18 +210,18 @@ extern "C" {
 #define TMR_COMP_OUT_CAPTURE_FILTER      0xF                        /*0x0 ~ 0xF*/
 /**************** define Timer for pwm input *******************/
 #define PWM_DUTY_INPUT_TIMER           TMR4
-#define PWM_DUTY_INPUT_SELECT_CHANNEL  TMR_SELECT_CHANNEL_1          
+#define PWM_DUTY_INPUT_SELECT_CHANNEL  TMR_SELECT_CHANNEL_3          
 #define PWM_DUTY_INPUT_CRM_CLK         CRM_TMR4_PERIPH_CLOCK
 #define PWM_DUTY_INPUT_IRQ             TMR4_GLOBAL_IRQHandler
 #define PWM_DUTY_INPUT_IRQn            TMR4_GLOBAL_IRQn
-#define PWM_DUTY_INPUT_FLAG            TMR_C1_FLAG
-#define PWM_DUTY_INPUT_INT             TMR_C1_INT
+#define PWM_DUTY_INPUT_FLAG            TMR_C3_FLAG
+#define PWM_DUTY_INPUT_INT             TMR_C3_INT
 #define TMR_PWM_DUTY_INPUT_FILTER      0xF												/* 0x0 ~ 0xF */
 
-#define PWM_DUTY_INPUT_GPIO_CRM_CLK      CRM_GPIOF_PERIPH_CLOCK
-#define PWM_DUTY_INPUT_PORT              GPIOF
-#define PWM_DUTY_INPUT_GPIO_PIN          GPIO_PINS_9
-#define PWM_DUTY_INPUT_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE9
+#define PWM_DUTY_INPUT_GPIO_CRM_CLK      CRM_GPIOB_PERIPH_CLOCK
+#define PWM_DUTY_INPUT_PORT              GPIOB
+#define PWM_DUTY_INPUT_GPIO_PIN          GPIO_PINS_8
+#define PWM_DUTY_INPUT_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE8
 #define PWM_DUTY_INPUT_IOMUX             GPIO_MUX_2
 /* adc reading pin definition */
 #define ADC_NORMAL_CONVERTER           ADC1
@@ -285,10 +285,10 @@ extern "C" {
 #define VOLT_BUS_ADC_PORT              GPIOA
 #define VOLT_BUS_ADC_GPIO_PIN          GPIO_PINS_0
 
-#define MOS_TEMP_ADC_CH                ADC_CHANNEL_24
+#define MOS_TEMP_ADC_CH                ADC_CHANNEL_23
 #define MOS_TEMP_ADC_GPIO_CRM_CLK      CRM_GPIOF_PERIPH_CLOCK
 #define MOS_TEMP_ADC_PORT              GPIOF
-#define MOS_TEMP_ADC_GPIO_PIN          GPIO_PINS_10
+#define MOS_TEMP_ADC_GPIO_PIN          GPIO_PINS_9
 
 #define POTENTIO_ADC_CH                ADC_CHANNEL_26
 #define POTENTIO_ADC_GPIO_CRM_CLK      CRM_GPIOF_PERIPH_CLOCK

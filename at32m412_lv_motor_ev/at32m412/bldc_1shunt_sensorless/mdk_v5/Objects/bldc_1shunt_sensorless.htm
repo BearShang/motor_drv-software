@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\bldc_1shunt_sensorless.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\bldc_1shunt_sensorless.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Tue Nov 18 18:34:28 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Mon Nov 24 11:34:04 2025
 <BR><P>
-<H3>Maximum Stack Usage =        416 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        424 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 SysTick_Handler &rArr; ESC_State_Task &rArr; motor_parameter_id_process &rArr; param_id_process &rArr; __hardfp_log &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 <P>
@@ -534,8 +534,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6d]"></a>ESC_State_Task</STRONG> (Thumb, 864 bytes, Stack size 8 bytes, mc_bldc_esc_state_sensorless.o(.text.ESC_State_Task))
-<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = ESC_State_Task &rArr; motor_parameter_id_process &rArr; param_id_process &rArr; __hardfp_log &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<P><STRONG><a name="[6d]"></a>ESC_State_Task</STRONG> (Thumb, 916 bytes, Stack size 16 bytes, mc_bldc_esc_state_sensorless.o(.text.ESC_State_Task))
+<BR><BR>[Stack]<UL><LI>Max Depth = 408<LI>Call Chain = ESC_State_Task &rArr; motor_parameter_id_process &rArr; param_id_process &rArr; __hardfp_log &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcValueByVref
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_controller_static_clamp
@@ -636,7 +636,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32m412_416.o(RESET)
 </UL>
 <P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 296 bytes, Stack size 16 bytes, mc_isr.o(.text.SysTick_Handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 416<LI>Call Chain = SysTick_Handler &rArr; ESC_State_Task &rArr; motor_parameter_id_process &rArr; param_id_process &rArr; __hardfp_log &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 424<LI>Call Chain = SysTick_Handler &rArr; ESC_State_Task &rArr; motor_parameter_id_process &rArr; param_id_process &rArr; __hardfp_log &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_state_led_blink
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcValueByVref
@@ -815,8 +815,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_ordinary_config
 </UL>
 
-<P><STRONG><a name="[9a]"></a>adc_ordinary_config</STRONG> (Thumb, 402 bytes, Stack size 72 bytes, mc_hwio.o(.text.adc_ordinary_config))
-<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = adc_ordinary_config &rArr; gpio_init
+<P><STRONG><a name="[9a]"></a>adc_ordinary_config</STRONG> (Thumb, 406 bytes, Stack size 64 bytes, mc_hwio.o(.text.adc_ordinary_config))
+<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = adc_ordinary_config &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dma_flexible_config
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_calibration_status_get

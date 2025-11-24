@@ -158,7 +158,7 @@ extern "C" {
 //#if (DAC_VREF_SOURCE)
 //#define DAC_OCP_REF                ((uint16_t) (63.0*BUS_CURR_CMP_OCP_VOLT/1.2f))
 //#else
-#define DAC_OCP_REF                ((uint16_t) (63.0*BUS_CURR_CMP_OCP_VOLT/ADC_REFERENCE_VOLT))
+#define DAC_OCP_REF                ((uint8_t)((((63.0f*BUS_CURR_CMP_OCP_VOLT/ADC_REFERENCE_VOLT)+0.5f) <= 0.0f) ? 0 : ((((63.0f*BUS_CURR_CMP_OCP_VOLT/ADC_REFERENCE_VOLT)+0.5f) >= 63.0f) ? 63 : (uint8_t)((63.0f*BUS_CURR_CMP_OCP_VOLT/ADC_REFERENCE_VOLT)+0.5f))))
 //#endif
 /* MOS Temperature */
 #define TEMPER_A                   ((int32_t) (0xFFFF*ADC_REFERENCE_VOLT/(ADC_DIGITAL_SCALE_12BITS*dV_dT)))

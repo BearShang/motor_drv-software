@@ -172,8 +172,8 @@ extern "C" {
                                                                         SYSTEM_CORE_CLOCK = 120MHz, range is [0...4000]; */
 /* Current */
 #define R_SHUNT                   (0.002f)                                                    /*!< 0.002 ohm */
-#define OP_GAIN                   (180.0f/(2.0f+180.0f)*(1.0f+43.0f/2.0f))                    /*!< gain = 22.2 */
-#define CURR_OFFSET_VOLT          (ADC_REFERENCE_VOLT*(2.0f/(2.0f+180.0f))*(1.0f+43.0f/2.0f)) /*!< 0.8159 V */
+#define OP_GAIN                   (66.5f/2.4f)                                                /*!< gain = 27.708 */
+#define CURR_OFFSET_VOLT          (ADC_REFERENCE_VOLT/2.0f)                                   /*!< 1.65 V */
 
 /* EMF */
 #define EMF_SENSE_GAIN            (3.0f/(43.0f+3.0f))   /*!< 0.0652 */

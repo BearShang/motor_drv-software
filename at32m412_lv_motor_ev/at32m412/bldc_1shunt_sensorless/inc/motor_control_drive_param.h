@@ -55,7 +55,7 @@ extern "C" {
 #endif
 
 /* choose remove current-loop-control or not */
-#define WITHOUT_CURRENT_CTRL
+//#define WITHOUT_CURRENT_CTRL
 
 /* choose low speed control or not */
 #define LOW_SPEED_VOLT_CTRL
@@ -316,8 +316,8 @@ extern "C" {
 #define PID_SPD_KI_DIV_LOG         LOG2(PID_SPD_KI_DIV)
 
 /* low speed voltage control parameter */
-#define HYSTERESIS_LOW_SPEED       (800)      /*!< rpm */
-#define HYSTERESIS_HIGH_SPEED      (1000)     /*!< rpm */
+#define HYSTERESIS_LOW_SPEED       (600)     /*!< rpm */
+#define HYSTERESIS_HIGH_SPEED      (800)     /*!< rpm */
 /* low speed pid parameter for voltage control */
 #define PID_SPD_VOLT_KP_DEFUALT         5000
 #define PID_SPD_VOLT_KI_DEFUALT         100

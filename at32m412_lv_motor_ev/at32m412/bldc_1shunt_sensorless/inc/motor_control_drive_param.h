@@ -83,14 +83,14 @@ extern "C" {
 #ifdef BLDC_SENSORLESS_COMP
 /* EMF continous sample */
 #define EMF_CONTINOUS_SAMPLE
-#define SPECIFIC_EACH_EMF_PIN
+#define SPECIFIC_EACH_EMF_PIN     //避开其它相不需要比较器信号（默认开启）
 #elif defined BLDC_SENSORLESS_ADC
 /* choose EMF pull up or not */
 #define EMF_PULL_UP
 #endif
 
 /* choose Winding parameter identification or not */
-#define MOTOR_PARAM_IDENTIFY
+//#define MOTOR_PARAM_IDENTIFY  //电机线圈参数自动辨识（默认开启，若注释则关闭）
 
 /* use artery motor monitor or not */
 #define USE_MOTOR_MONITOR   /* CTRL_SOURCE should be changed to CTRL_SOURCE_EXTERNAL if no motor monitor is used. */

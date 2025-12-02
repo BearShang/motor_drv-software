@@ -350,10 +350,10 @@ void SysTick_Handler(void)
   }
 
   /* MOS Temperature protection */
- /*  if (adc_in_tab[ADC_MOS_TEMP_IDX] < TEMPERATURE_THRESHOLD_d)
+   if (adc_in_tab[ADC_MOS_TEMP_IDX] < TEMPERATURE_THRESHOLD_d)
   {
     error_code |= error_code_mask & MC_OVER_TEMP_ERROR;
-  } */
+  } 
 
   /* Enter error state handler */
   if (error_code != MC_NO_ERROR)

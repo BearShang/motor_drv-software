@@ -64,11 +64,11 @@ extern "C" {
 #define CURRENT_LP_FILTER
 
 #if defined SENSORLESS
-/* choose large cogging or not */
+/* choose large cogging or not 大齿锯提前补偿相位？ */
 //#define LARGE_COGGING
 
-/* choose phase advance or not */
-#define PHASE_ADVANCE
+/* choose phase advance or not 相位提前（默认不开启）。使用INIT_ANGLE_STARTUP启动时才需要设置，否则可以略过。使用初始角度检测启动时会因为电机特性是否大齿槽转矩导致检测方式的不同，因此需要根据电机特性设置此功能 */
+//#define PHASE_ADVANCE
 
 /* choose const current/voltage start-up */
 //#define CONST_CURRENT_START
@@ -89,8 +89,8 @@ extern "C" {
 #define EMF_PULL_UP
 #endif
 
-/* choose Winding parameter identification or not */
-//#define MOTOR_PARAM_IDENTIFY  //电机线圈参数自动辨识（默认开启，若注释则关闭）
+/* choose Winding parameter identification or not 电机线圈参数自动辨识（默认开启，若注释则关闭） */
+//#define MOTOR_PARAM_IDENTIFY
 
 /* use artery motor monitor or not */
 #define USE_MOTOR_MONITOR   /* CTRL_SOURCE should be changed to CTRL_SOURCE_EXTERNAL if no motor monitor is used. */
@@ -101,14 +101,14 @@ extern "C" {
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
 #define RS_LL                        (0.31)           /* Stator resistance, ohm */
-#define LS_LL                        (0.0092)       /* Stator inductance, H */
+#define LS_LL                        (0.0092)         /* Stator inductance, H */
 #define POLE_PAIRS                   (14/2)
 #define KE                           (0.001443f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
 #define NOMINAL_CURRENT              (20.0)
 
 /* angle detect duty */
-#define ANGLE_INIT_DETECT_DUTY       ((int16_t)(0.15*ANGLE_INIT_PERIOD))  /* 15% of ANGLE_INIT_PERIOD */
-#define ANGLE_INIT_I_DIFF            ((int16_t) 500)
+#define ANGLE_INIT_DETECT_DUTY       ((int16_t)(0.15*ANGLE_INIT_PERIOD))  /* 初始角度检测的PWM DUTY值（unit: PWM计时器时基） */
+#define ANGLE_INIT_I_DIFF            ((int16_t) 500)                      /* 初始角度检测的电流差（unit: ADC数字量） */
 
 /* hall learn table */
 #if defined (SENSORLESS)
@@ -133,9 +133,9 @@ extern "C" {
 /* basic */
 #define VDC_RATED                 ((double)16.8f)
 #define BAT_LOW_VOLT              ((double)12.8f)                    /*!< minimum allowable battery voltage*/
-#define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))                  /*!< 0.175439 */
-#define MAX_CURRENT               (20.0f)
-#define MIN_CURRENT               (-MAX_CURRENT)
+#define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))              /*!< 0.175439 */
+#define MAX_CURRENT               (20.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
+#define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
 #define CURRENT_SPAN_SHIFT        (1)
 #define ADC_REFERENCE_VOLT        (3.271f)                           /*!< V */
 #define ADC_DIGITAL_SCALE_12BITS  (4095.0f)
@@ -289,15 +289,15 @@ extern "C" {
 /* open loop control */
 #define OLC_INIT_SPD               (100)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
-#define OLC_TIMES                  (200)     /*!< Accumulated 90 times to reach the final speed */
+#define OLC_TIMES                  (200)     /*!< Accumulated 200 times to reach the final speed */
 #define OLC_INIT_VOLT              (0.14)    /*!< V */
 #define OLC_VOLT_INC               (0.003)
 /* open loop start-up */
 #define OLC_STARTUP_PERIOD         (1500)     /*!< msec */
-/* lock start-up */
-#define LOCK_VOLT                  (2.5)     /*!< V */
-#define LOCK_PERIOD                (500)     /*!< msec */
-/* hall learning */
+/* align and go start-up */
+#define LOCK_VOLT                  (2.5)     /*!< 启动前转子对齐电压V */
+#define LOCK_PERIOD                (500)     /*!< 启动前转子对齐时间msec */
+/* hall learning可能用于霍尔自学习，用不上 */
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
@@ -316,9 +316,9 @@ extern "C" {
 #define PID_SPD_KI_DIV_LOG         LOG2(PID_SPD_KI_DIV)
 
 /* low speed voltage control parameter */
-#define HYSTERESIS_LOW_SPEED       (600)     /*!< rpm */
-#define HYSTERESIS_HIGH_SPEED      (800)     /*!< rpm */
-/* low speed pid parameter for voltage control */
+#define HYSTERESIS_LOW_SPEED       (600)     /*!< 切入高速电流环控制切换点rpm */
+#define HYSTERESIS_HIGH_SPEED      (800)     /*!< 切入低速电流环控制切换点rpm */
+/* low speed pid parameter for voltage control WITHOUT CURRENT-LOOP专用 */
 #define PID_SPD_VOLT_KP_DEFUALT         5000
 #define PID_SPD_VOLT_KI_DEFUALT         100
 #define PID_SPD_VOLT_KP_GAIN_DIV        1024

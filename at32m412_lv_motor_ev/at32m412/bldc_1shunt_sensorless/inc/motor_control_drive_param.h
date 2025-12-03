@@ -202,12 +202,13 @@ extern "C" {
 /* Current */
 #define OVER_CURRENT_SW           (30.0)       /*!< A */
 
-#if defined AT32M412xx || defined AT32M416xx
-#define DAC_VREF_SOURCE           (DAC_VDDA)
-#define OCP_CURRENT               (50.0)       /*!< A */
-#define BUS_CURR_CMP_OCP_VOLT     (OCP_CURRENT*R_SHUNT*OP_GAIN+CURR_OFFSET_VOLT)
-#define TMR_BRK_FILTER_COUNT      (3)
-#endif
+// #if defined AT32M412xx || defined AT32M416xx
+// #define DAC_VREF_SOURCE           (DAC_VDDA)
+// #define OCP_CURRENT               (50.0)       /*!< A */
+// #define BUS_CURR_CMP_OCP_VOLT     (OCP_CURRENT*R_SHUNT*OP_GAIN+CURR_OFFSET_VOLT)
+// #define TMR_BRK_FILTER_COUNT      (3)
+// #endif
+
 /* Bus voltage */
 #define OVER_VOLT_THRESHOLD       (17)         /*!< V */
 #define UNDER_VOLT_THRESHOLD      (12)          /*!< V */
@@ -329,9 +330,9 @@ extern "C" {
 /* EMF sample */
 #define EMF_CHANGE_PERCENT_H            (55)        /*!< pwm duty(%) */
 #define EMF_CHANGE_PERCENT_L            (35)        /*!< pwm duty(%) */
-#define MIN_SAMPLE_INTERVAL_US          (1.3f)      /*!< us, >= 1us */
-#define EMF_SAMPLE_LEAD_PWM             (0.02f*PWM_PERIOD + MIN_SAMPLE_INTERVAL)
-#define EMF_HIGH_SPD_SAMPLE_CNT         (0.1f*PWM_PERIOD)    /*!< 10% pwm duty*/
+#define MIN_SAMPLE_INTERVAL_US          (1.3f)      /*!< EMF采样触发的最小防护间隔时间，避免采样过于靠近PWM开关边缘 us, >= 1us */
+#define EMF_SAMPLE_LEAD_PWM             (0.02f*PWM_PERIOD + MIN_SAMPLE_INTERVAL)  //定义EMF采样的提前量（以PWM计数为单位）
+#define EMF_HIGH_SPD_SAMPLE_CNT         (0.1f*PWM_PERIOD)    /*!< 高速工况下的EMF采样计数/时间窗，10% pwm duty */
 #ifdef BLDC_SENSORLESS_ADC
 #define EMF_PHASE_ADV_SPD               (15000)     /*!< rpm */
 #else

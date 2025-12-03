@@ -4,6 +4,7 @@
         "type_traits": "c",
         "cmath": "c",
         "cstdlib": "c",
-        "compare": "c"
+        "compare": "c",
+        "mc_lib.h": "c"
     }
 }

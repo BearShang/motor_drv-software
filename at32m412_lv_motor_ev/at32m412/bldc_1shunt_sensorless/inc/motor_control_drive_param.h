@@ -134,6 +134,7 @@ extern "C" {
 #define VDC_RATED                 ((double)16.8f)
 #define BAT_LOW_VOLT              ((double)12.8f)                    /*!< minimum allowable battery voltage*/
 #define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))              /*!< 0.175439 */
+#define V_SENSE_OFFSET            (0.070f)                           /*!< 0.070 V */
 #define MAX_CURRENT               (20.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
 #define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
 #define CURRENT_SPAN_SHIFT        (1)
@@ -203,14 +204,14 @@ extern "C" {
 #define OVER_CURRENT_SW           (30.0)       /*!< A */
 
 #if defined AT32M412xx || defined AT32M416xx
-#define DAC_VREF_SOURCE           (DAC_VDDA)
+#define DAC_VREF_SOURCE           (DAC_VDDA)   //选择参考电压源
 #define OCP_CURRENT               (50.0)       /*!< A */
-#define BUS_CURR_CMP_OCP_VOLT     (OCP_CURRENT*R_SHUNT*OP_GAIN+CURR_OFFSET_VOLT)
-#define TMR_BRK_FILTER_COUNT      (3)
+#define BUS_CURR_CMP_OCP_VOLT     (OCP_CURRENT*R_SHUNT*OP_GAIN+CURR_OFFSET_VOLT)  //计算过流电压
+#define TMR_BRK_FILTER_COUNT      (3)          //设置定时器刹车滤波次数
 #endif
 
 /* Bus voltage */
-#define OVER_VOLT_THRESHOLD       (17)         /*!< V */
+#define OVER_VOLT_THRESHOLD       (17)          /*!< V */
 #define UNDER_VOLT_THRESHOLD      (12)          /*!< V */
 /* Temperature sensing section */
 /* V[V]=V0+dV/dT[V/Celsius]*(T-T0)[Celsius]*/

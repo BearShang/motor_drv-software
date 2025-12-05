@@ -134,11 +134,11 @@ extern "C" {
 #define VDC_RATED                 ((double)16.8f)
 #define BAT_LOW_VOLT              ((double)12.8f)                    /*!< minimum allowable battery voltage*/
 #define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))              /*!< 0.175439 */
-#define V_SENSE_OFFSET            (0.070f)                           /*!< 0.070 V */
+#define V_SENSE_OFFSET            (-0.1f)                            /*!< 0.070 V */
 #define MAX_CURRENT               (20.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
 #define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
 #define CURRENT_SPAN_SHIFT        (1)
-#define ADC_REFERENCE_VOLT        (3.271f)                           /*!< V */
+#define ADC_REFERENCE_VOLT        (3.265f)                           /*!< V */
 #define ADC_DIGITAL_SCALE_12BITS  (4095.0f)
 /* Clock */
 #if defined AT32F413xx
@@ -172,9 +172,9 @@ extern "C" {
                                                                         SYSTEM_CORE_CLOCK = 150MHz, range is [0...3000];
                                                                         SYSTEM_CORE_CLOCK = 120MHz, range is [0...4000]; */
 /* Current */
-#define R_SHUNT                   (0.002f)                                                    /*!< 0.002 ohm */
-#define OP_GAIN                   (66.5f/2.4f)                                                /*!< gain = 27.708 */
-#define CURR_OFFSET_VOLT          (ADC_REFERENCE_VOLT/2.0f)                                   /*!< 1.65 V */
+#define R_SHUNT                   (0.002f)                                   /*!< 0.002 ohm */
+#define OP_GAIN                   (66.5f/2.4f)                               /*!< gain = 27.708 */
+#define CURR_OFFSET_VOLT          (1.60f)                                   /*!< 1.65 V */
 
 /* EMF */
 #define EMF_SENSE_GAIN            (3.0f/(43.0f+3.0f))   /*!< 0.0652 */
@@ -237,8 +237,8 @@ extern "C" {
 #define TUNE_CURRENT_TOTAL_PERIOD  (50)       /*!< msec */
 #define TUNE_CURRENT_STEP_PERIOD   (5)        /*!< msec */
 /* I-SAMPLE PARAMETER */
-#define I_SAMP_MIN_TIME            (180)      /*!< nsec */
-#define I_SAMP_DELAY               (1000)     /*!< nsec */
+#define I_SAMP_MIN_TIME            (60)      /*!< nsec */
+#define I_SAMP_DELAY               (600)     /*!< nsec */
 #define CURR_LP_BANDWIDTH          (2000.0f)  /*!< 2*pi*freq */
 /* EMF-SAMPLE PARAMETER */
 #define SENSE_HALL_TIMES           (8)

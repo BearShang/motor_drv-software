@@ -174,7 +174,7 @@ extern "C" {
 /* Current */
 #define R_SHUNT                   (0.002f)                                   /*!< 0.002 ohm */
 #define OP_GAIN                   (66.5f/2.4f)                               /*!< gain = 27.708 */
-#define CURR_OFFSET_VOLT          (1.60f)                                   /*!< 1.65 V */
+#define CURR_OFFSET_VOLT          (ADC_REFERENCE_VOLT/2.0f)                  /*!< 1.65 V */
 
 /* EMF */
 #define EMF_SENSE_GAIN            (3.0f/(43.0f+3.0f))   /*!< 0.0652 */
@@ -233,12 +233,12 @@ extern "C" {
 #define CTRL_SOURCE                (ctrl_source_type)(CTRL_SOURCE_SOFTWARE)  /* 1.CTRL_SOURCE_SOFTWARE 2.CTRL_SOURCE_EXTERNAL */
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */
 /* I-TUNE PARAMETER */
-#define TUNE_TARGET_CURRENT        (0.5)      /*!< A */
-#define TUNE_CURRENT_TOTAL_PERIOD  (50)       /*!< msec */
-#define TUNE_CURRENT_STEP_PERIOD   (5)        /*!< msec */
+#define TUNE_TARGET_CURRENT        (1.0)      /*!< A */
+#define TUNE_CURRENT_TOTAL_PERIOD  (100)       /*!< msec */
+#define TUNE_CURRENT_STEP_PERIOD   (2)        /*!< msec */
 /* I-SAMPLE PARAMETER */
-#define I_SAMP_MIN_TIME            (60)      /*!< nsec */
-#define I_SAMP_DELAY               (600)     /*!< nsec */
+#define I_SAMP_MIN_TIME            (400)      /*!< nsec */
+#define I_SAMP_DELAY               (700)      /*!< nsec */
 #define CURR_LP_BANDWIDTH          (2000.0f)  /*!< 2*pi*freq */
 /* EMF-SAMPLE PARAMETER */
 #define SENSE_HALL_TIMES           (8)
@@ -303,8 +303,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          31000
-#define PID_IS_KI_DEFUALT          2600
+#define PID_IS_KP_DEFUALT          8192
+#define PID_IS_KI_DEFUALT          1
 #define PID_IS_KP_DIV              8192
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768

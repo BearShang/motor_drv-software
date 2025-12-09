@@ -158,8 +158,8 @@ void ESC_State_Init(esc_state_type esc_state_handler)
     const_current_ctrl = RESET;
     change_phase_flag = SET;
 
-    bldc_detectEMF_param_init(&adc_sample);
-    bldc_sensorless_detectEMF_config(&adc_sample);
+    bldc_detectEMF_param_init(&adc_sample);         //算法侧初始化
+    bldc_sensorless_detectEMF_config(&adc_sample);  //硬件侧ADC/定时器配置/DMA配置与使能
 
     motor_cw_init();
     /* set pwm output mode in shadow buffer of timer cctrl reg. */

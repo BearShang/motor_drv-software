@@ -61,7 +61,7 @@ extern "C" {
 #define LOW_SPEED_VOLT_CTRL
 
 /* Enable current signal low-pass filtering mode or not */
-#define CURRENT_LP_FILTER
+//#define CURRENT_LP_FILTER
 
 #if defined SENSORLESS
 /* choose large cogging or not 大齿锯提前补偿相位？ */
@@ -135,7 +135,7 @@ extern "C" {
 #define BAT_LOW_VOLT              ((double)12.8f)                    /*!< minimum allowable battery voltage*/
 #define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))              /*!< 0.175439 */
 #define V_SENSE_OFFSET            (-0.1f)                            /*!< 0.070 V */
-#define MAX_CURRENT               (20.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
+#define MAX_CURRENT               (29.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
 #define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
 #define CURRENT_SPAN_SHIFT        (1)
 #define ADC_REFERENCE_VOLT        (3.265f)                           /*!< V */
@@ -166,7 +166,7 @@ extern "C" {
 #define CHANGE_PHASE_TMR_DIV      (TMR_CLK/2/1000000)                /*!< 0.5usec/per cval */
 /* Dead-time inserted */
 #define DEADTIME_CLK_SFT_BITS     ((tmr_clock_division_type)2)
-#define DEADTIME_NS               ((uint16_t)200)                    /* in nsec; check the MOSFET/IGBT/IPM specification
+#define DEADTIME_NS               ((uint16_t)100)                    /* in nsec; check the MOSFET/IGBT/IPM specification
                                                                         SYSTEM_CORE_CLOCK = 240MHz, range is [0...2000];
                                                                         SYSTEM_CORE_CLOCK = 200MHz, range is [0...2500];
                                                                         SYSTEM_CORE_CLOCK = 150MHz, range is [0...3000];
@@ -234,11 +234,11 @@ extern "C" {
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */
 /* I-TUNE PARAMETER */
 #define TUNE_TARGET_CURRENT        (1.0)      /*!< A */
-#define TUNE_CURRENT_TOTAL_PERIOD  (100)       /*!< msec */
+#define TUNE_CURRENT_TOTAL_PERIOD  (100)      /*!< msec */
 #define TUNE_CURRENT_STEP_PERIOD   (2)        /*!< msec */
 /* I-SAMPLE PARAMETER */
-#define I_SAMP_MIN_TIME            (400)      /*!< nsec */
-#define I_SAMP_DELAY               (700)      /*!< nsec */
+#define I_SAMP_MIN_TIME            (350)      /*!< nsec */
+#define I_SAMP_DELAY               (225)      /*!< nsec */
 #define CURR_LP_BANDWIDTH          (2000.0f)  /*!< 2*pi*freq */
 /* EMF-SAMPLE PARAMETER */
 #define SENSE_HALL_TIMES           (8)

@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "d:/Project/hwzx/drone/motor_drv/Software/V0.2/at32m412_lv_motor_ev/at32m412/bldc_1shunt_sensorless/src",
+      "program": "d:/Project/hwzx/drone/motor_drv/Software/V0.2/at32m412_lv_motor_ev/at32m412/bldc_1shunt_sensorless/src/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

@@ -225,12 +225,12 @@ void current_read_bldc(current_type *curr_handler)
   }
   else
   {
-    mul_result = curr_handler->Ibus.Icalc * curr_handler->Ibus.decay_const;
+    mul_result = curr_handler->Ibus.Icalc * curr_handler->Ibus.decay_const; //Ibus.Icalc衰减
     curr_handler->Ibus.Icalc = mul_result >> 15;
   }
 
-  mul_result = ((int32_t)curr_handler->span * curr_handler->Ibus.Icalc);
-  curr_handler->Ibus.Ireal_pu = (mul_result >> (15 - curr_handler->span_shift)) * curr_handler->volt_sign;
+  mul_result = ((int32_t)curr_handler->span * curr_handler->Ibus.Icalc);  //把Ibus.Icalc转换为比例值
+  curr_handler->Ibus.Ireal_pu = (mul_result >> (15 - curr_handler->span_shift)) * curr_handler->volt_sign;  //把比例值转换为pu值
 }
 #endif
 

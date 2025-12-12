@@ -103,7 +103,7 @@ extern "C" {
 #define RS_LL                        (0.31)           /* Stator resistance, ohm */
 #define LS_LL                        (0.0092)         /* Stator inductance, H */
 #define POLE_PAIRS                   (14/2)
-#define KE                           (0.001443f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
+#define KE                           (0.0010687f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
 #define NOMINAL_CURRENT              (20.0)
 
 /* angle detect duty */
@@ -138,7 +138,7 @@ extern "C" {
 #define MAX_CURRENT               (29.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
 #define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
 #define CURRENT_SPAN_SHIFT        (1)
-#define ADC_REFERENCE_VOLT        (3.265f)                           /*!< V */
+#define ADC_REFERENCE_VOLT        (3.271f)                           /*!< V */
 #define ADC_DIGITAL_SCALE_12BITS  (4095.0f)
 /* Clock */
 #if defined AT32F413xx
@@ -183,7 +183,7 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (31.0f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (54.0f)        /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (23.5f)        /*!< usec */
 #define EMF_FALL_BLANK_TIME_LOW_SPD   (23.5f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (1000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (90)
@@ -237,8 +237,8 @@ extern "C" {
 #define TUNE_CURRENT_TOTAL_PERIOD  (100)      /*!< msec */
 #define TUNE_CURRENT_STEP_PERIOD   (2)        /*!< msec */
 /* I-SAMPLE PARAMETER */
-#define I_SAMP_MIN_TIME            (350)      /*!< nsec */
-#define I_SAMP_DELAY               (225)      /*!< nsec */
+#define I_SAMP_MIN_TIME            (300)      /*!< nsec */
+#define I_SAMP_DELAY               (600)      /*!< nsec */
 #define CURR_LP_BANDWIDTH          (2000.0f)  /*!< 2*pi*freq */
 /* EMF-SAMPLE PARAMETER */
 #define SENSE_HALL_TIMES           (8)
@@ -262,8 +262,8 @@ extern "C" {
 #else
 #define MIN_SPEED_RPM              (350)      /*!< rpm */
 #endif
-#define MAX_SPEED_RPM              (7200)     /*!< rpm */
-#define MAX_CCW_SPEED_RPM          (7200)     /*!< rpm */
+#define MAX_SPEED_RPM              (11900)     /*!< rpm */
+#define MAX_CCW_SPEED_RPM          (11900)     /*!< rpm */
 
 #define ACC_SPD_SLOPE              (5)        /*!< rpm/ms */
 #define DEC_SPD_SLOPE              (5)
@@ -303,9 +303,9 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          8192
+#define PID_IS_KP_DEFUALT          15000
 #define PID_IS_KI_DEFUALT          1
-#define PID_IS_KP_DIV              8192
+#define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768
 #define PID_IS_KI_DIV_LOG          LOG2(PID_IS_KI_DIV)

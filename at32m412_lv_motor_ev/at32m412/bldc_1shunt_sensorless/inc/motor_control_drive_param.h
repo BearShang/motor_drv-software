@@ -61,7 +61,7 @@ extern "C" {
 #define LOW_SPEED_VOLT_CTRL
 
 /* Enable current signal low-pass filtering mode or not */
-//#define CURRENT_LP_FILTER
+#define CURRENT_LP_FILTER
 
 #if defined SENSORLESS
 /* choose large cogging or not 大齿锯提前补偿相位？ */
@@ -100,7 +100,7 @@ extern "C" {
 
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
-#define RS_LL                        (0.31)           /* Stator resistance, ohm */
+#define RS_LL                        (0.51)           /* Stator resistance, ohm */
 #define LS_LL                        (0.0092)         /* Stator inductance, H */
 #define POLE_PAIRS                   (14/2)
 #define KE                           (0.0010687f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
@@ -237,8 +237,8 @@ extern "C" {
 #define TUNE_CURRENT_TOTAL_PERIOD  (100)      /*!< msec */
 #define TUNE_CURRENT_STEP_PERIOD   (2)        /*!< msec */
 /* I-SAMPLE PARAMETER */
-#define I_SAMP_MIN_TIME            (300)      /*!< nsec */
-#define I_SAMP_DELAY               (600)      /*!< nsec */
+#define I_SAMP_MIN_TIME            (30)       /*!< nsec */
+#define I_SAMP_DELAY               (130)      /*!< nsec */
 #define CURR_LP_BANDWIDTH          (2000.0f)  /*!< 2*pi*freq */
 /* EMF-SAMPLE PARAMETER */
 #define SENSE_HALL_TIMES           (8)

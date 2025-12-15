@@ -60,11 +60,11 @@ extern "C" {
 #define PWM_PHASE_C_HI_GPIO_PIN        GPIO_PINS_10
 #define PWM_PHASE_C_HI_PIN_SOURCE      GPIO_PINS_SOURCE10
 #define PWM_PHASE_C_HI_IOMUX           GPIO_MUX_1
-#define PWM_PHASE_A_LOW_GPIO_CRM_CLK   CRM_GPIOA_PERIPH_CLOCK
-#define PWM_PHASE_A_LOW_PORT           GPIOA
-#define PWM_PHASE_A_LOW_GPIO_PIN       GPIO_PINS_11
-#define PWM_PHASE_A_LOW_PIN_SOURCE     GPIO_PINS_SOURCE11
-#define PWM_PHASE_A_LOW_IOMUX          GPIO_MUX_10
+#define PWM_PHASE_A_LOW_GPIO_CRM_CLK   CRM_GPIOB_PERIPH_CLOCK
+#define PWM_PHASE_A_LOW_PORT           GPIOB
+#define PWM_PHASE_A_LOW_GPIO_PIN       GPIO_PINS_7
+#define PWM_PHASE_A_LOW_PIN_SOURCE     GPIO_PINS_SOURCE7
+#define PWM_PHASE_A_LOW_IOMUX          GPIO_MUX_1
 #define PWM_PHASE_B_LOW_GPIO_CRM_CLK   CRM_GPIOA_PERIPH_CLOCK
 #define PWM_PHASE_B_LOW_PORT           GPIOA
 #define PWM_PHASE_B_LOW_GPIO_PIN       GPIO_PINS_12
@@ -318,36 +318,36 @@ extern "C" {
 #define I2C_SDA_GPIO_PIN                GPIO_PINS_14 */
 
 
-/**************** define uart1 Tx and Rx ******************/
-#define COMM_UART                        USART1
-#define COMM_UART_CRM_CLK                CRM_USART1_PERIPH_CLOCK
+/**************** define uart Tx and Rx ******************/
+#define COMM_UART                        USART2
+#define COMM_UART_CRM_CLK                CRM_USART2_PERIPH_CLOCK
 #define COMM_UART_TX_GPIO_CRM_CLK        CRM_GPIOA_PERIPH_CLOCK
 #define COMM_UART_TX_PORT                GPIOA
-#define COMM_UART_TX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE15
-#define COMM_UART_TX_PIN                 GPIO_PINS_15
+#define COMM_UART_TX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE2
+#define COMM_UART_TX_PIN                 GPIO_PINS_2
 #define COMM_UART_TX_IOMUX               GPIO_MUX_7
-#define COMM_UART_RX_GPIO_CRM_CLK        CRM_GPIOB_PERIPH_CLOCK
-#define COMM_UART_RX_PORT                GPIOB
-#define COMM_UART_RX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE7
-#define COMM_UART_RX_PIN                 GPIO_PINS_7
+#define COMM_UART_RX_GPIO_CRM_CLK        CRM_GPIOA_PERIPH_CLOCK
+#define COMM_UART_RX_PORT                GPIOA
+#define COMM_UART_RX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE3
+#define COMM_UART_RX_PIN                 GPIO_PINS_3
 #define COMM_UART_RX_IOMUX               GPIO_MUX_7
 #define COMM_UART_IOMUX                  NULL
-#define COMM_UART_IRQn                   USART1_IRQn
-#define COMM_UART_IRQHandler             USART1_IRQHandler
+#define COMM_UART_IRQn                   USART2_IRQn
+#define COMM_UART_IRQHandler             USART2_IRQHandler
 
-/**************** define DMA for uart1 Tx and Rx ******************/
+/**************** define DMA for uart Tx and Rx ******************/
 #define DMA_UART                         DMA1
 #define DMA_UART_CRM_CLK                 CRM_DMA1_PERIPH_CLOCK
 #define DMA_UART_TX_CHANNEL              DMA1_CHANNEL2
 #define DMA_UART_RX_TX_IRQn              DMA1_Channel3_2_IRQn
 #define DMA_UART_RX_TX_IRQHandler        DMA1_Channel3_2_IRQHandler
 #define DMA_UART_TX_FDT_FLAG             DMA1_FDT2_FLAG
-#define DMA_UART_TX_FLEX                 DMAMUX_DMAREQ_ID_USART1_TX
+#define DMA_UART_TX_FLEX                 DMAMUX_DMAREQ_ID_USART2_TX
 #define DMA_UART_TX_FLEX_CHANNEL         DMA1MUX_CHANNEL2
 
 #define DMA_UART_RX_CHANNEL              DMA1_CHANNEL3
 #define DMA_UART_RX_FDT_FLAG             DMA1_FDT3_FLAG
-#define DMA_UART_RX_FLEX                 DMAMUX_DMAREQ_ID_USART1_RX
+#define DMA_UART_RX_FLEX                 DMAMUX_DMAREQ_ID_USART2_RX
 #define DMA_UART_RX_FLEX_CHANNEL         DMA1MUX_CHANNEL3
 
 /******************* define led *******************/

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\bldc_1shunt_sensorless.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\bldc_1shunt_sensorless.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Fri Dec 12 16:40:44 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Mon Dec 15 14:27:51 2025
 <BR><P>
 <H3>Maximum Stack Usage =        312 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -73,8 +73,8 @@ Function Pointers
  <LI><a href="#[27]">TMR4_GLOBAL_IRQHandler</a> from startup_at32m412_416.o(.text) referenced from startup_at32m412_416.o(RESET)
  <LI><a href="#[32]">TMR6_DAC_GLOBAL_IRQHandler</a> from startup_at32m412_416.o(.text) referenced from startup_at32m412_416.o(RESET)
  <LI><a href="#[33]">TMR7_GLOBAL_IRQHandler</a> from startup_at32m412_416.o(.text) referenced from startup_at32m412_416.o(RESET)
- <LI><a href="#[2e]">USART1_IRQHandler</a> from mc_comm_uart.o(.text.USART1_IRQHandler) referenced from startup_at32m412_416.o(RESET)
- <LI><a href="#[2f]">USART2_IRQHandler</a> from startup_at32m412_416.o(.text) referenced from startup_at32m412_416.o(RESET)
+ <LI><a href="#[2e]">USART1_IRQHandler</a> from startup_at32m412_416.o(.text) referenced from startup_at32m412_416.o(RESET)
+ <LI><a href="#[2f]">USART2_IRQHandler</a> from mc_comm_uart.o(.text.USART2_IRQHandler) referenced from startup_at32m412_416.o(RESET)
  <LI><a href="#[5]">UsageFault_Handler</a> from at32m412_416_int.o(.text.UsageFault_Handler) referenced from startup_at32m412_416.o(RESET)
  <LI><a href="#[a]">WWDT_IRQHandler</a> from startup_at32m412_416.o(.text) referenced from startup_at32m412_416.o(RESET)
  <LI><a href="#[39]">__main</a> from entry.o(.ARM.Collect$$$$00000000) referenced from startup_at32m412_416.o(.text)
@@ -222,7 +222,7 @@ Global Symbols
 <P><STRONG><a name="[33]"></a>TMR7_GLOBAL_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_at32m412_416.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32m412_416.o(RESET)
 </UL>
-<P><STRONG><a name="[2f]"></a>USART2_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_at32m412_416.o(.text))
+<P><STRONG><a name="[2e]"></a>USART1_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_at32m412_416.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32m412_416.o(RESET)
 </UL>
 <P><STRONG><a name="[a]"></a>WWDT_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_at32m412_416.o(.text))
@@ -612,7 +612,7 @@ Global Symbols
 <P><STRONG><a name="[6]"></a>SVC_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, at32m412_416_int.o(.text.SVC_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32m412_416.o(RESET)
 </UL>
-<P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 316 bytes, Stack size 16 bytes, mc_isr.o(.text.SysTick_Handler))
+<P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 320 bytes, Stack size 16 bytes, mc_isr.o(.text.SysTick_Handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = SysTick_Handler &rArr; ESC_State_Task &rArr; current_auto_tuning &rArr; __hardfp_log2 &rArr; log &rArr; __hardfp_log &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_state_led_blink
@@ -631,7 +631,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCP_SetReg
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCP_GetReg
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCP_ReceivedFrameID
-<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
+<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[22]"></a>TMR1_BRK_TMR9_IRQHandler</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, mc_isr.o(.text.TMR1_BRK_TMR9_IRQHandler))
@@ -685,8 +685,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32m412_416.o(RESET)
 </UL>
-<P><STRONG><a name="[2e]"></a>USART1_IRQHandler</STRONG> (Thumb, 150 bytes, Stack size 24 bytes, mc_comm_uart.o(.text.USART1_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = USART1_IRQHandler &rArr; ui_rx_receive_handler &rArr; RCP_ReceivedFrameID &rArr; RCP_ExecCmd &rArr; write_flash_cmd &rArr; flash_write_int
+<P><STRONG><a name="[2f]"></a>USART2_IRQHandler</STRONG> (Thumb, 150 bytes, Stack size 24 bytes, mc_comm_uart.o(.text.USART2_IRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = USART2_IRQHandler &rArr; ui_rx_receive_handler &rArr; RCP_ReceivedFrameID &rArr; RCP_ExecCmd &rArr; write_flash_cmd &rArr; flash_write_int
 </UL>
 <BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dma_data_number_get
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dma_data_number_set
@@ -1137,7 +1137,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I_offset_init
 </UL>
 
-<P><STRONG><a name="[78]"></a>current_offset_tmr_setting</STRONG> (Thumb, 300 bytes, Stack size 32 bytes, motor_control_bldc.o(.text.current_offset_tmr_setting))
+<P><STRONG><a name="[78]"></a>current_offset_tmr_setting</STRONG> (Thumb, 296 bytes, Stack size 32 bytes, motor_control_bldc.o(.text.current_offset_tmr_setting))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = current_offset_tmr_setting &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_bits_write
@@ -1190,18 +1190,18 @@ Global Symbols
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_blank_trigger_init
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_int_vref_cal_ratio
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_ordinary_config
-<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
+<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[93]"></a>dma_data_number_get</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, at32m412_416_dma.o(.text.dma_data_number_get))
-<BR><BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
+<BR><BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[95]"></a>dma_data_number_set</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, at32m412_416_dma.o(.text.dma_data_number_set))
 <BR><BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bldc_sensorless_detectEMF_config
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ui_save_monitor_data
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_int_vref_cal_ratio
-<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
+<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[9e]"></a>dma_default_para_init</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32m412_416_dma.o(.text.dma_default_para_init))
@@ -1368,7 +1368,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;param_init
 </UL>
 
-<P><STRONG><a name="[c9]"></a>led_blink</STRONG> (Thumb, 52 bytes, Stack size 24 bytes, mc_hwio.o(.text.led_blink))
+<P><STRONG><a name="[c9]"></a>led_blink</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, mc_hwio.o(.text.led_blink))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = led_blink
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_delay_ms
@@ -1376,7 +1376,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cb]"></a>led_init</STRONG> (Thumb, 78 bytes, Stack size 32 bytes, mc_hwio.o(.text.led_init))
+<P><STRONG><a name="[cb]"></a>led_init</STRONG> (Thumb, 86 bytes, Stack size 32 bytes, mc_hwio.o(.text.led_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = led_init &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_init
@@ -2021,7 +2021,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_pwm_init
 </UL>
 
-<P><STRONG><a name="[d8]"></a>tmr_pwm_init</STRONG> (Thumb, 668 bytes, Stack size 64 bytes, mc_hwio.o(.text.tmr_pwm_init))
+<P><STRONG><a name="[d8]"></a>tmr_pwm_init</STRONG> (Thumb, 672 bytes, Stack size 64 bytes, mc_hwio.o(.text.tmr_pwm_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = tmr_pwm_init &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_primary_mode_select
@@ -2113,7 +2113,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCP_ReceivedFrameID
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[8e]"></a>ui_save_monitor_data</STRONG> (Thumb, 210 bytes, Stack size 32 bytes, user_interface_bldc.o(.text.ui_save_monitor_data))
@@ -2139,11 +2139,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[92]"></a>usart_flag_clear</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, at32m412_416_usart.o(.text.usart_flag_clear))
-<BR><BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
+<BR><BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[91]"></a>usart_flag_get</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32m412_416_usart.o(.text.usart_flag_get))
-<BR><BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
+<BR><BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[11c]"></a>usart_init</STRONG> (Thumb, 176 bytes, Stack size 40 bytes, at32m412_416_usart.o(.text.usart_init))

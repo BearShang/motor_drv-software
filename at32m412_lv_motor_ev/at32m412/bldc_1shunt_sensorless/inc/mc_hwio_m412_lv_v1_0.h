@@ -361,11 +361,11 @@ extern "C" {
 
 #define LED_R_GPIO_CRM_CLK            CRM_GPIOA_PERIPH_CLOCK
 #define LED_R_PORT                    GPIOA
-#define LED_R_GPIO_PIN                GPIO_PINS_3
+#define LED_R_GPIO_PIN                GPIO_PINS_1
 
-#define LED_G_GPIO_CRM_CLK            CRM_GPIOA_PERIPH_CLOCK
-#define LED_G_PORT                    GPIOA
-#define LED_G_GPIO_PIN                GPIO_PINS_2
+#define LED_G_GPIO_CRM_CLK            CRM_GPIOB_PERIPH_CLOCK
+#define LED_G_PORT                    GPIOB
+#define LED_G_GPIO_PIN                GPIO_PINS_10
 
 /* #define TEST_A_GPIO_CRM_CLK           CRM_GPIOF_PERIPH_CLOCK
 #define TEST_A_PORT                   GPIOF

@@ -818,7 +818,7 @@ void cmp2_config(void)
  * @param None
  * @return None
  */
-/* void gpio_output_init(void)
+ void gpio_output_init(void)
 {
   gpio_init_type gpio_init_struct = {0};
 
@@ -862,7 +862,7 @@ void cmp2_config(void)
 
   gpio_init_struct.gpio_pins = TEST_C_GPIO_PIN;
   gpio_init(TEST_C_PORT, &gpio_init_struct);
-} */
+}
 
 /**
  * @brief Initializes the internal Operational Amplifier (OPA) for motor bus current sensing.

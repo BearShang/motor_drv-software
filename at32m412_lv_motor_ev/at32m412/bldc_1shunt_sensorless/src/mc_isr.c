@@ -281,6 +281,13 @@ void ADC_SHUNT_SAMP_READY_IRQ(void)
     }
     else
     {
+#ifdef MOTOR_PARAM_IDENTIFY
+    if (esc_state == ESC_STATE_WINDING_PARAM_ID)
+    {
+      current_read_1shunt_ID(&current);
+    }
+    else
+#endif
       current_read_bldc(&current);
 #ifdef CURRENT_LP_FILTER
       ibus_filterd = lowpass_filtering(&current_LPF, current.Ibus.Ireal_pu);

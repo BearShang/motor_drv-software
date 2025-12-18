@@ -61,7 +61,7 @@ extern "C" {
 #define LOW_SPEED_VOLT_CTRL
 
 /* Enable current signal low-pass filtering mode or not */
-#define CURRENT_LP_FILTER
+//#define CURRENT_LP_FILTER
 
 #if defined SENSORLESS
 /* choose large cogging or not 大齿锯提前补偿相位？ */
@@ -233,9 +233,9 @@ extern "C" {
 #define CTRL_SOURCE                (ctrl_source_type)(CTRL_SOURCE_SOFTWARE)  /* 1.CTRL_SOURCE_SOFTWARE 2.CTRL_SOURCE_EXTERNAL */
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */
 /* I-TUNE PARAMETER */
-#define TUNE_TARGET_CURRENT        (1.0)      /*!< A */
+#define TUNE_TARGET_CURRENT        (5.0)      /*!< A */
 #define TUNE_CURRENT_TOTAL_PERIOD  (100)      /*!< msec */
-#define TUNE_CURRENT_STEP_PERIOD   (2)        /*!< msec */
+#define TUNE_CURRENT_STEP_PERIOD   (10)        /*!< msec */
 /* I-SAMPLE PARAMETER */
 #define I_SAMP_MIN_TIME            (30)       /*!< nsec */
 #define I_SAMP_DELAY               (130)      /*!< nsec */
@@ -303,8 +303,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          15000
-#define PID_IS_KI_DEFUALT          1
+#define PID_IS_KP_DEFUALT          3000
+#define PID_IS_KI_DEFUALT          0
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768

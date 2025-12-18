@@ -335,7 +335,7 @@ extern "C" {
 #define COMM_UART_IRQn                   USART2_IRQn
 #define COMM_UART_IRQHandler             USART2_IRQHandler
 
-/**************** define DMA for uart Tx and Rx ******************/
+/**************** define DMA for uart2 Tx and Rx ******************/
 #define DMA_UART                         DMA1
 #define DMA_UART_CRM_CLK                 CRM_DMA1_PERIPH_CLOCK
 #define DMA_UART_TX_CHANNEL              DMA1_CHANNEL2

@@ -61,7 +61,7 @@ extern "C" {
 #define LOW_SPEED_VOLT_CTRL
 
 /* Enable current signal low-pass filtering mode or not */
-//#define CURRENT_LP_FILTER
+#define CURRENT_LP_FILTER
 
 #if defined SENSORLESS
 /* choose large cogging or not 大齿锯提前补偿相位？ */
@@ -132,13 +132,13 @@ extern "C" {
 /********************************* Drive-related parameter *********************************/
 /* basic */
 #define VDC_RATED                 ((double)16.8f)
-#define BAT_LOW_VOLT              ((double)12.8f)                    /*!< minimum allowable battery voltage*/
+#define BAT_LOW_VOLT              ((double)12.8f)                   /*!< minimum allowable battery voltage*/
 #define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))              /*!< 0.175439 */
-#define V_SENSE_OFFSET            (-0.1f)                            /*!< 0.070 V */
+#define V_SENSE_OFFSET            (0.19f)                            /*!< 0.070 V */
 #define MAX_CURRENT               (29.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
 #define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
 #define CURRENT_SPAN_SHIFT        (1)
-#define ADC_REFERENCE_VOLT        (3.271f)                           /*!< V */
+#define ADC_REFERENCE_VOLT        (3.3f)                             /*!< V */
 #define ADC_DIGITAL_SCALE_12BITS  (4095.0f)
 /* Clock */
 #if defined AT32F413xx
@@ -238,7 +238,7 @@ extern "C" {
 #define TUNE_CURRENT_STEP_PERIOD   (10)        /*!< msec */
 /* I-SAMPLE PARAMETER */
 #define I_SAMP_MIN_TIME            (30)       /*!< nsec */
-#define I_SAMP_DELAY               (130)      /*!< nsec */
+#define I_SAMP_DELAY               (400)      /*!< nsec */
 #define CURR_LP_BANDWIDTH          (2000.0f)  /*!< 2*pi*freq */
 /* EMF-SAMPLE PARAMETER */
 #define SENSE_HALL_TIMES           (8)
@@ -303,8 +303,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          3000
-#define PID_IS_KI_DEFUALT          0
+#define PID_IS_KP_DEFUALT          4000
+#define PID_IS_KI_DEFUALT          400
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768

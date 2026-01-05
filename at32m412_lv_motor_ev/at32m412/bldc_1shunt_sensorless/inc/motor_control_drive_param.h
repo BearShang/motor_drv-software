@@ -166,7 +166,7 @@ extern "C" {
 #define CHANGE_PHASE_TMR_DIV      (TMR_CLK/2/1000000)                /*!< 0.5usec/per cval */
 /* Dead-time inserted */
 #define DEADTIME_CLK_SFT_BITS     ((tmr_clock_division_type)2)
-#define DEADTIME_NS               ((uint16_t)100)                    /* in nsec; check the MOSFET/IGBT/IPM specification
+#define DEADTIME_NS               ((uint16_t)50)                    /* in nsec; check the MOSFET/IGBT/IPM specification
                                                                         SYSTEM_CORE_CLOCK = 240MHz, range is [0...2000];
                                                                         SYSTEM_CORE_CLOCK = 200MHz, range is [0...2500];
                                                                         SYSTEM_CORE_CLOCK = 150MHz, range is [0...3000];

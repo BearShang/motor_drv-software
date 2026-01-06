@@ -304,7 +304,7 @@ extern "C" {
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
 #define PID_IS_KP_DEFUALT          4000
-#define PID_IS_KI_DEFUALT          400
+#define PID_IS_KI_DEFUALT          500
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768

@@ -418,7 +418,7 @@ void tmr_blank_init(void)
   dmamux_enable(DMA_BLANK_WINDOW, TRUE);
   dmamux_init(DMA_BLANK_WINDOW_FLEX_CH, DMA_BLANK_WINDOW_FLEX);
   
-  /* enable dma channe4 */
+  /* enable dma1 channe6 */
   dma_channel_enable(DMA_CHANNEL_BLANK_WINDOW, TRUE);
 }
 
@@ -806,7 +806,7 @@ void cmp2_config(void)
   cmp_init(BEMF_COMP, &cmp_init_struct);
 
   /* Configure and enable a digital filter for the comparator output. */
-  cmp_filter_config(BEMF_COMP, 0x3f, 0x3f, TRUE);
+  cmp_filter_config(BEMF_COMP, 0x1f, 0x1f, TRUE);
 
   /* Enable the BEMF comparator. */
   cmp_enable(BEMF_COMP, TRUE);

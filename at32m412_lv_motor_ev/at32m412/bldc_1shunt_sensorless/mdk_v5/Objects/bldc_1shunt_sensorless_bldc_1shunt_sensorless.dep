@@ -38,11 +38,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -89,7 +89,7 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_usart.h)(0x693BAB39)
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wwdt.h)(0x693BAB39)
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
-F (..\src\main.c)(0x69436E54)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/main.o -MD)
+F (..\src\main.c)(0x695D1039)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/main.o -MD)
 I (..\inc\mc_lib.h)(0x693BAB38)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x637AECBC)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x637AECBC)
@@ -127,11 +127,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -182,11 +182,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -199,7 +199,7 @@ I (..\..\..\..\mclib\inc\mc_bldc.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_bldc_kernal.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_esc_state.h)(0x693BAB39)
-F (..\src\mc_hwio.c)(0x69436B9F)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/mc_hwio.o -MD)
+F (..\src\mc_hwio.c)(0x695E2765)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/mc_hwio.o -MD)
 I (..\inc\mc_lib.h)(0x693BAB38)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x637AECBC)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x637AECBC)
@@ -237,11 +237,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -255,8 +255,8 @@ I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_bldc_kernal.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_esc_state.h)(0x693BAB39)
 F (..\inc\mc_lib.h)(0x693BAB38)()
-F (..\inc\motor_control_drive_param.h)(0x695CDF56)()
-F (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)()
+F (..\inc\motor_control_drive_param.h)(0x695E33B5)()
+F (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)()
 F (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\src\at32m412_416_adc.c)(0x693BAB39)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/at32m412_416_adc.o -MD)
 I (..\inc\at32m412_416_conf.h)(0x693BAB38)
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_adc.h)(0x693BAB39)
@@ -1055,11 +1055,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1110,11 +1110,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1165,11 +1165,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1221,11 +1221,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1276,11 +1276,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1331,11 +1331,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1386,11 +1386,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1403,7 +1403,7 @@ I (..\..\..\..\mclib\inc\mc_bldc.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_bldc_kernal.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_esc_state.h)(0x693BAB39)
-F (..\..\..\..\mclib\src\mc_bldc_sensorless.c)(0x693BAB39)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/mc_bldc_sensorless.o -MD)
+F (..\..\..\..\mclib\src\mc_bldc_sensorless.c)(0x695DDB69)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/mc_bldc_sensorless.o -MD)
 I (..\inc\mc_lib.h)(0x693BAB38)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x637AECBC)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x637AECBC)
@@ -1441,11 +1441,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1496,11 +1496,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1551,11 +1551,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1606,11 +1606,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)
@@ -1661,11 +1661,11 @@ I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_
 I (..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h)(0x693BAB39)
 I (..\inc\at32m412_416_clock.h)(0x693BAB38)
 I (..\..\..\..\mclib\inc\at32m412_416_mc.h)(0x693BAB39)
-I (..\inc\motor_control_drive_param.h)(0x695CDF56)
+I (..\inc\motor_control_drive_param.h)(0x695E33B5)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x637AECBA)
 I (..\..\..\..\mclib\inc\mc_delay.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_type.h)(0x693BAB39)
-I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x6948F333)
+I (..\inc\mc_hwio_m412_lv_v1_0.h)(0x695E25A2)
 I (..\..\..\..\mclib\inc\mc_curr_fdbk.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_comm_uart.h)(0x693BAB39)
 I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x693BAB39)

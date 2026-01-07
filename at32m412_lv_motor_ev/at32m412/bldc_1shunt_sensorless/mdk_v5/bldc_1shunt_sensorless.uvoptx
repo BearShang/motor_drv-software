@@ -163,12 +163,7 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>led_blink_cnt</ItemText>
-        </Ww>
-        <Ww>
-          <count>1</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>esc_state_old</ItemText>
+          <ItemText>volt_cmd</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

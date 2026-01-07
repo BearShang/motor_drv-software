@@ -166,7 +166,7 @@ extern "C" {
 #define CHANGE_PHASE_TMR_DIV      (TMR_CLK/2/1000000)                /*!< 0.5usec/per cval */
 /* Dead-time inserted */
 #define DEADTIME_CLK_SFT_BITS     ((tmr_clock_division_type)2)
-#define DEADTIME_NS               ((uint16_t)50)                    /* in nsec; check the MOSFET/IGBT/IPM specification
+#define DEADTIME_NS               ((uint16_t)100)                    /* in nsec; check the MOSFET/IGBT/IPM specification
                                                                         SYSTEM_CORE_CLOCK = 240MHz, range is [0...2000];
                                                                         SYSTEM_CORE_CLOCK = 200MHz, range is [0...2500];
                                                                         SYSTEM_CORE_CLOCK = 150MHz, range is [0...3000];
@@ -182,11 +182,11 @@ extern "C" {
 #define EMF_SIG_RISING_TIME       (9.8)          /*!< usec */
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
-#define EMF_RISE_BLANK_TIME           (31.0f)        /*!< usec */
+#define EMF_RISE_BLANK_TIME           (10.0f)        /*!< usec */
 #define EMF_FALL_BLANK_TIME_HIGH_SPD  (23.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_LOW_SPD   (23.5f)        /*!< usec */
-#define EMF_BLANK_TIME_CHANGED_RPM    (1000.0f)      /*!< rpm */
-#define EMF_MIN_VALUE                 (90)
+#define EMF_FALL_BLANK_TIME_LOW_SPD   (10.0f)        /*!< usec */
+#define EMF_BLANK_TIME_CHANGED_RPM    (4000.0f)      /*!< rpm */
+#define EMF_MIN_VALUE                 (1980)
 
 /* Only sensorless-ADC need to set */
 #ifdef EMF_PULL_UP
@@ -303,8 +303,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          4000
-#define PID_IS_KI_DEFUALT          500
+#define PID_IS_KP_DEFUALT          2500
+#define PID_IS_KI_DEFUALT          245
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768
@@ -318,8 +318,8 @@ extern "C" {
 #define PID_SPD_KI_DIV_LOG         LOG2(PID_SPD_KI_DIV)
 
 /* low speed voltage control parameter */
-#define HYSTERESIS_LOW_SPEED       (600)     /*!< 切入高速电流环控制切换点rpm */
-#define HYSTERESIS_HIGH_SPEED      (800)     /*!< 切入低速电流环控制切换点rpm */
+#define HYSTERESIS_LOW_SPEED       (600)     /*!< 切入低速电流环控制切换点rpm */
+#define HYSTERESIS_HIGH_SPEED      (800)     /*!< 切入高速电流环控制切换点rpm */
 /* low speed pid parameter for voltage control WITHOUT CURRENT-LOOP专用 */
 #define PID_SPD_VOLT_KP_DEFUALT         5000
 #define PID_SPD_VOLT_KI_DEFUALT         100
@@ -337,7 +337,7 @@ extern "C" {
 #ifdef BLDC_SENSORLESS_ADC
 #define EMF_PHASE_ADV_SPD               (15000)     /*!< rpm */
 #else
-#define EMF_PHASE_ADV_SPD               (30000)     /*!< rpm */
+#define EMF_PHASE_ADV_SPD               (8000)     /*!< rpm */
 #endif
 #define EMF_MIN_DELAY_US                (10)        /*!< usec */
 #define EMF_AVOID_NOISE_INIT_PERIOD     (1)         /*!< msec */

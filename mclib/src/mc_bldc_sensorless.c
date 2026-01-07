@@ -426,7 +426,7 @@ void bldc_sensorless_change_phase(hall_sensor_type *hall_handler, adc_sample_typ
   emf_zcp_avg_interval_count.long_word = moving_average_update(interval_moving_average_fliter, spd_total_cval);
   rotor_speed->interval_filter.long_word = emf_zcp_avg_interval_count.long_word;
 #if defined INTERNAL_COMP  
-  if(rotor_speed->interval_filter.long_word >= EMF_BLANK_TIME_CG_INTERVAL)
+  if(rotor_speed->interval_filter.long_word >= EMF_BLANK_TIME_CG_INTERVAL) 
   {
     blank.blank_window_dt[1] = EMF_FALL_BLANK_CNT_LOW_SPD;
   }

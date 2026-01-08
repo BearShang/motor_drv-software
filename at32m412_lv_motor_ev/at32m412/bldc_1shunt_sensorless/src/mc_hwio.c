@@ -806,7 +806,7 @@ void cmp2_config(void)
   cmp_init(BEMF_COMP, &cmp_init_struct);
 
   /* Configure and enable a digital filter for the comparator output. */
-  cmp_filter_config(BEMF_COMP, 0x1f, 0x1f, TRUE);
+  cmp_filter_config(BEMF_COMP, 0x3f, 0x3f, TRUE);
 
   /* Enable the BEMF comparator. */
   cmp_enable(BEMF_COMP, TRUE);

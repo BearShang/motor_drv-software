@@ -207,7 +207,7 @@ extern "C" {
 #define COMP_OUT_CAPTURE_IRQn            TMR3_GLOBAL_IRQn
 #define COMP_OUT_FLAG                    TMR_C2_FLAG
 #define COMP_OUT_INT                     TMR_C2_INT
-#define TMR_COMP_OUT_CAPTURE_FILTER      0xF                       /*0x0 ~ 0xF*/
+#define TMR_COMP_OUT_CAPTURE_FILTER      0x3                      /*0x0 ~ 0xF*/
 /**************** define Timer for pwm input *******************/
 #define PWM_DUTY_INPUT_TIMER           TMR4
 #define PWM_DUTY_INPUT_SELECT_CHANNEL  TMR_SELECT_CHANNEL_3          

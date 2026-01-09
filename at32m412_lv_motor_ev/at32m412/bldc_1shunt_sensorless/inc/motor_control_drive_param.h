@@ -310,7 +310,7 @@ extern "C" {
 #define PID_IS_KI_DIV              32768
 #define PID_IS_KI_DIV_LOG          LOG2(PID_IS_KI_DIV)
 
-#define PID_SPD_KP_DEFUALT         5000
+#define PID_SPD_KP_DEFUALT         3000
 #define PID_SPD_KI_DEFUALT         100
 #define PID_SPD_KP_DIV             1024
 #define PID_SPD_KP_DIV_LOG         LOG2(PID_SPD_KP_DIV)

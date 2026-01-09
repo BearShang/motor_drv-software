@@ -405,6 +405,8 @@ void bldc_sensorless_change_phase(hall_sensor_type *hall_handler, adc_sample_typ
   /* Set change phase flag */
   change_phase_flag = SET;
 
+  GPIOA->odt ^= GPIO_PINS_15;
+
   if(ctrl_mode != OPEN_LOOP_CTRL)
   {
     /* Speed estimation */

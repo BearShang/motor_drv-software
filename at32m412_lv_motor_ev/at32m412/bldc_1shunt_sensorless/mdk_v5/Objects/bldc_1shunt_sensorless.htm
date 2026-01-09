@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\bldc_1shunt_sensorless.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\bldc_1shunt_sensorless.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Fri Jan  9 14:23:17 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Fri Jan  9 16:25:10 2026
 <BR><P>
 <H3>Maximum Stack Usage =        336 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -941,7 +941,7 @@ Global Symbols
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_up_config
 </UL>
 
-<P><STRONG><a name="[91]"></a>bldc_sensorless_change_phase</STRONG> (Thumb, 300 bytes, Stack size 24 bytes, mc_bldc_sensorless.o(.text.bldc_sensorless_change_phase))
+<P><STRONG><a name="[91]"></a>bldc_sensorless_change_phase</STRONG> (Thumb, 326 bytes, Stack size 24 bytes, mc_bldc_sensorless.o(.text.bldc_sensorless_change_phase))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = bldc_sensorless_change_phase &rArr; moving_average_update
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_counter_value_set
@@ -984,7 +984,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TMR1_OVF_TMR10_IRQHandler
 </UL>
 
-<P><STRONG><a name="[8d]"></a>calc_motor_speed</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, motor_control_bldc.o(.text.calc_motor_speed))
+<P><STRONG><a name="[8d]"></a>calc_motor_speed</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, motor_control_bldc.o(.text.calc_motor_speed))
 <BR><BR>[Calls]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_ma_buffer
 </UL>
 <BR>[Called By]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TMR1_OVF_TMR10_IRQHandler
@@ -2035,8 +2035,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_pwm_init
 </UL>
 
-<P><STRONG><a name="[d9]"></a>tmr_pwm_init</STRONG> (Thumb, 674 bytes, Stack size 64 bytes, mc_hwio.o(.text.tmr_pwm_init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = tmr_pwm_init &rArr; gpio_init
+<P><STRONG><a name="[d9]"></a>tmr_pwm_init</STRONG> (Thumb, 674 bytes, Stack size 72 bytes, mc_hwio.o(.text.tmr_pwm_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = tmr_pwm_init &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_primary_mode_select
 <LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_sub_sync_mode_set

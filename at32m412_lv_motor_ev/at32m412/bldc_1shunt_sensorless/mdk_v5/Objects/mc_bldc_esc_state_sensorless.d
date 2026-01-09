@@ -1,14 +1,7 @@
 ./objects/mc_bldc_esc_state_sensorless.o: \
   ..\..\..\..\mclib\src\mc_bldc_esc_state_sensorless.c ..\inc\mc_lib.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\device_support\at32m412_416.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\core_cm4.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
-  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\cmsis_version.h \
-  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\cmsis_compiler.h \
-  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\cmsis_armclang.h \
-  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\mpu_armv7.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\device_support\system_at32m412_416.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_def.h \
   ..\inc\at32m412_416_conf.h \
@@ -35,10 +28,9 @@
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wwdt.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h \
   ..\inc\at32m412_416_clock.h ..\..\..\..\mclib\inc\at32m412_416_mc.h \
-  ..\inc\motor_control_drive_param.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\math.h \
-  ..\..\..\..\mclib\inc\mc_delay.h ..\..\..\..\mclib\inc\mc_type.h \
-  ..\inc\mc_hwio_m412_lv_v1_0.h ..\..\..\..\mclib\inc\mc_curr_fdbk.h \
+  ..\inc\motor_control_drive_param.h ..\..\..\..\mclib\inc\mc_delay.h \
+  ..\..\..\..\mclib\inc\mc_type.h ..\inc\mc_hwio_m412_lv_v1_0.h \
+  ..\..\..\..\mclib\inc\mc_curr_fdbk.h \
   ..\..\..\..\mclib\inc\mc_comm_uart.h \
   ..\..\..\..\mclib\inc\mc_pid_controller.h \
   ..\..\..\..\mclib\inc\mc_math.h \

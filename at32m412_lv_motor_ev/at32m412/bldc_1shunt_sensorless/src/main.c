@@ -25,6 +25,25 @@
 
 #include "mc_lib.h"
 
+void gpioA15(void)
+{
+    gpio_init_type gpio_init_struct;
+
+    /* 1. 打开 GPIOA  */
+    crm_periph_clock_enable(CRM_GPIOA_PERIPH_CLOCK, TRUE);
+    /* 2. 填充默认参数，避免遗漏 */
+    gpio_default_para_init(&gpio_init_struct);
+
+    /* 3. 公共配置：推挽输出、无上拉下拉、强驱动 */
+    gpio_init_struct.gpio_mode             = GPIO_MODE_OUTPUT;
+    gpio_init_struct.gpio_out_type         = GPIO_OUTPUT_PUSH_PULL;
+    gpio_init_struct.gpio_pull             = GPIO_PULL_NONE;
+    gpio_init_struct.gpio_drive_strength   = GPIO_DRIVE_STRENGTH_STRONGER;
+
+    /* 4. 配置引脚 PA15 */
+    gpio_init_struct.gpio_pins = GPIO_PINS_15;
+    gpio_init(GPIOA, &gpio_init_struct);
+}
 /** @addtogroup at32m412_lv_motor_ev
   * @{
   */
@@ -118,7 +137,7 @@ int main(void)
   param_init();
 
   led_blink();
-
+	gpioA15();
   while(1)
   {
     /* calculate motor speed */

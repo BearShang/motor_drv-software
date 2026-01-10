@@ -68,7 +68,7 @@ extern "C" {
 //#define LARGE_COGGING
 
 /* choose phase advance or not 相位提前（默认不开启）。使用INIT_ANGLE_STARTUP启动时才需要设置，否则可以略过。使用初始角度检测启动时会因为电机特性是否大齿槽转矩导致检测方式的不同，因此需要根据电机特性设置此功能 */
-#define PHASE_ADVANCE
+//#define PHASE_ADVANCE
 
 /* choose const current/voltage start-up */
 //#define CONST_CURRENT_START
@@ -303,8 +303,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          3000
-#define PID_IS_KI_DEFUALT          150
+#define PID_IS_KP_DEFUALT          2500
+#define PID_IS_KI_DEFUALT          245
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768

@@ -68,7 +68,7 @@ extern "C" {
 //#define LARGE_COGGING
 
 /* choose phase advance or not 相位提前（默认不开启）。使用INIT_ANGLE_STARTUP启动时才需要设置，否则可以略过。使用初始角度检测启动时会因为电机特性是否大齿槽转矩导致检测方式的不同，因此需要根据电机特性设置此功能 */
-//#define PHASE_ADVANCE
+#define PHASE_ADVANCE
 
 /* choose const current/voltage start-up */
 //#define CONST_CURRENT_START
@@ -183,8 +183,8 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (10.0f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (3.0f)         /*!< usec */
-#define EMF_FALL_BLANK_TIME_LOW_SPD   (23.5f)        /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (1.5f)         /*!< usec */
+#define EMF_FALL_BLANK_TIME_LOW_SPD   (10.0f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (4000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (1980)
 
@@ -303,8 +303,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          2500
-#define PID_IS_KI_DEFUALT          245
+#define PID_IS_KP_DEFUALT          3000
+#define PID_IS_KI_DEFUALT          150
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768
@@ -321,8 +321,10 @@ extern "C" {
 #define HYSTERESIS_LOW_SPEED       (600)     /*!< 切入低速电流环控制切换点rpm */
 #define HYSTERESIS_HIGH_SPEED      (800)     /*!< 切入高速电流环控制切换点rpm */
 /* low speed pid parameter for voltage control WITHOUT CURRENT-LOOP专用 */
-#define PID_SPD_VOLT_KP_DEFUALT         5000
-#define PID_SPD_VOLT_KI_DEFUALT         100
+//#define PID_SPD_VOLT_KP_DEFUALT         5000
+//#define PID_SPD_VOLT_KI_DEFUALT         100
+#define PID_SPD_VOLT_KP_DEFUALT         3000
+#define PID_SPD_VOLT_KI_DEFUALT         10
 #define PID_SPD_VOLT_KP_GAIN_DIV        1024
 #define PID_SPD_VOLT_KP_GAIN_DIV_LOG    LOG2(PID_SPD_VOLT_KP_GAIN_DIV)
 #define PID_SPD_VOLT_KI_GAIN_DIV        1024
@@ -337,7 +339,7 @@ extern "C" {
 #ifdef BLDC_SENSORLESS_ADC
 #define EMF_PHASE_ADV_SPD               (15000)     /*!< rpm */
 #else
-#define EMF_PHASE_ADV_SPD               (8000)     /*!< rpm */
+#define EMF_PHASE_ADV_SPD               (100000)     /*!< rpm */
 #endif
 #define EMF_MIN_DELAY_US                (10)        /*!< usec */
 #define EMF_AVOID_NOISE_INIT_PERIOD     (1)         /*!< msec */

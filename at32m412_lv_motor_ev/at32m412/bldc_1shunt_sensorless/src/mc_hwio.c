@@ -834,6 +834,17 @@ void cmp2_config(void)
   gpio_pin_mux_config(TMR_ADC_TRIG_PORT, TMR_ADC_TRIG_GPIO_PIN_SOURCE, TMR_ADC_TRIG_IOMUX);
   debug_apb2_periph_mode_set(DEBUG_TMR1_PAUSE, TRUE);
 
+  crm_periph_clock_enable(CHANGE_PHASE_TRIG_GPIO_CRM_CLK, TRUE);
+  gpio_default_para_init(&gpio_init_struct);
+
+  gpio_init_struct.gpio_mode             = GPIO_MODE_OUTPUT;
+  gpio_init_struct.gpio_out_type         = GPIO_OUTPUT_PUSH_PULL;
+  gpio_init_struct.gpio_pull             = GPIO_PULL_NONE;
+  gpio_init_struct.gpio_drive_strength   = GPIO_DRIVE_STRENGTH_STRONGER;
+
+  gpio_init_struct.gpio_pins = CHANGE_PHASE_TRIG_GPIO_PIN;
+  gpio_init(CHANGE_PHASE_TRIG_PORT, &gpio_init_struct);
+
   // crm_periph_clock_enable(BLANK_SIGNAL_GPIO_CRM_CLK, TRUE);
   // gpio_init_struct.gpio_pins = BLANK_SIGNAL_GPIO_PIN;
   // gpio_init(BLANK_SIGNAL_PORT, &gpio_init_struct);

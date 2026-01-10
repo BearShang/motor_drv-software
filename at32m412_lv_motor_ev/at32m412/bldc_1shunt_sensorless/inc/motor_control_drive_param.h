@@ -166,7 +166,7 @@ extern "C" {
 #define CHANGE_PHASE_TMR_DIV      (TMR_CLK/2/1000000)                /*!< 0.5usec/per cval */
 /* Dead-time inserted */
 #define DEADTIME_CLK_SFT_BITS     ((tmr_clock_division_type)2)
-#define DEADTIME_NS               ((uint16_t)100)                    /* in nsec; check the MOSFET/IGBT/IPM specification
+#define DEADTIME_NS               ((uint16_t)50)                    /* in nsec; check the MOSFET/IGBT/IPM specification
                                                                         SYSTEM_CORE_CLOCK = 240MHz, range is [0...2000];
                                                                         SYSTEM_CORE_CLOCK = 200MHz, range is [0...2500];
                                                                         SYSTEM_CORE_CLOCK = 150MHz, range is [0...3000];
@@ -228,7 +228,7 @@ extern "C" {
 
 
 /********************************* Control-related parameter *********************************/
-#define PWM_FREQ                   (20000)                            /*!< Hz */
+#define PWM_FREQ                   (24000)                            /*!< Hz */
 #define MOTOR_CONTROL_MODE         (motor_control_mode)(SPEED_CTRL)
 #define CTRL_SOURCE                (ctrl_source_type)(CTRL_SOURCE_SOFTWARE)  /* 1.CTRL_SOURCE_SOFTWARE 2.CTRL_SOURCE_EXTERNAL */
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */
@@ -310,8 +310,8 @@ extern "C" {
 #define PID_IS_KI_DIV              32768
 #define PID_IS_KI_DIV_LOG          LOG2(PID_IS_KI_DIV)
 
-#define PID_SPD_KP_DEFUALT         3000
-#define PID_SPD_KI_DEFUALT         10
+#define PID_SPD_KP_DEFUALT         4000
+#define PID_SPD_KI_DEFUALT         4
 #define PID_SPD_KP_DIV             1024
 #define PID_SPD_KP_DIV_LOG         LOG2(PID_SPD_KP_DIV)
 #define PID_SPD_KI_DIV             1024

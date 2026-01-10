@@ -87,6 +87,10 @@ extern "C" {
 #define TMR_ADC_TRIG_GPIO_PIN          GPIO_PINS_11
 #define TMR_ADC_TRIG_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE11
 #define TMR_ADC_TRIG_IOMUX             GPIO_MUX_1
+/**************** define CHANGE PHASE TRIG OUTPUT PIN ******************/
+#define CHANGE_PHASE_TRIG_GPIO_CRM_CLK      CRM_GPIOA_PERIPH_CLOCK
+#define CHANGE_PHASE_TRIG_PORT              GPIOA
+#define CHANGE_PHASE_TRIG_GPIO_PIN          GPIO_PINS_15
 
 #if defined HALL_SENSORS
 /**************** define Timer for Hall ******************/

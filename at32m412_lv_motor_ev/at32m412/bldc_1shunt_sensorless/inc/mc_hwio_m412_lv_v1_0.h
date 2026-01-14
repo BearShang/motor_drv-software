@@ -102,11 +102,11 @@ extern "C" {
 #define TMR_HALL_IN_FILTER             0x6                        /*0x0 ~ 0xF*/
 #else
 /**************** define Timer for Read EMF Comparator ******************/
-#define READ_EMF_TIMER                 TMR3
-#define READ_EMF_CRM_CLK               CRM_TMR3_PERIPH_CLOCK
-#define READ_EMF_IRQ                   TMR3_GLOBAL_IRQHandler
-#define READ_EMF_IRQn                  TMR3_GLOBAL_IRQn
-#define TMR_READ_EMF_FILTER            0x6                        /*0x0 ~ 0xF*/
+// #define READ_EMF_TIMER                 TMR3
+// #define READ_EMF_CRM_CLK               CRM_TMR3_PERIPH_CLOCK
+// #define READ_EMF_IRQ                   TMR3_GLOBAL_IRQHandler
+// #define READ_EMF_IRQn                  TMR3_GLOBAL_IRQn
+// #define TMR_READ_EMF_FILTER            0x6                        /*0x0 ~ 0xF*/
 #endif
 /**************** define Timer for Change Phase ******************/
 #define CHANGE_PHASE_TIMER             TMR11

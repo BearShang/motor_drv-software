@@ -82,8 +82,8 @@ extern "C" {
 
 #ifdef BLDC_SENSORLESS_COMP
 /* EMF continous sample */
-#define EMF_CONTINOUS_SAMPLE
-#define SPECIFIC_EACH_EMF_PIN     //避开其它相不需要比较器信号（默认开启）
+//#define EMF_CONTINOUS_SAMPLE
+//#define SPECIFIC_EACH_EMF_PIN     //避开其它相不需要比较器信号（默认开启）
 #elif defined BLDC_SENSORLESS_ADC
 /* choose EMF pull up or not */
 #define EMF_PULL_UP
@@ -320,9 +320,8 @@ extern "C" {
 /* low speed voltage control parameter */
 #define HYSTERESIS_LOW_SPEED       (600)     /*!< 切入低速电流环控制切换点rpm */
 #define HYSTERESIS_HIGH_SPEED      (800)     /*!< 切入高速电流环控制切换点rpm */
+
 /* low speed pid parameter for voltage control WITHOUT CURRENT-LOOP专用 */
-//#define PID_SPD_VOLT_KP_DEFUALT         5000
-//#define PID_SPD_VOLT_KI_DEFUALT         100
 #define PID_SPD_VOLT_KP_DEFUALT         3000
 #define PID_SPD_VOLT_KI_DEFUALT         10
 #define PID_SPD_VOLT_KP_GAIN_DIV        1024

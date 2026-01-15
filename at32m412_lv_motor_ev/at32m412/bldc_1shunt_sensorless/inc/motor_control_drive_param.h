@@ -68,7 +68,7 @@ extern "C" {
 //#define LARGE_COGGING
 
 /* choose phase advance or not 相位提前（默认不开启）。使用INIT_ANGLE_STARTUP启动时才需要设置，否则可以略过。使用初始角度检测启动时会因为电机特性是否大齿槽转矩导致检测方式的不同，因此需要根据电机特性设置此功能 */
-//#define PHASE_ADVANCE
+#define PHASE_ADVANCE
 
 /* choose const current/voltage start-up */
 //#define CONST_CURRENT_START
@@ -184,8 +184,8 @@ extern "C" {
 
 #define EMF_RISE_BLANK_TIME           (10.0f)        /*!< usec */
 #define EMF_FALL_BLANK_TIME_HIGH_SPD  (1.5f)         /*!< usec */
-#define EMF_FALL_BLANK_TIME_LOW_SPD   (10.0f)        /*!< usec */
-#define EMF_BLANK_TIME_CHANGED_RPM    (4000.0f)      /*!< rpm */
+#define EMF_FALL_BLANK_TIME_LOW_SPD   (7.5f)        /*!< usec */
+#define EMF_BLANK_TIME_CHANGED_RPM    (7000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (1980)
 
 /* Only sensorless-ADC need to set */
@@ -338,7 +338,7 @@ extern "C" {
 #ifdef BLDC_SENSORLESS_ADC
 #define EMF_PHASE_ADV_SPD               (15000)     /*!< rpm */
 #else
-#define EMF_PHASE_ADV_SPD               (100000)     /*!< rpm */
+#define EMF_PHASE_ADV_SPD               (80000)     /*!< rpm */
 #endif
 #define EMF_MIN_DELAY_US                (10)        /*!< usec */
 #define EMF_AVOID_NOISE_INIT_PERIOD     (1)         /*!< msec */

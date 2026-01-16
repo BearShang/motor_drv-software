@@ -182,8 +182,8 @@ extern "C" {
 #define EMF_SIG_RISING_TIME       (9.8)          /*!< usec */
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
-#define EMF_RISE_BLANK_TIME           (10.0f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (1.5f)         /*!< usec */
+#define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (3.0f)         /*!< usec */
 #define EMF_FALL_BLANK_TIME_LOW_SPD   (7.5f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (7000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (1980)
@@ -228,7 +228,7 @@ extern "C" {
 
 
 /********************************* Control-related parameter *********************************/
-#define PWM_FREQ                   (24000)                            /*!< Hz */
+#define PWM_FREQ                   (30000)                            /*!< Hz */
 #define MOTOR_CONTROL_MODE         (motor_control_mode)(SPEED_CTRL)
 #define CTRL_SOURCE                (ctrl_source_type)(CTRL_SOURCE_SOFTWARE)  /* 1.CTRL_SOURCE_SOFTWARE 2.CTRL_SOURCE_EXTERNAL */
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */

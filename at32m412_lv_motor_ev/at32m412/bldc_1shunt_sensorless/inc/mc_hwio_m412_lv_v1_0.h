@@ -197,10 +197,10 @@ extern "C" {
 #define COMP_N_GPIO_PIN                GPIO_PINS_7
 #define COMP_N_GPIO_PIN_SOURCE         GPIO_PINS_SOURCE7
 
-#define COMP_OUT_GPIO_CRM_CLK          CRM_GPIOA_PERIPH_CLOCK
-#define COMP_OUT_PORT                  GPIOA
-#define COMP_OUT_GPIO_PIN              GPIO_PINS_12
-#define COMP_OUT_GPIO_PIN_SOURCE       GPIO_PINS_SOURCE12
+#define COMP_OUT_GPIO_CRM_CLK          CRM_GPIOB_PERIPH_CLOCK
+#define COMP_OUT_PORT                  GPIOB
+#define COMP_OUT_GPIO_PIN              GPIO_PINS_5
+#define COMP_OUT_GPIO_PIN_SOURCE       GPIO_PINS_SOURCE5
 #define COMP_OUT_IOMUX                 GPIO_MUX_12
 
 #define COMP_OUT_CAPTURE_TIMER           TMR3

@@ -201,11 +201,11 @@ extern "C" {
 
 /***************** Protection *****************/
 /* Current */
-#define OVER_CURRENT_SW           (30.0)       /*!< A */
+#define OVER_CURRENT_SW           (20.0)       /*!< A */
 
 #if defined AT32M412xx || defined AT32M416xx
 #define DAC_VREF_SOURCE           (DAC_VDDA)   //选择参考电压源
-#define OCP_CURRENT               (50.0)       /*!< A */
+#define OCP_CURRENT               (30.0)       /*!< A */
 #define BUS_CURR_CMP_OCP_VOLT     (OCP_CURRENT*R_SHUNT*OP_GAIN+CURR_OFFSET_VOLT)  //计算过流电压
 #define TMR_BRK_FILTER_COUNT      (3)          //设置定时器刹车滤波次数
 #endif

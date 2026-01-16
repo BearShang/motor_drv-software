@@ -60,11 +60,11 @@ extern "C" {
 #define PWM_PHASE_C_HI_GPIO_PIN        GPIO_PINS_10
 #define PWM_PHASE_C_HI_PIN_SOURCE      GPIO_PINS_SOURCE10
 #define PWM_PHASE_C_HI_IOMUX           GPIO_MUX_1
-#define PWM_PHASE_A_LOW_GPIO_CRM_CLK   CRM_GPIOA_PERIPH_CLOCK
-#define PWM_PHASE_A_LOW_PORT           GPIOA
-#define PWM_PHASE_A_LOW_GPIO_PIN       GPIO_PINS_11
-#define PWM_PHASE_A_LOW_PIN_SOURCE     GPIO_PINS_SOURCE11
-#define PWM_PHASE_A_LOW_IOMUX          GPIO_MUX_10
+#define PWM_PHASE_A_LOW_GPIO_CRM_CLK   CRM_GPIOB_PERIPH_CLOCK
+#define PWM_PHASE_A_LOW_PORT           GPIOB
+#define PWM_PHASE_A_LOW_GPIO_PIN       GPIO_PINS_7
+#define PWM_PHASE_A_LOW_PIN_SOURCE     GPIO_PINS_SOURCE7
+#define PWM_PHASE_A_LOW_IOMUX          GPIO_MUX_1
 #define PWM_PHASE_B_LOW_GPIO_CRM_CLK   CRM_GPIOA_PERIPH_CLOCK
 #define PWM_PHASE_B_LOW_PORT           GPIOA
 #define PWM_PHASE_B_LOW_GPIO_PIN       GPIO_PINS_12
@@ -87,6 +87,10 @@ extern "C" {
 #define TMR_ADC_TRIG_GPIO_PIN          GPIO_PINS_11
 #define TMR_ADC_TRIG_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE11
 #define TMR_ADC_TRIG_IOMUX             GPIO_MUX_1
+/**************** define CHANGE PHASE TRIG OUTPUT PIN ******************/
+#define CHANGE_PHASE_TRIG_GPIO_CRM_CLK      CRM_GPIOA_PERIPH_CLOCK
+#define CHANGE_PHASE_TRIG_PORT              GPIOA
+#define CHANGE_PHASE_TRIG_GPIO_PIN          GPIO_PINS_15
 
 #if defined HALL_SENSORS
 /**************** define Timer for Hall ******************/
@@ -98,11 +102,11 @@ extern "C" {
 #define TMR_HALL_IN_FILTER             0x6                        /*0x0 ~ 0xF*/
 #else
 /**************** define Timer for Read EMF Comparator ******************/
-#define READ_EMF_TIMER                 TMR3
-#define READ_EMF_CRM_CLK               CRM_TMR3_PERIPH_CLOCK
-#define READ_EMF_IRQ                   TMR3_GLOBAL_IRQHandler
-#define READ_EMF_IRQn                  TMR3_GLOBAL_IRQn
-#define TMR_READ_EMF_FILTER            0x6                        /*0x0 ~ 0xF*/
+// #define READ_EMF_TIMER                 TMR3
+// #define READ_EMF_CRM_CLK               CRM_TMR3_PERIPH_CLOCK
+// #define READ_EMF_IRQ                   TMR3_GLOBAL_IRQHandler
+// #define READ_EMF_IRQn                  TMR3_GLOBAL_IRQn
+// #define TMR_READ_EMF_FILTER            0x6                        /*0x0 ~ 0xF*/
 #endif
 /**************** define Timer for Change Phase ******************/
 #define CHANGE_PHASE_TIMER             TMR11
@@ -193,10 +197,10 @@ extern "C" {
 #define COMP_N_GPIO_PIN                GPIO_PINS_7
 #define COMP_N_GPIO_PIN_SOURCE         GPIO_PINS_SOURCE7
 
-#define COMP_OUT_GPIO_CRM_CLK          CRM_GPIOA_PERIPH_CLOCK
-#define COMP_OUT_PORT                  GPIOA
-#define COMP_OUT_GPIO_PIN              GPIO_PINS_12
-#define COMP_OUT_GPIO_PIN_SOURCE       GPIO_PINS_SOURCE12
+#define COMP_OUT_GPIO_CRM_CLK          CRM_GPIOB_PERIPH_CLOCK
+#define COMP_OUT_PORT                  GPIOB
+#define COMP_OUT_GPIO_PIN              GPIO_PINS_5
+#define COMP_OUT_GPIO_PIN_SOURCE       GPIO_PINS_SOURCE5
 #define COMP_OUT_IOMUX                 GPIO_MUX_12
 
 #define COMP_OUT_CAPTURE_TIMER           TMR3
@@ -207,21 +211,21 @@ extern "C" {
 #define COMP_OUT_CAPTURE_IRQn            TMR3_GLOBAL_IRQn
 #define COMP_OUT_FLAG                    TMR_C2_FLAG
 #define COMP_OUT_INT                     TMR_C2_INT
-#define TMR_COMP_OUT_CAPTURE_FILTER      0xF                        /*0x0 ~ 0xF*/
+#define TMR_COMP_OUT_CAPTURE_FILTER      0xa                      /*0x0 ~ 0xF*/
 /**************** define Timer for pwm input *******************/
 #define PWM_DUTY_INPUT_TIMER           TMR4
-#define PWM_DUTY_INPUT_SELECT_CHANNEL  TMR_SELECT_CHANNEL_1          
+#define PWM_DUTY_INPUT_SELECT_CHANNEL  TMR_SELECT_CHANNEL_3          
 #define PWM_DUTY_INPUT_CRM_CLK         CRM_TMR4_PERIPH_CLOCK
 #define PWM_DUTY_INPUT_IRQ             TMR4_GLOBAL_IRQHandler
 #define PWM_DUTY_INPUT_IRQn            TMR4_GLOBAL_IRQn
-#define PWM_DUTY_INPUT_FLAG            TMR_C1_FLAG
-#define PWM_DUTY_INPUT_INT             TMR_C1_INT
+#define PWM_DUTY_INPUT_FLAG            TMR_C3_FLAG
+#define PWM_DUTY_INPUT_INT             TMR_C3_INT
 #define TMR_PWM_DUTY_INPUT_FILTER      0xF												/* 0x0 ~ 0xF */
 
-#define PWM_DUTY_INPUT_GPIO_CRM_CLK      CRM_GPIOF_PERIPH_CLOCK
-#define PWM_DUTY_INPUT_PORT              GPIOF
-#define PWM_DUTY_INPUT_GPIO_PIN          GPIO_PINS_9
-#define PWM_DUTY_INPUT_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE9
+#define PWM_DUTY_INPUT_GPIO_CRM_CLK      CRM_GPIOB_PERIPH_CLOCK
+#define PWM_DUTY_INPUT_PORT              GPIOB
+#define PWM_DUTY_INPUT_GPIO_PIN          GPIO_PINS_8
+#define PWM_DUTY_INPUT_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE8
 #define PWM_DUTY_INPUT_IOMUX             GPIO_MUX_2
 /* adc reading pin definition */
 #define ADC_NORMAL_CONVERTER           ADC1
@@ -285,10 +289,10 @@ extern "C" {
 #define VOLT_BUS_ADC_PORT              GPIOA
 #define VOLT_BUS_ADC_GPIO_PIN          GPIO_PINS_0
 
-#define MOS_TEMP_ADC_CH                ADC_CHANNEL_24
+#define MOS_TEMP_ADC_CH                ADC_CHANNEL_23
 #define MOS_TEMP_ADC_GPIO_CRM_CLK      CRM_GPIOF_PERIPH_CLOCK
 #define MOS_TEMP_ADC_PORT              GPIOF
-#define MOS_TEMP_ADC_GPIO_PIN          GPIO_PINS_10
+#define MOS_TEMP_ADC_GPIO_PIN          GPIO_PINS_9
 
 #define POTENTIO_ADC_CH                ADC_CHANNEL_26
 #define POTENTIO_ADC_GPIO_CRM_CLK      CRM_GPIOF_PERIPH_CLOCK
@@ -318,36 +322,36 @@ extern "C" {
 #define I2C_SDA_GPIO_PIN                GPIO_PINS_14 */
 
 
-/**************** define uart1 Tx and Rx ******************/
-#define COMM_UART                        USART1
-#define COMM_UART_CRM_CLK                CRM_USART1_PERIPH_CLOCK
+/**************** define uart Tx and Rx ******************/
+#define COMM_UART                        USART2
+#define COMM_UART_CRM_CLK                CRM_USART2_PERIPH_CLOCK
 #define COMM_UART_TX_GPIO_CRM_CLK        CRM_GPIOA_PERIPH_CLOCK
 #define COMM_UART_TX_PORT                GPIOA
-#define COMM_UART_TX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE15
-#define COMM_UART_TX_PIN                 GPIO_PINS_15
+#define COMM_UART_TX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE2
+#define COMM_UART_TX_PIN                 GPIO_PINS_2
 #define COMM_UART_TX_IOMUX               GPIO_MUX_7
-#define COMM_UART_RX_GPIO_CRM_CLK        CRM_GPIOB_PERIPH_CLOCK
-#define COMM_UART_RX_PORT                GPIOB
-#define COMM_UART_RX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE7
-#define COMM_UART_RX_PIN                 GPIO_PINS_7
+#define COMM_UART_RX_GPIO_CRM_CLK        CRM_GPIOA_PERIPH_CLOCK
+#define COMM_UART_RX_PORT                GPIOA
+#define COMM_UART_RX_GPIO_PIN_SOURCE     GPIO_PINS_SOURCE3
+#define COMM_UART_RX_PIN                 GPIO_PINS_3
 #define COMM_UART_RX_IOMUX               GPIO_MUX_7
 #define COMM_UART_IOMUX                  NULL
-#define COMM_UART_IRQn                   USART1_IRQn
-#define COMM_UART_IRQHandler             USART1_IRQHandler
+#define COMM_UART_IRQn                   USART2_IRQn
+#define COMM_UART_IRQHandler             USART2_IRQHandler
 
-/**************** define DMA for uart1 Tx and Rx ******************/
+/**************** define DMA for uart2 Tx and Rx ******************/
 #define DMA_UART                         DMA1
 #define DMA_UART_CRM_CLK                 CRM_DMA1_PERIPH_CLOCK
 #define DMA_UART_TX_CHANNEL              DMA1_CHANNEL2
 #define DMA_UART_RX_TX_IRQn              DMA1_Channel3_2_IRQn
 #define DMA_UART_RX_TX_IRQHandler        DMA1_Channel3_2_IRQHandler
 #define DMA_UART_TX_FDT_FLAG             DMA1_FDT2_FLAG
-#define DMA_UART_TX_FLEX                 DMAMUX_DMAREQ_ID_USART1_TX
+#define DMA_UART_TX_FLEX                 DMAMUX_DMAREQ_ID_USART2_TX
 #define DMA_UART_TX_FLEX_CHANNEL         DMA1MUX_CHANNEL2
 
 #define DMA_UART_RX_CHANNEL              DMA1_CHANNEL3
 #define DMA_UART_RX_FDT_FLAG             DMA1_FDT3_FLAG
-#define DMA_UART_RX_FLEX                 DMAMUX_DMAREQ_ID_USART1_RX
+#define DMA_UART_RX_FLEX                 DMAMUX_DMAREQ_ID_USART2_RX
 #define DMA_UART_RX_FLEX_CHANNEL         DMA1MUX_CHANNEL3
 
 /******************* define led *******************/
@@ -359,13 +363,13 @@ extern "C" {
 #define ADC_TRIG_LED_PORT             GPIOA
 #define ADC_TRIG_LED_GPIO_PIN         GPIO_PINS_11
 
-#define LED_R_GPIO_CRM_CLK            CRM_GPIOA_PERIPH_CLOCK
-#define LED_R_PORT                    GPIOA
-#define LED_R_GPIO_PIN                GPIO_PINS_3
+#define LED_R_GPIO_CRM_CLK            CRM_GPIOB_PERIPH_CLOCK
+#define LED_R_PORT                    GPIOB 
+#define LED_R_GPIO_PIN                GPIO_PINS_10
 
 #define LED_G_GPIO_CRM_CLK            CRM_GPIOA_PERIPH_CLOCK
 #define LED_G_PORT                    GPIOA
-#define LED_G_GPIO_PIN                GPIO_PINS_2
+#define LED_G_GPIO_PIN                GPIO_PINS_1
 
 /* #define TEST_A_GPIO_CRM_CLK           CRM_GPIOF_PERIPH_CLOCK
 #define TEST_A_PORT                   GPIOF

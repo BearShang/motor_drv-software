@@ -281,6 +281,13 @@ void ADC_SHUNT_SAMP_READY_IRQ(void)
     }
     else
     {
+#ifdef MOTOR_PARAM_IDENTIFY
+    if (esc_state == ESC_STATE_WINDING_PARAM_ID)
+    {
+      current_read_1shunt_ID(&current);
+    }
+    else
+#endif
       current_read_bldc(&current);
 #ifdef CURRENT_LP_FILTER
       ibus_filterd = lowpass_filtering(&current_LPF, current.Ibus.Ireal_pu);
@@ -335,6 +342,7 @@ void SysTick_Handler(void)
   ui_wave_param.iBusVoltage_meas = (int16_t)(calcValueByVref(adc_in_tab[ADC_BUS_VOLT_IDX]));
   ui_wave_param.speed_meas_filter_pu = (int16_t)(i32_speed_filterd * RPM_TO_SPEED_PU >> 15);
   ui_wave_param.speed_reference_pu = (int16_t)(speed_ramp.command * RPM_TO_SPEED_PU >> 15);
+  
   adc_sample.emf.emf_half_vdc_val = (int16_t)(ui_wave_param.iBusVoltage_meas * EMF_HALF_VDC_GAIN);
   zcp_highspd_fall = (adc_sample.emf.emf_half_vdc_val) + (adc_sample.emf.emf_high_spd_offset_falling);
   zcp_highspd_rise = (adc_sample.emf.emf_half_vdc_val) + (adc_sample.emf.emf_high_spd_offset_rising);
@@ -350,10 +358,10 @@ void SysTick_Handler(void)
   }
 
   /* MOS Temperature protection */
- /*  if (adc_in_tab[ADC_MOS_TEMP_IDX] < TEMPERATURE_THRESHOLD_d)
+   if (adc_in_tab[ADC_MOS_TEMP_IDX] < TEMPERATURE_THRESHOLD_d)
   {
     error_code |= error_code_mask & MC_OVER_TEMP_ERROR;
-  } */
+  } 
 
   /* Enter error state handler */
   if (error_code != MC_NO_ERROR)

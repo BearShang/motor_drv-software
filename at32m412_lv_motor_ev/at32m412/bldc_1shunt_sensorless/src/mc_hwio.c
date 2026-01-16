@@ -418,7 +418,7 @@ void tmr_blank_init(void)
   dmamux_enable(DMA_BLANK_WINDOW, TRUE);
   dmamux_init(DMA_BLANK_WINDOW_FLEX_CH, DMA_BLANK_WINDOW_FLEX);
   
-  /* enable dma channe4 */
+  /* enable dma1 channe6 */
   dma_channel_enable(DMA_CHANNEL_BLANK_WINDOW, TRUE);
 }
 
@@ -818,7 +818,7 @@ void cmp2_config(void)
  * @param None
  * @return None
  */
-/* void gpio_output_init(void)
+ void gpio_output_init(void)
 {
   gpio_init_type gpio_init_struct = {0};
 
@@ -833,36 +833,30 @@ void cmp2_config(void)
   gpio_init(TMR_ADC_TRIG_PORT, &gpio_init_struct);
   gpio_pin_mux_config(TMR_ADC_TRIG_PORT, TMR_ADC_TRIG_GPIO_PIN_SOURCE, TMR_ADC_TRIG_IOMUX);
   debug_apb2_periph_mode_set(DEBUG_TMR1_PAUSE, TRUE);
+  debug_apb1_periph_mode_set(DEBUG_TMR3_PAUSE, TRUE);
 
-  crm_periph_clock_enable(BLANK_SIGNAL_GPIO_CRM_CLK, TRUE);
-  gpio_init_struct.gpio_pins = BLANK_SIGNAL_GPIO_PIN;
-  gpio_init(BLANK_SIGNAL_PORT, &gpio_init_struct);
-  gpio_pin_mux_config(BLANK_SIGNAL_PORT, BLANK_SIGNAL_GPIO_PIN_SOURCE, BLANK_SIGNAL_IOMUX);
-#if 0
-  crm_periph_clock_enable(BLANK_TRIGGER_GPIO_CRM_CLK, TRUE);
-  gpio_init_struct.gpio_pins = BLANK_TRIGGER_GPIO_PIN;
-  gpio_init(BLANK_TRIGGER_PORT, &gpio_init_struct);
-  gpio_pin_mux_config(BLANK_TRIGGER_PORT, BLANK_TRIGGER_GPIO_PIN_SOURCE, BLANK_TRIGGER_IOMUX);
-#else
+  crm_periph_clock_enable(CHANGE_PHASE_TRIG_GPIO_CRM_CLK, TRUE);
+  gpio_default_para_init(&gpio_init_struct);
+
+  gpio_init_struct.gpio_mode             = GPIO_MODE_OUTPUT;
+  gpio_init_struct.gpio_out_type         = GPIO_OUTPUT_PUSH_PULL;
+  gpio_init_struct.gpio_pull             = GPIO_PULL_NONE;
+  gpio_init_struct.gpio_drive_strength   = GPIO_DRIVE_STRENGTH_STRONGER;
+
+  gpio_init_struct.gpio_pins = CHANGE_PHASE_TRIG_GPIO_PIN;
+  gpio_init(CHANGE_PHASE_TRIG_PORT, &gpio_init_struct);
+
   crm_periph_clock_enable(COMP_OUT_GPIO_CRM_CLK, TRUE);
   gpio_init_struct.gpio_pins = COMP_OUT_GPIO_PIN;
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
   gpio_init(COMP_OUT_PORT, &gpio_init_struct);
   gpio_pin_mux_config(COMP_OUT_PORT, COMP_OUT_GPIO_PIN_SOURCE, COMP_OUT_IOMUX);
-#endif
-  crm_periph_clock_enable(TEST_A_GPIO_CRM_CLK, TRUE);
-  crm_periph_clock_enable(TEST_B_GPIO_CRM_CLK, TRUE);
-  crm_periph_clock_enable(TEST_C_GPIO_CRM_CLK, TRUE);
+
+  crm_periph_clock_enable(CRM_GPIOA_PERIPH_CLOCK, TRUE);
   gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
-  gpio_init_struct.gpio_pins = TEST_A_GPIO_PIN;
-  gpio_init(TEST_A_PORT, &gpio_init_struct);
-
-  gpio_init_struct.gpio_pins = TEST_B_GPIO_PIN;
-  gpio_init(TEST_B_PORT, &gpio_init_struct);
-
-  gpio_init_struct.gpio_pins = TEST_C_GPIO_PIN;
-  gpio_init(TEST_C_PORT, &gpio_init_struct);
-} */
+  gpio_init_struct.gpio_pins = GPIO_PINS_15;
+  gpio_init(GPIOA, &gpio_init_struct);
+}
 
 /**
  * @brief Initializes the internal Operational Amplifier (OPA) for motor bus current sensing.

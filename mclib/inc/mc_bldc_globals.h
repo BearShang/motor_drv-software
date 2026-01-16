@@ -114,10 +114,10 @@ extern "C" {
 #define US_TO_RPM                  ((uint32_t)(60.0*1000000.0/6.0/POLE_PAIRS))
 #define RPM_TO_SPEED_PU            ((int32_t)(32768.0*26213.0/MAX_SPEED_RPM))
 /*********************** Drive-related parameters calculation (DON'T EDIT) ***********************/
-#define I_SENSE_GAIN               (R_SHUNT*OP_GAIN)                           /*!< 0.0445 */
+#define I_SENSE_GAIN               (R_SHUNT*OP_GAIN)                           /*!< 0.0554V */
 /* Basic */
-#define CURRENT_BASE               ((float)((ADC_REFERENCE_VOLT-CURR_OFFSET_VOLT)/I_SENSE_GAIN))       /*!< 55.8 A*/
-#define VOLTAGE_BASE               ((float)(ADC_REFERENCE_VOLT/V_SENSE_GAIN))  /*!< 18.6447 V */
+#define CURRENT_BASE               ((float)((ADC_REFERENCE_VOLT-CURR_OFFSET_VOLT)/I_SENSE_GAIN))       /*!< 29.8 A*/
+#define VOLTAGE_BASE               ((float)(ADC_REFERENCE_VOLT/V_SENSE_GAIN + V_SENSE_OFFSET))  /*!< 18.6447 V */
 
 #define PWM_PERIOD                 ((uint16_t)(TMR_CLK/PWM_FREQ))              /*!<  6666(PWM:30K Hz) */
 #define PWM_PERIOD_DIV_100         ((uint16_t)(TMR_CLK/PWM_FREQ/100))

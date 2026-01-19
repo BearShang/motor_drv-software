@@ -183,7 +183,7 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (3.0f)         /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (20.0f)         /*!< usec */
 #define EMF_FALL_BLANK_TIME_LOW_SPD   (7.5f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (7000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (1980)
@@ -310,8 +310,8 @@ extern "C" {
 #define PID_IS_KI_DIV              32768
 #define PID_IS_KI_DIV_LOG          LOG2(PID_IS_KI_DIV)
 
-#define PID_SPD_KP_DEFUALT         4000
-#define PID_SPD_KI_DEFUALT         4
+#define PID_SPD_KP_DEFUALT         3000
+#define PID_SPD_KI_DEFUALT         10
 #define PID_SPD_KP_DIV             1024
 #define PID_SPD_KP_DIV_LOG         LOG2(PID_SPD_KP_DIV)
 #define PID_SPD_KI_DIV             1024

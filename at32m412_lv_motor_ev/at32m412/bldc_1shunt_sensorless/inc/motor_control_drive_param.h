@@ -184,7 +184,7 @@ extern "C" {
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
 #define EMF_FALL_BLANK_TIME_HIGH_SPD  (60.5f)         /*!< usec */
-#define EMF_FALL_BLANK_TIME_LOW_SPD   (10.5f)        /*!< usec */
+#define EMF_FALL_BLANK_TIME_LOW_SPD   (12.5f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (7000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (1980)
 

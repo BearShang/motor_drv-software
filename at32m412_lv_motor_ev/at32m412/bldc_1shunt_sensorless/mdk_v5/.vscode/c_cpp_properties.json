@@ -82,17 +82,17 @@
         {
             "name": "bldc_1shunt_sensorless",
             "includePath": [
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\mclib\\inc",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\at32m412_lv_motor_ev\\at32m412\\bldc_1shunt_sensorless\\inc",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\libraries\\AT32M412_416_Firmware_Library\\drivers\\inc",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\core_support",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\device_support",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\dsp\\include",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\dsp\\PrivateInclude",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\at32m412_lv_motor_ev\\at32m412\\bldc_1shunt_sensorless\\src",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\libraries\\AT32M412_416_Firmware_Library\\drivers\\src",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\device_support\\startup\\mdk",
-                "d:\\Project\\hwzx\\drone\\motor_drv\\Software\\V0.2\\mclib\\src"
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\mclib\\inc",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\at32m412_lv_motor_ev\\at32m412\\bldc_1shunt_sensorless\\inc",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\libraries\\AT32M412_416_Firmware_Library\\drivers\\inc",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\core_support",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\device_support",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\dsp\\include",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\dsp\\PrivateInclude",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\at32m412_lv_motor_ev\\at32m412\\bldc_1shunt_sensorless\\src",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\libraries\\AT32M412_416_Firmware_Library\\drivers\\src",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\device_support\\startup\\mdk",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\Softare\\mclib\\src"
             ],
             "defines": [
                 "AT32M412KBU7_4",

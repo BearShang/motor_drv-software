@@ -33,7 +33,7 @@ extern "C" {
 #include "mc_lib.h"
 
 /* internal clock or external crytal */
-//#define INTERNAL_CLOCK_SOURCE
+#define INTERNAL_CLOCK_SOURCE
 
 /* choose hardware version */
 #define M412_LV_V1_0
@@ -76,8 +76,8 @@ extern "C" {
 
 /* choose how to start up */
 //#define INIT_ANGLE_STARTUP
-//#define ALIGN_AND_GO_STARTUP
-#define OPENLOOP_STARTUP
+#define ALIGN_AND_GO_STARTUP
+//#define OPENLOOP_STARTUP
 #endif
 
 #ifdef BLDC_SENSORLESS_COMP
@@ -183,8 +183,8 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (20.0f)         /*!< usec */
-#define EMF_FALL_BLANK_TIME_LOW_SPD   (7.5f)        /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (60.5f)         /*!< usec */
+#define EMF_FALL_BLANK_TIME_LOW_SPD   (10.5f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (7000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (1980)
 
@@ -246,7 +246,7 @@ extern "C" {
 #define REBOOT_PERIOD_MS           (1000)     /*!< msec */
 /* START-UP PARAMETER */
 #define START_CURRENT              (0.2)      /*!< A */
-#define START_VOLTAGE              (1.5)      /*!< V */
+#define START_VOLTAGE              (0.2)      /*!< V */
 /* SPEED */
 #define SPEED_FILTER_TIMES         (6)
 #define SPD_LP_BANDWIDTH           (300.0f)   /* 2*pi*freq */

@@ -100,10 +100,10 @@ extern "C" {
 
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
-#define RS_LL                        (0.51)           /* Stator resistance, ohm */
-#define LS_LL                        (0.0092)         /* Stator inductance, H */
+#define RS_LL                        (0.053)           /* Stator resistance, ohm */
+#define LS_LL                        (0.000086)         /* Stator inductance, H */
 #define POLE_PAIRS                   (14/2)
-#define KE                           (0.0010687f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
+#define KE                           (0.001754f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
 #define NOMINAL_CURRENT              (20.0)
 
 /* angle detect duty */
@@ -131,10 +131,10 @@ extern "C" {
 
 /********************************* Drive-related parameter *********************************/
 /* basic */
-#define VDC_RATED                 ((double)16.8f)
-#define BAT_LOW_VOLT              ((double)12.8f)                   /*!< minimum allowable battery voltage*/
-#define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))              /*!< 0.175439 */
-#define V_SENSE_OFFSET            (0.19f)                            /*!< 0.070 V */
+#define VDC_RATED                 ((double)25.5f)
+#define BAT_LOW_VOLT              ((double)19.5f)                   /*!< minimum allowable battery voltage*/
+#define V_SENSE_GAIN              (5.1f/(47.0f+5.1f))              /*!< 0.175439 */
+#define V_SENSE_OFFSET            (0.00f)                            /*!< 0.070 V */
 #define MAX_CURRENT               (29.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
 #define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
 #define CURRENT_SPAN_SHIFT        (1)
@@ -211,8 +211,8 @@ extern "C" {
 #endif
 
 /* Bus voltage */
-#define OVER_VOLT_THRESHOLD       (17)          /*!< V */
-#define UNDER_VOLT_THRESHOLD      (12)          /*!< V */
+#define OVER_VOLT_THRESHOLD       (26)          /*!< V */
+#define UNDER_VOLT_THRESHOLD      (19)          /*!< V */
 /* Temperature sensing section */
 /* V[V]=V0+dV/dT[V/Celsius]*(T-T0)[Celsius]*/
 #define V0_V                      (2.5385)      /*!< in Volts */
@@ -246,7 +246,7 @@ extern "C" {
 #define REBOOT_PERIOD_MS           (1000)     /*!< msec */
 /* START-UP PARAMETER */
 #define START_CURRENT              (0.2)      /*!< A */
-#define START_VOLTAGE              (0.2)      /*!< V */
+#define START_VOLTAGE              (0.18)      /*!< V */
 /* SPEED */
 #define SPEED_FILTER_TIMES         (6)
 #define SPD_LP_BANDWIDTH           (300.0f)   /* 2*pi*freq */

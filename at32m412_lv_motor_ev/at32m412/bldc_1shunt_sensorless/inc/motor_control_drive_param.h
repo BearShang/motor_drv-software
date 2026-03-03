@@ -76,8 +76,8 @@ extern "C" {
 
 /* choose how to start up */
 //#define INIT_ANGLE_STARTUP
-#define ALIGN_AND_GO_STARTUP
-//#define OPENLOOP_STARTUP
+//#define ALIGN_AND_GO_STARTUP
+#define OPENLOOP_STARTUP
 #endif
 
 #ifdef BLDC_SENSORLESS_COMP
@@ -100,10 +100,10 @@ extern "C" {
 
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
-#define RS_LL                        (0.053)           /* Stator resistance, ohm */
-#define LS_LL                        (0.000086)         /* Stator inductance, H */
-#define POLE_PAIRS                   (14/2)
-#define KE                           (0.001754f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
+#define RS_LL                        (0.512)           /* Stator resistance, ohm */
+#define LS_LL                        (5.25000)         /* Stator inductance, H */
+#define POLE_PAIRS                   (16/2)
+#define KE                           (0.00111111f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
 #define NOMINAL_CURRENT              (20.0)
 
 /* angle detect duty */
@@ -131,9 +131,9 @@ extern "C" {
 
 /********************************* Drive-related parameter *********************************/
 /* basic */
-#define VDC_RATED                 ((double)25.5f)
-#define BAT_LOW_VOLT              ((double)19.5f)                   /*!< minimum allowable battery voltage*/
-#define V_SENSE_GAIN              (5.1f/(47.0f+5.1f))              /*!< 0.175439 */
+#define VDC_RATED                 ((double)16.8f)
+#define BAT_LOW_VOLT              ((double)12.8f)                   /*!< minimum allowable battery voltage*/
+#define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))              /*!< 0.175439 */
 #define V_SENSE_OFFSET            (0.00f)                            /*!< 0.070 V */
 #define MAX_CURRENT               (29.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
 #define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
@@ -183,9 +183,9 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (60.5f)         /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (85.5f)         /*!< usec */
 #define EMF_FALL_BLANK_TIME_LOW_SPD   (12.5f)        /*!< usec */
-#define EMF_BLANK_TIME_CHANGED_RPM    (7000.0f)      /*!< rpm */
+#define EMF_BLANK_TIME_CHANGED_RPM    (8000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (1980)
 
 /* Only sensorless-ADC need to set */
@@ -207,12 +207,12 @@ extern "C" {
 #define DAC_VREF_SOURCE           (DAC_VDDA)   //选择参考电压源
 #define OCP_CURRENT               (21.0)       /*!< A */
 #define BUS_CURR_CMP_OCP_VOLT     (OCP_CURRENT*R_SHUNT*OP_GAIN+CURR_OFFSET_VOLT)  //计算过流电压
-#define TMR_BRK_FILTER_COUNT      (3)          //设置定时器刹车滤波次数
+#define TMR_BRK_FILTER_COUNT      (10)          //设置定时器刹车滤波次数
 #endif
 
 /* Bus voltage */
-#define OVER_VOLT_THRESHOLD       (26)          /*!< V */
-#define UNDER_VOLT_THRESHOLD      (19)          /*!< V */
+#define OVER_VOLT_THRESHOLD       (17)          /*!< V */
+#define UNDER_VOLT_THRESHOLD      (12)          /*!< V */
 /* Temperature sensing section */
 /* V[V]=V0+dV/dT[V/Celsius]*(T-T0)[Celsius]*/
 #define V0_V                      (2.5385)      /*!< in Volts */
@@ -228,7 +228,7 @@ extern "C" {
 
 
 /********************************* Control-related parameter *********************************/
-#define PWM_FREQ                   (30000)                            /*!< Hz */
+#define PWM_FREQ                   (35000)                            /*!< Hz */
 #define MOTOR_CONTROL_MODE         (motor_control_mode)(SPEED_CTRL)
 #define CTRL_SOURCE                (ctrl_source_type)(CTRL_SOURCE_SOFTWARE)  /* 1.CTRL_SOURCE_SOFTWARE 2.CTRL_SOURCE_EXTERNAL */
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */
@@ -292,7 +292,7 @@ extern "C" {
 #define OLC_INIT_SPD               (100)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
 #define OLC_TIMES                  (200)     /*!< Accumulated 200 times to reach the final speed */
-#define OLC_INIT_VOLT              (0.14)    /*!< V */
+#define OLC_INIT_VOLT              (0.22)    /*!< V */
 #define OLC_VOLT_INC               (0.003)
 /* open loop start-up */
 #define OLC_STARTUP_PERIOD         (1500)     /*!< msec */
@@ -304,7 +304,7 @@ extern "C" {
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
 #define PID_IS_KP_DEFUALT          2500
-#define PID_IS_KI_DEFUALT          245
+#define PID_IS_KI_DEFUALT          200
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768

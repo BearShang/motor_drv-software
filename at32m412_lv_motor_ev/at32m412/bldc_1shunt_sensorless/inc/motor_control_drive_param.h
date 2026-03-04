@@ -183,9 +183,9 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (85.5f)         /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (175.5f)         /*!< usec */
 #define EMF_FALL_BLANK_TIME_LOW_SPD   (12.5f)        /*!< usec */
-#define EMF_BLANK_TIME_CHANGED_RPM    (8000.0f)      /*!< rpm */
+#define EMF_BLANK_TIME_CHANGED_RPM    (4000.0f)      /*!< rpm */
 #define EMF_MIN_VALUE                 (1980)
 
 /* Only sensorless-ADC need to set */
@@ -228,7 +228,7 @@ extern "C" {
 
 
 /********************************* Control-related parameter *********************************/
-#define PWM_FREQ                   (35000)                            /*!< Hz */
+#define PWM_FREQ                   (30000)                            /*!< Hz */
 #define MOTOR_CONTROL_MODE         (motor_control_mode)(SPEED_CTRL)
 #define CTRL_SOURCE                (ctrl_source_type)(CTRL_SOURCE_SOFTWARE)  /* 1.CTRL_SOURCE_SOFTWARE 2.CTRL_SOURCE_EXTERNAL */
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */
@@ -246,7 +246,7 @@ extern "C" {
 #define REBOOT_PERIOD_MS           (1000)     /*!< msec */
 /* START-UP PARAMETER */
 #define START_CURRENT              (0.2)      /*!< A */
-#define START_VOLTAGE              (0.18)      /*!< V */
+#define START_VOLTAGE              (0.05)      /*!< V */
 /* SPEED */
 #define SPEED_FILTER_TIMES         (6)
 #define SPD_LP_BANDWIDTH           (300.0f)   /* 2*pi*freq */
@@ -291,7 +291,7 @@ extern "C" {
 /* open loop control */
 #define OLC_INIT_SPD               (100)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
-#define OLC_TIMES                  (200)     /*!< Accumulated 200 times to reach the final speed */
+#define OLC_TIMES                  (250)     /*!< Accumulated 200 times to reach the final speed */
 #define OLC_INIT_VOLT              (0.22)    /*!< V */
 #define OLC_VOLT_INC               (0.003)
 /* open loop start-up */
@@ -310,8 +310,8 @@ extern "C" {
 #define PID_IS_KI_DIV              32768
 #define PID_IS_KI_DIV_LOG          LOG2(PID_IS_KI_DIV)
 
-#define PID_SPD_KP_DEFUALT         3000
-#define PID_SPD_KI_DEFUALT         10
+#define PID_SPD_KP_DEFUALT         6500
+#define PID_SPD_KI_DEFUALT         55
 #define PID_SPD_KP_DIV             1024
 #define PID_SPD_KP_DIV_LOG         LOG2(PID_SPD_KP_DIV)
 #define PID_SPD_KI_DIV             1024

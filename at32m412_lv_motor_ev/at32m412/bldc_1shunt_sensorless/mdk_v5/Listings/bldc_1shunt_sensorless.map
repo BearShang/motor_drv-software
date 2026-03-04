@@ -3265,7 +3265,7 @@ Removing Unused input sections from the image.
     Removing mc_bldc.o(.ARM.exidx.text.bldc_open_loop_ctrl), (8 bytes).
     Removing mc_bldc.o(.text.bldc_hall_learning), (162 bytes).
     Removing mc_bldc.o(.ARM.exidx.text.bldc_hall_learning), (8 bytes).
-    Removing mc_bldc.o(.text.brake_config), (286 bytes).
+    Removing mc_bldc.o(.text.brake_config), (288 bytes).
     Removing mc_bldc.o(.ARM.exidx.text.brake_config), (8 bytes).
     Removing mc_comm_uart.o(.text), (0 bytes).
     Removing mc_comm_uart.o(.ARM.exidx.text.dma_uart_configuration), (8 bytes).
@@ -3455,7 +3455,7 @@ Removing Unused input sections from the image.
     Removing dscalb.o(.text), (46 bytes).
     Removing dfixul.o(.text), (48 bytes).
 
-1297 unused section(s) (total 33881 bytes) removed from the image.
+1297 unused section(s) (total 33883 bytes) removed from the image.
 
 ==============================================================================
 

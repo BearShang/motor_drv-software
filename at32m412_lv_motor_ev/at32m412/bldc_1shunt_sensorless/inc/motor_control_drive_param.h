@@ -93,10 +93,10 @@ extern "C" {
 //#define MOTOR_PARAM_IDENTIFY
 
 /* use artery motor monitor or not */
-#define USE_MOTOR_MONITOR   /* CTRL_SOURCE should be changed to CTRL_SOURCE_EXTERNAL if no motor monitor is used. */
+//#define USE_MOTOR_MONITOR   /* CTRL_SOURCE should be changed to CTRL_SOURCE_EXTERNAL if no motor monitor is used. */
 
-/* use pwm input or not */
-//#define PWM_INPUT
+/* use dshot600 input or not */
+#define DSHOT600_INPUT
 
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
@@ -273,9 +273,17 @@ extern "C" {
 #else
 #define MIN_SENSE_SPEED            (10)
 #endif
-/* PWM INPUT(external speed command calculation) */
-#define PWM_IN_START_DUTY          ((int16_t) (0.06f*32767))
-#define PWM_IN_STOP_DUTY           ((int16_t) (0.05f*32767))
+/* DSHOT600 input(external speed command calculation) */
+#define DSHOT_INPUT_TIMER_CLK      (30000000UL) /*!< DSHOT输入定时器的计数频率，单位为Hz。DSHOT600要求至少30MHz的计数频率以满足时间分辨率要求 */
+#define DSHOT_INPUT_TIMER_DIV      ((uint16_t)((TMR_CLK / DSHOT_INPUT_TIMER_CLK) - 1U)) /*!< 预分频器设置，使得定时器计数频率为30MHz，满足DSHOT600输入捕获的时间分辨率要求 */
+#define DSHOT600_BITRATE           (600000UL) /*!< DSHOT600, 600Kbps */
+#define DSHOT600_FRAME_BITS        (16U)  /*!< DSHOT 帧包含16位: 11 bits for command, 1 bit for telemetry request, and 4 bits for CRC */
+#define DSHOT600_BIT_TICKS         ((uint16_t)(DSHOT_INPUT_TIMER_CLK / DSHOT600_BITRATE)) /*!< DSHOT600每个比特的时间周期 */
+#define DSHOT600_ONE_THRESHOLD     ((uint16_t)((DSHOT600_BIT_TICKS * 9U) / 16U))  /*!< DSHOT600逻辑1的阈值 */
+#define DSHOT600_FRAME_GAP_TICKS   ((uint16_t)(DSHOT600_BIT_TICKS * 2U))  /*!< DSHOT600帧间隔的最小时间，确保帧与帧之间有足够的空闲时间以满足协议要求 */
+#define DSHOT600_SIGNAL_LOSS_COUNT (10U)  /*!< DSHOT600信号丢失计数阈值，当连续捕获到10帧无效数据时认为信号丢失，触发相应的保护措施 */
+#define DSHOT_CMD_MIN              (48U)  /*!< DSHOT命令的最小有效值，DSHOT协议规定0-47为特殊命令，48-2047为正常的速度/功能命令 */
+#define DSHOT_CMD_MAX              (2047U)  /*!< DSHOT命令的最大有效值，DSHOT协议规定命令值必须在48-2047范围内，超过此范围的值被视为无效 */
 /* brake duty */
 #define BRAKE_DUTY                 (30)      /*!< brake force(%)*/
 #define DRAG_BRAKE_DUTY            (30)      /*!< drag brake force(%)*/

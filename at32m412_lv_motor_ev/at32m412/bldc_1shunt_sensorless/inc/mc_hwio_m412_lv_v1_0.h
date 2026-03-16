@@ -220,7 +220,7 @@ extern "C" {
 #define PWM_DUTY_INPUT_IRQn            TMR4_GLOBAL_IRQn
 #define PWM_DUTY_INPUT_FLAG            TMR_C3_FLAG
 #define PWM_DUTY_INPUT_INT             TMR_C3_INT
-#define TMR_PWM_DUTY_INPUT_FILTER      0xF												/* 0x0 ~ 0xF */
+#define TMR_PWM_DUTY_INPUT_FILTER      0x0                      /* 0x0 ~ 0xF */
 
 #define PWM_DUTY_INPUT_GPIO_CRM_CLK      CRM_GPIOB_PERIPH_CLOCK
 #define PWM_DUTY_INPUT_PORT              GPIOB
@@ -465,8 +465,8 @@ void tmr_read_emf_init(void);
 void tmr_hall_init(void);
 /* timer init function for PWM */
 void tmr_pwm_init(void);
-/* timer init function for PWM input */
-void pwm_in_timer_init(void);
+/* timer init function for DSHOT input */
+void dshot_input_timer_init(void);
 /* timer init function for change phase */
 void tmr_sensorless_change_phase_init(void);
 /* timer init function for read EMF */

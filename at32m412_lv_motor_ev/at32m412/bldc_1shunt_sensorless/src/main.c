@@ -74,8 +74,8 @@ int main(void)
   tmr_sensorless_change_phase_init();
 
   tmr_pwm_init();
-#if defined PWM_INPUT
-  pwm_in_timer_init();
+#if defined DSHOT600_INPUT
+  dshot_input_timer_init();
 #endif
 
   /* ADC initialization */

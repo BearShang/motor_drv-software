@@ -71,8 +71,8 @@ void nvic_config(void)
   nvic_irq_enable(ADVTMR_CH1_EMF_PULL_IRQn, 5, 0);
 #endif
 #endif
-#if defined PWM_INPUT
-  /* pwm in interrupt nvic init */
+#if defined DSHOT600_INPUT
+  /* dshot input interrupt nvic init */
   nvic_irq_enable(PWM_DUTY_INPUT_IRQn, 6, 0);
 #endif
   /* systick nvic init */
@@ -295,11 +295,11 @@ void tmr_comp_capture_init()
 }
 
 /**
-  * @brief  Initialize the timer for PWM input measurement.
+  * @brief  Initialize the timer for DSHOT600 input measurement.
   * @param  none
   * @retval none
   */
-void pwm_in_timer_init(void)
+void dshot_input_timer_init(void)
 {
   gpio_init_type gpio_init_struct = {0};
   tmr_input_config_type tmr_ic_init_structure;
@@ -307,7 +307,7 @@ void pwm_in_timer_init(void)
   crm_periph_clock_enable(PWM_DUTY_INPUT_CRM_CLK, TRUE);
   crm_periph_clock_enable(PWM_DUTY_INPUT_GPIO_CRM_CLK, TRUE);
 
-  /* pwm in sensor pin Configuration */
+  /* dshot input pin Configuration */
   gpio_default_para_init(&gpio_init_struct);
   gpio_init_struct.gpio_pins = PWM_DUTY_INPUT_GPIO_PIN;
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
@@ -319,8 +319,8 @@ void pwm_in_timer_init(void)
   /* remap pwm input pin */
   gpio_pin_mux_config(PWM_DUTY_INPUT_PORT, PWM_DUTY_INPUT_GPIO_PIN_SOURCE, PWM_DUTY_INPUT_IOMUX);
 
-  /* pwm in timer configuration */
-  tmr_base_init(PWM_DUTY_INPUT_TIMER, MAX_CAP_COUNT, 179);
+  /* dshot input timer configuration */
+  tmr_base_init(PWM_DUTY_INPUT_TIMER, MAX_CAP_COUNT, DSHOT_INPUT_TIMER_DIV);
   tmr_cnt_dir_set(PWM_DUTY_INPUT_TIMER, TMR_COUNT_UP);
 
   /* config ch1 as input source */
@@ -331,14 +331,14 @@ void pwm_in_timer_init(void)
   tmr_ic_init_structure.input_filter_value = TMR_PWM_DUTY_INPUT_FILTER;
   tmr_input_channel_init(PWM_DUTY_INPUT_TIMER, &tmr_ic_init_structure, TMR_CHANNEL_INPUT_DIV_1);
 
-  /* clear interrupt flag of pwm in timer */
+  /* clear interrupt flag of dshot input timer */
   tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
 
-  /* enable CH1 and overflow interrupt of pwm in timer */
+  /* enable capture and overflow interrupt of dshot input timer */
   tmr_interrupt_enable(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_INT, TRUE);
   tmr_interrupt_enable(PWM_DUTY_INPUT_TIMER, TMR_OVF_INT, TRUE);
 
-  /* enable pwm in timer */
+  /* enable dshot input timer */
   tmr_counter_enable(PWM_DUTY_INPUT_TIMER, TRUE);
 }
 

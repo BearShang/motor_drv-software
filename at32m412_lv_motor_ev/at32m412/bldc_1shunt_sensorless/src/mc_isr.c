@@ -390,12 +390,32 @@ void ADVTMR_CH1_EMF_PULL_IRQ(void)
   }
 }
 
-#if defined PWM_INPUT
-flag_status is_first_capture = SET;
+#if defined DSHOT600_INPUT
+static uint8_t dshot_checksum(uint16_t frame_value)
+{
+  uint8_t checksum = 0;
+  uint8_t i;
+
+  frame_value >>= 4;
+  for (i = 0; i < 3; i++)
+  {
+    checksum ^= (uint8_t)(frame_value & 0x0F);
+    frame_value >>= 4;
+  }
+
+  return (uint8_t)(checksum & 0x0F);
+}
+
 void PWM_DUTY_INPUT_IRQ(void)
 {
-  int32_t pulse_width;
-  uint16_t capture_value, pwn_in_period, pin_state, duty_cycle;
+  uint16_t capture_value, pin_state;
+  uint16_t edge_ticks;
+  uint16_t dshot_frame;
+  uint16_t throttle_value;
+  uint8_t bit_index;
+  static uint16_t last_capture_value;
+  static uint16_t dshot_high_ticks[DSHOT600_FRAME_BITS];
+  static uint8_t frame_bit_count;
   static uint16_t no_signal_counter;
 
   if (tmr_flag_get(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG) != RESET)
@@ -405,52 +425,68 @@ void PWM_DUTY_INPUT_IRQ(void)
 
     capture_value = tmr_channel_value_get(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_SELECT_CHANNEL);
     pin_state = gpio_input_data_bit_read(PWM_DUTY_INPUT_PORT, PWM_DUTY_INPUT_GPIO_PIN);
-    pulse_width = (int32_t) capture_value - pwm_in_pulse_rising_old;
+    edge_ticks = (uint16_t)(capture_value - last_capture_value);
+    last_capture_value = capture_value;
+    no_signal_counter = 0;
 
-    if (pulse_width < 0)
+    if (pin_state != RESET) // 上升沿选择
     {
-      pulse_width += 0xFFFF;
-    }
-
-    if(is_first_capture)
-    {
-      is_first_capture = RESET;
-      PWM_DUTY_INPUT_TIMER -> cval = 0;
-    }
-    else
-    {
-      if (pin_state != RESET)
+      if (edge_ticks >= DSHOT600_FRAME_GAP_TICKS) 
       {
-        pwn_in_period = (uint16_t) pulse_width;
-
-        duty_cycle = (uint16_t)((((uint32_t) pwm_in_high_width << 15) - 1) / pwn_in_period);
-
-        if (duty_cycle >= PWM_IN_START_DUTY)
-        {
-          speed_ramp.cmd_final = (duty_cycle * MAX_SPEED_RPM) >> 15;
-          start_stop_btn_flag = SET;
-        }
-        else if (duty_cycle <= PWM_IN_STOP_DUTY)
-        {
-          speed_ramp.cmd_final = 0;
-          start_stop_btn_flag = RESET;
-        }
-
-        pwm_in_pulse_rising_old = capture_value;
-        no_signal_counter = 0;
+        frame_bit_count = 0;
       }
-      else
+    }
+    else if (frame_bit_count < DSHOT600_FRAME_BITS) // 下降沿选择，且当前帧未接收完成
+    {
+      dshot_high_ticks[frame_bit_count] = edge_ticks; // 记录每个比特的高电平持续时间
+      frame_bit_count++;
+
+      if (frame_bit_count >= DSHOT600_FRAME_BITS)   // 当接收到完整的DSHOT帧时，进行解码和验证
       {
-        pwm_in_high_width = (uint16_t) pulse_width;
+        dshot_frame = 0;
+        for (bit_index = 0; bit_index < DSHOT600_FRAME_BITS; bit_index++)
+        {
+          dshot_frame <<= 1;
+          if (dshot_high_ticks[bit_index] >= DSHOT600_ONE_THRESHOLD)
+          {
+            dshot_frame |= 1U;
+          }
+        }
+
+            speed_ramp.cmd_final = (int32_t)dshot_frame;
+
+        // if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
+        // {
+        //   throttle_value = (uint16_t)(dshot_frame >> 5);
+
+        //   if (throttle_value >= DSHOT_CMD_MIN)
+        //   {
+        //     if (throttle_value > DSHOT_CMD_MAX)
+        //     {
+        //       throttle_value = DSHOT_CMD_MAX;
+        //     }
+
+        //     speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
+        //                            (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
+        //     start_stop_btn_flag = SET;
+        //   }
+        //   else
+        //   {
+        //     speed_ramp.cmd_final = 0;
+        //     start_stop_btn_flag = RESET;
+        //   }
+        // }
+        frame_bit_count = 0;
       }
     }
   }
-  if (PWM_DUTY_INPUT_TIMER->ists_bit.ovfif && PWM_DUTY_INPUT_TIMER->iden_bit.ovfien)
+  if (PWM_DUTY_INPUT_TIMER->ists_bit.ovfif && PWM_DUTY_INPUT_TIMER->iden_bit.ovfien)  // 当定时器溢出时，表示在预定的时间内未接收到完整的DSHOT帧，可能是信号丢失或干扰导致的
   {
     /* clear flags of overflow events */
     tmr_flag_clear(PWM_DUTY_INPUT_TIMER, TMR_OVF_FLAG);
     no_signal_counter++;
-    if(no_signal_counter >= 3)
+    frame_bit_count = 0;
+    if(no_signal_counter >= DSHOT600_SIGNAL_LOSS_COUNT)
     {
       speed_ramp.cmd_final = 0;
       start_stop_btn_flag = RESET;

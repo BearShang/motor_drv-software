@@ -277,7 +277,7 @@ extern "C" {
 #define DSHOT_INPUT_TIMER_CLK      (30000000UL) /*!< DSHOT输入定时器的计数频率，单位为Hz。DSHOT600要求至少30MHz的计数频率以满足时间分辨率要求 */
 #define DSHOT_INPUT_TIMER_DIV      ((uint16_t)((TMR_CLK / DSHOT_INPUT_TIMER_CLK) - 1U)) /*!< 预分频器设置，使得定时器计数频率为30MHz，满足DSHOT600输入捕获的时间分辨率要求 */
 #define DSHOT600_BITRATE           (600000UL) /*!< DSHOT600, 600Kbps */
-#define DSHOT600_FRAME_BITS        (16U)  /*!< DSHOT 帧包含16位: 11 bits for command, 1 bit for telemetry request, and 4 bits for CRC */
+#define DSHOT600_FRAME_BITS        (17U)  /*!< DSHOT 帧包含16位: 11 bits for command, 1 bit for telemetry request, and 4 bits for CRC */
 #define DSHOT600_BIT_TICKS         ((uint16_t)(DSHOT_INPUT_TIMER_CLK / DSHOT600_BITRATE)) /*!< DSHOT600每个比特的时间周期 */
 #define DSHOT600_ONE_THRESHOLD     ((uint16_t)((DSHOT600_BIT_TICKS * 9U) / 16U))  /*!< DSHOT600逻辑1的阈值 */
 #define DSHOT600_FRAME_GAP_TICKS   ((uint16_t)(DSHOT600_BIT_TICKS * 2U))  /*!< DSHOT600帧间隔的最小时间，确保帧与帧之间有足够的空闲时间以满足协议要求 */

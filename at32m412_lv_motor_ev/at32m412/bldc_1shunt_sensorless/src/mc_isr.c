@@ -410,11 +410,10 @@ void PWM_DUTY_INPUT_IRQ(void)
 {
   uint16_t capture_value, pin_state;
   uint16_t edge_ticks;
-  uint16_t dshot_frame;
   uint16_t throttle_value;
   uint8_t bit_index;
+  static uint16_t dshot_frame;
   static uint16_t last_capture_value;
-  static uint16_t dshot_high_ticks[DSHOT600_FRAME_BITS];
   static uint8_t frame_bit_count;
   static uint16_t no_signal_counter;
 
@@ -431,29 +430,33 @@ void PWM_DUTY_INPUT_IRQ(void)
 
     if (pin_state != RESET) // 上升沿选择
     {
-      if (edge_ticks >= DSHOT600_FRAME_GAP_TICKS) 
+      if (edge_ticks >= DSHOT600_FRAME_GAP_TICKS) //位与位之间间隔长了,丢掉之前的数据,认为是新的一帧开始了
       {
         frame_bit_count = 0;
+      }
+
+      if (frame_bit_count == 0)
+      {
+        last_capture_value = 0; // 在帧开始时重置计数器，以确保正确测量每个比特的持续时间
       }
     }
     else if (frame_bit_count < DSHOT600_FRAME_BITS) // 下降沿选择，且当前帧未接收完成
     {
-      dshot_high_ticks[frame_bit_count] = edge_ticks; // 记录每个比特的高电平持续时间
+      dshot_frame <<= 1; // 将之前接收的位左移，为新位腾出空间
+
+      if(edge_ticks >= DSHOT600_ONE_THRESHOLD)
+      {
+        dshot_frame |= 1U;
+      }
       frame_bit_count++;
+
+
 
       if (frame_bit_count >= DSHOT600_FRAME_BITS)   // 当接收到完整的DSHOT帧时，进行解码和验证
       {
-        dshot_frame = 0;
-        for (bit_index = 0; bit_index < DSHOT600_FRAME_BITS; bit_index++)
-        {
-          dshot_frame <<= 1;
-          if (dshot_high_ticks[bit_index] >= DSHOT600_ONE_THRESHOLD)
-          {
-            dshot_frame |= 1U;
-          }
-        }
-
-            speed_ramp.cmd_final = (int32_t)dshot_frame;
+          speed_ramp.cmd_final = (int32_t)dshot_frame;
+          dshot_frame = 0;
+          frame_bit_count = 0;
 
         // if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
         // {
@@ -476,7 +479,6 @@ void PWM_DUTY_INPUT_IRQ(void)
         //     start_stop_btn_flag = RESET;
         //   }
         // }
-        frame_bit_count = 0;
       }
     }
   }

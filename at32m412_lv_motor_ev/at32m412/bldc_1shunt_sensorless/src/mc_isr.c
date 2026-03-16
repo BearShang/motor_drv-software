@@ -440,7 +440,7 @@ void PWM_DUTY_INPUT_IRQ(void)
         last_capture_value = 0; // 在帧开始时重置计数器，以确保正确测量每个比特的持续时间
       }
     }
-    else if (frame_bit_count < DSHOT600_FRAME_BITS) // 下降沿选择，且当前帧未接收完成
+    else if (frame_bit_count < DSHOT600_FRAME_BITS + 1) // 下降沿选择，且当前帧未接收完成
     {
       dshot_frame <<= 1; // 将之前接收的位左移，为新位腾出空间
 
@@ -450,35 +450,32 @@ void PWM_DUTY_INPUT_IRQ(void)
       }
       frame_bit_count++;
 
-
-
-      if (frame_bit_count >= DSHOT600_FRAME_BITS)   // 当接收到完整的DSHOT帧时，进行解码和验证
+      if (frame_bit_count >= DSHOT600_FRAME_BITS + 1)   // 当接收到完整的DSHOT帧时，进行解码和验证
       {
-          speed_ramp.cmd_final = (int32_t)dshot_frame;
+        if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
+        {
+          throttle_value = (uint16_t)(dshot_frame >> 5);
+
+          if (throttle_value >= DSHOT_CMD_MIN)
+          {
+            if (throttle_value > DSHOT_CMD_MAX)
+            {
+              throttle_value = DSHOT_CMD_MAX;
+            }
+
+            speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
+                                   (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
+            start_stop_btn_flag = SET;
+          }
+          else
+          {
+            speed_ramp.cmd_final = 0;
+            start_stop_btn_flag = RESET;
+          }
+        }
+
           dshot_frame = 0;
           frame_bit_count = 0;
-
-        // if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
-        // {
-        //   throttle_value = (uint16_t)(dshot_frame >> 5);
-
-        //   if (throttle_value >= DSHOT_CMD_MIN)
-        //   {
-        //     if (throttle_value > DSHOT_CMD_MAX)
-        //     {
-        //       throttle_value = DSHOT_CMD_MAX;
-        //     }
-
-        //     speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
-        //                            (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
-        //     start_stop_btn_flag = SET;
-        //   }
-        //   else
-        //   {
-        //     speed_ramp.cmd_final = 0;
-        //     start_stop_btn_flag = RESET;
-        //   }
-        // }
       }
     }
   }

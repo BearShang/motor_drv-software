@@ -49,7 +49,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -138,13 +138,13 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_kernal.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_esc_state.h)(0x6960A419)
-F (..\src\mc_isr.c)(0x69B93704)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/mc_isr.o -MD)
+F (..\src\mc_isr.c)(0x69B93931)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/mc_isr.o -MD)
 I (..\inc\mc_lib.h)(0x69B75D42)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x637AECBC)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x637AECBC)
@@ -193,7 +193,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -248,7 +248,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1066,7 +1066,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1121,7 +1121,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1176,7 +1176,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1232,7 +1232,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1287,13 +1287,13 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_kernal.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_esc_state.h)(0x6960A419)
-F (..\..\..\..\mclib\src\mc_bldc_globals.c)(0x69B935AC)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/mc_bldc_globals.o -MD)
+F (..\..\..\..\mclib\src\mc_bldc_globals.c)(0x69B93922)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../../../mclib/inc -I ../inc -I ../../../../libraries/AT32M412_416_Firmware_Library/drivers/inc -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/core_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/cm4/device_support -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/include -I ../../../../libraries/AT32M412_416_Firmware_Library/cmsis/dsp/PrivateInclude-ID:/KeilPacks/Arm/Packs/ArteryTek/AT32M412_416_DFP/2.0.2/Device/Include-D__UVISION_VERSION="538" -DAT32M412KBU7_4 -DAT32M412KBU7_4 -DUSE_STDPERIPH_DRIVER-o ./objects/mc_bldc_globals.o -MD)
 I (..\inc\mc_lib.h)(0x69B75D42)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x637AECBC)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x637AECBC)
@@ -1342,7 +1342,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1397,7 +1397,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1452,7 +1452,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1507,7 +1507,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1562,7 +1562,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1617,7 +1617,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)
@@ -1672,7 +1672,7 @@ I (..\..\..\..\mclib\inc\mc_pid_controller.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_math.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc_sensorless.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\user_interface_bldc.h)(0x6960A419)
-I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B935AC)
+I (..\..\..\..\mclib\inc\mc_bldc_globals.h)(0x69B9391B)
 I (..\..\..\..\mclib\inc\mc_flash_data_table.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\mc_bldc.h)(0x6960A419)
 I (..\..\..\..\mclib\inc\motor_control_bldc.h)(0x6960A419)

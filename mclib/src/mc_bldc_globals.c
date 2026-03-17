@@ -95,6 +95,13 @@ err_code_type error_code = MC_NO_ERROR;
 err_code_type error_code_mask = MC_ERROR_MASK;
 uint16_t emf_edge = 0;
 
+#if defined DSHOT600_INPUT
+volatile uint16_t dshot_debug_last_frame = 0;
+volatile uint16_t dshot_debug_last_throttle = 0;
+volatile uint32_t dshot_debug_crc_ok_count = 0;
+volatile uint32_t dshot_debug_crc_fail_count = 0;
+#endif
+
 uint32_t tmr_pwm_channel_mode[7][2] =
 {
   {AH_BCL_PWM_MODE_CM1, AH_BCL_PWM_MODE_CM2},

@@ -448,7 +448,10 @@ void PWM_DUTY_INPUT_IRQ(void)
       {
         if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
         {
+          dshot_debug_last_frame = dshot_frame;
           throttle_value = (uint16_t)(dshot_frame >> 5);
+          dshot_debug_last_throttle = throttle_value;
+          dshot_debug_crc_ok_count++;
           no_signal_counter = 0;
 
           if (throttle_value >= DSHOT_CMD_MIN)
@@ -458,9 +461,8 @@ void PWM_DUTY_INPUT_IRQ(void)
               throttle_value = DSHOT_CMD_MAX;
             }
 
-            // speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
-            //                        (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
-            speed_ramp.cmd_final = dshot_frame; // for debug
+            speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
+                                   (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
             start_stop_btn_flag = SET;
           }
           else
@@ -468,6 +470,10 @@ void PWM_DUTY_INPUT_IRQ(void)
             speed_ramp.cmd_final = 0;
             start_stop_btn_flag = RESET;
           }
+        }
+        else
+        {
+          dshot_debug_crc_fail_count++;
         }
 
           dshot_frame = 0;

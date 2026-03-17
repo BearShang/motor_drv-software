@@ -406,6 +406,143 @@ static uint8_t dshot_checksum(uint16_t frame_value)
   return (uint8_t)(checksum & 0x0F);
 }
 
+static uint16_t dshot_last_capture_value;
+static uint16_t dshot_frame_accumulator;
+static uint8_t dshot_frame_bit_count;
+static uint8_t dshot_expect_falling_edge;
+static uint8_t dshot_frame_synced;
+static uint16_t dshot_no_signal_counter;
+
+static void dshot_frame_decode_and_apply(uint16_t dshot_frame)
+{
+  uint16_t throttle_value;
+
+  if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
+  {
+    dshot_debug_last_frame = dshot_frame;
+    throttle_value = (uint16_t)(dshot_frame >> 5);
+    dshot_debug_last_throttle = throttle_value;
+    dshot_debug_crc_ok_count++;
+    dshot_no_signal_counter = 0;
+
+    if (throttle_value >= DSHOT_CMD_MIN)
+    {
+      if (throttle_value > DSHOT_CMD_MAX)
+      {
+        throttle_value = DSHOT_CMD_MAX;
+      }
+
+      speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
+                             (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
+      start_stop_btn_flag = SET;
+    }
+    else
+    {
+      speed_ramp.cmd_final = 0;
+      start_stop_btn_flag = RESET;
+    }
+  }
+  else
+  {
+    dshot_debug_crc_fail_count++;
+  }
+}
+
+static void dshot_capture_decode_range(uint16_t start_index, uint16_t end_index)
+{
+  uint16_t index;
+  uint16_t capture_value;
+  uint16_t edge_ticks;
+
+  for (index = start_index; index < end_index; index++)
+  {
+    capture_value = dshot_dma_capture_buffer[index];
+    edge_ticks = (uint16_t)(capture_value - dshot_last_capture_value);
+    dshot_last_capture_value = capture_value;
+
+    if (edge_ticks >= DSHOT600_FRAME_GAP_TICKS)
+    {
+      dshot_frame_accumulator = 0;
+      dshot_frame_bit_count = 0;
+      dshot_expect_falling_edge = TRUE;
+      dshot_frame_synced = TRUE;
+      continue;
+    }
+
+    if (dshot_frame_synced == FALSE)
+    {
+      continue;
+    }
+
+    if (dshot_expect_falling_edge != FALSE)
+    {
+      dshot_frame_accumulator <<= 1;
+      if (edge_ticks >= DSHOT600_ONE_THRESHOLD)
+      {
+        dshot_frame_accumulator |= 1U;
+      }
+      dshot_frame_bit_count++;
+      dshot_expect_falling_edge = FALSE;
+
+      if (dshot_frame_bit_count >= DSHOT600_FRAME_BITS)
+      {
+        dshot_frame_decode_and_apply(dshot_frame_accumulator);
+        dshot_frame_accumulator = 0;
+        dshot_frame_bit_count = 0;
+      }
+    }
+    else
+    {
+      dshot_expect_falling_edge = TRUE;
+    }
+  }
+}
+
+void DMA_DSHOT_INPUT_IRQHandler(void)
+{
+  tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
+
+  if (dma_flag_get(DMA_DSHOT_INPUT_DTERR_FLAG) != RESET)
+  {
+    dma_flag_clear(DMA_DSHOT_INPUT_DTERR_FLAG);
+    dshot_debug_dma_error_count++;
+  }
+
+  if (dma_flag_get(DMA_DSHOT_INPUT_HDT_FLAG) != RESET)
+  {
+    dma_flag_clear(DMA_DSHOT_INPUT_HDT_FLAG);
+    dshot_capture_decode_range(0, DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U);
+  }
+
+  if (dma_flag_get(DMA_DSHOT_INPUT_FDT_FLAG) != RESET)
+  {
+    dma_flag_clear(DMA_DSHOT_INPUT_FDT_FLAG);
+    dshot_capture_decode_range(DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U, DSHOT_DMA_CAPTURE_BUFFER_SIZE);
+  }
+}
+
+void PWM_DUTY_INPUT_IRQ(void)
+{
+  if (PWM_DUTY_INPUT_TIMER->ists_bit.ovfif && PWM_DUTY_INPUT_TIMER->iden_bit.ovfien)
+  {
+    tmr_flag_clear(PWM_DUTY_INPUT_TIMER, TMR_OVF_FLAG);
+    dshot_frame_accumulator = 0;
+    dshot_frame_bit_count = 0;
+    dshot_expect_falling_edge = FALSE;
+    dshot_frame_synced = FALSE;
+    dshot_no_signal_counter++;
+
+    if(dshot_no_signal_counter >= DSHOT600_SIGNAL_LOSS_COUNT)
+    {
+      speed_ramp.cmd_final = 0;
+      start_stop_btn_flag = RESET;
+      dshot_no_signal_counter = DSHOT600_SIGNAL_LOSS_COUNT;
+    }
+  }
+}
+
+#if 0
+
 void PWM_DUTY_INPUT_IRQ(void)
 {
   uint16_t capture_value, pin_state;
@@ -495,4 +632,4 @@ void PWM_DUTY_INPUT_IRQ(void)
   }
 }
 #endif
-
+#endif

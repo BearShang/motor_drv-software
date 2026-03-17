@@ -411,7 +411,6 @@ void PWM_DUTY_INPUT_IRQ(void)
   uint16_t capture_value, pin_state;
   uint16_t edge_ticks;
   uint16_t throttle_value;
-  uint8_t bit_index;
   static uint16_t dshot_frame;
   static uint16_t last_capture_value;
   static uint8_t frame_bit_count;
@@ -426,21 +425,16 @@ void PWM_DUTY_INPUT_IRQ(void)
     pin_state = gpio_input_data_bit_read(PWM_DUTY_INPUT_PORT, PWM_DUTY_INPUT_GPIO_PIN);
     edge_ticks = (uint16_t)(capture_value - last_capture_value);
     last_capture_value = capture_value;
-    no_signal_counter = 0;
 
     if (pin_state != RESET) // 上升沿选择
     {
       if (edge_ticks >= DSHOT600_FRAME_GAP_TICKS) //位与位之间间隔长了,丢掉之前的数据,认为是新的一帧开始了
       {
+        dshot_frame = 0;
         frame_bit_count = 0;
       }
-
-      if (frame_bit_count == 0)
-      {
-        last_capture_value = 0; // 在帧开始时重置计数器，以确保正确测量每个比特的持续时间
-      }
     }
-    else if (frame_bit_count < DSHOT600_FRAME_BITS + 1) // 下降沿选择，且当前帧未接收完成
+    else if (frame_bit_count < DSHOT600_FRAME_BITS) // 下降沿选择，且当前帧未接收完成
     {
       dshot_frame <<= 1; // 将之前接收的位左移，为新位腾出空间
 
@@ -450,11 +444,12 @@ void PWM_DUTY_INPUT_IRQ(void)
       }
       frame_bit_count++;
 
-      if (frame_bit_count >= DSHOT600_FRAME_BITS + 1)   // 当接收到完整的DSHOT帧时，进行解码和验证
+      if (frame_bit_count >= DSHOT600_FRAME_BITS)   // 当接收到完整的DSHOT帧时，进行解码和验证
       {
         if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
         {
           throttle_value = (uint16_t)(dshot_frame >> 5);
+          no_signal_counter = 0;
 
           if (throttle_value >= DSHOT_CMD_MIN)
           {
@@ -463,8 +458,9 @@ void PWM_DUTY_INPUT_IRQ(void)
               throttle_value = DSHOT_CMD_MAX;
             }
 
-            speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
-                                   (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
+            // speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
+            //                        (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
+            speed_ramp.cmd_final = dshot_frame; // for debug
             start_stop_btn_flag = SET;
           }
           else

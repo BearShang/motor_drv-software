@@ -390,72 +390,158 @@ void ADVTMR_CH1_EMF_PULL_IRQ(void)
   }
 }
 
-#if defined PWM_INPUT
-flag_status is_first_capture = SET;
-void PWM_DUTY_INPUT_IRQ(void)
+#if defined DSHOT600_INPUT
+static uint8_t dshot_checksum(uint16_t frame_value)
 {
-  int32_t pulse_width;
-  uint16_t capture_value, pwn_in_period, pin_state, duty_cycle;
-  static uint16_t no_signal_counter;
+  uint8_t checksum = 0;
+  uint8_t i;
 
-  if (tmr_flag_get(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG) != RESET)
+  frame_value >>= 4;
+  for (i = 0; i < 3; i++)
   {
-    /* clear flags of ch1 events */
-    tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
+    checksum ^= (uint8_t)(frame_value & 0x0F);
+    frame_value >>= 4;
+  }
 
-    capture_value = tmr_channel_value_get(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_SELECT_CHANNEL);
-    pin_state = gpio_input_data_bit_read(PWM_DUTY_INPUT_PORT, PWM_DUTY_INPUT_GPIO_PIN);
-    pulse_width = (int32_t) capture_value - pwm_in_pulse_rising_old;
+  return (uint8_t)(checksum & 0x0F);
+}
 
-    if (pulse_width < 0)
+static uint16_t dshot_last_capture_value;
+static uint16_t dshot_frame_accumulator;
+static uint8_t dshot_frame_bit_count;
+static uint8_t dshot_expect_falling_edge;
+static uint8_t dshot_frame_synced;
+static uint16_t dshot_no_signal_counter;
+
+static void dshot_frame_decode_and_apply(uint16_t dshot_frame)
+{
+  uint16_t throttle_value;
+
+  if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
+  {
+    dshot_debug_last_frame = dshot_frame;
+    throttle_value = (uint16_t)(dshot_frame >> 5);
+    dshot_debug_last_throttle = throttle_value;
+    dshot_debug_crc_ok_count++;
+    dshot_no_signal_counter = 0;
+
+    if (throttle_value >= DSHOT_CMD_MIN)
     {
-      pulse_width += 0xFFFF;
-    }
+      if (throttle_value > DSHOT_CMD_MAX)
+      {
+        throttle_value = DSHOT_CMD_MAX;
+      }
 
-    if(is_first_capture)
-    {
-      is_first_capture = RESET;
-      PWM_DUTY_INPUT_TIMER -> cval = 0;
+      speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
+                             (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
+      start_stop_btn_flag = SET;
     }
     else
-    {
-      if (pin_state != RESET)
-      {
-        pwn_in_period = (uint16_t) pulse_width;
-
-        duty_cycle = (uint16_t)((((uint32_t) pwm_in_high_width << 15) - 1) / pwn_in_period);
-
-        if (duty_cycle >= PWM_IN_START_DUTY)
-        {
-          speed_ramp.cmd_final = (duty_cycle * MAX_SPEED_RPM) >> 15;
-          start_stop_btn_flag = SET;
-        }
-        else if (duty_cycle <= PWM_IN_STOP_DUTY)
-        {
-          speed_ramp.cmd_final = 0;
-          start_stop_btn_flag = RESET;
-        }
-
-        pwm_in_pulse_rising_old = capture_value;
-        no_signal_counter = 0;
-      }
-      else
-      {
-        pwm_in_high_width = (uint16_t) pulse_width;
-      }
-    }
-  }
-  if (PWM_DUTY_INPUT_TIMER->ists_bit.ovfif && PWM_DUTY_INPUT_TIMER->iden_bit.ovfien)
-  {
-    /* clear flags of overflow events */
-    tmr_flag_clear(PWM_DUTY_INPUT_TIMER, TMR_OVF_FLAG);
-    no_signal_counter++;
-    if(no_signal_counter >= 3)
     {
       speed_ramp.cmd_final = 0;
       start_stop_btn_flag = RESET;
     }
   }
+  else
+  {
+    dshot_debug_crc_fail_count++;
+  }
 }
-#endif
 
+static void dshot_capture_decode_range(uint16_t start_index, uint16_t end_index)
+{
+  uint16_t index;
+  uint16_t capture_value;
+  uint16_t edge_ticks;
+
+  for (index = start_index; index < end_index; index++)
+  {
+    capture_value = dshot_dma_capture_buffer[index];
+    edge_ticks = (uint16_t)(capture_value - dshot_last_capture_value);
+    dshot_last_capture_value = capture_value;
+
+    if (edge_ticks >= DSHOT600_FRAME_GAP_TICKS)
+    {
+      dshot_frame_accumulator = 0;
+      dshot_frame_bit_count = 0;
+      dshot_expect_falling_edge = TRUE;
+      dshot_frame_synced = TRUE;
+      continue;
+    }
+
+    if (dshot_frame_synced == FALSE)
+    {
+      continue;
+    }
+
+    if (dshot_expect_falling_edge != FALSE)
+    {
+      dshot_frame_accumulator <<= 1;
+      if (edge_ticks >= DSHOT600_ONE_THRESHOLD)
+      {
+        dshot_frame_accumulator |= 1U;
+      }
+      dshot_frame_bit_count++;
+      dshot_expect_falling_edge = FALSE;
+
+      if (dshot_frame_bit_count >= DSHOT600_FRAME_BITS)
+      {
+        dshot_frame_decode_and_apply(dshot_frame_accumulator);
+        dshot_frame_accumulator = 0;
+        dshot_frame_bit_count = 0;
+      }
+    }
+    else
+    {
+      dshot_expect_falling_edge = TRUE;
+    }
+  }
+}
+
+void DMA_DSHOT_INPUT_IRQHandler(void)
+{
+  tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
+
+  if (dma_flag_get(DMA_DSHOT_INPUT_DTERR_FLAG) != RESET)  // DMA传输错误
+  {
+    dma_flag_clear(DMA_DSHOT_INPUT_DTERR_FLAG);
+    dshot_debug_dma_error_count++;
+  }
+
+  if (dma_flag_get(DMA_DSHOT_INPUT_HDT_FLAG) != RESET)  // DMA半传输完成，表示前半部分数据已经准备好，可以开始解码前半部分数据了
+  {
+    dma_flag_clear(DMA_DSHOT_INPUT_HDT_FLAG);
+    dshot_capture_decode_range(0, DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U);
+  }
+
+  if (dma_flag_get(DMA_DSHOT_INPUT_FDT_FLAG) != RESET)  // DMA传输完成，表示后半部分数据也准备好，可以继续解码后半部分数据了
+  {
+    dma_flag_clear(DMA_DSHOT_INPUT_FDT_FLAG);
+    dshot_capture_decode_range(DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U, DSHOT_DMA_CAPTURE_BUFFER_SIZE);
+  }
+}
+
+void PWM_DUTY_INPUT_IRQ(void)
+{
+  if (PWM_DUTY_INPUT_TIMER->ists_bit.ovfif && PWM_DUTY_INPUT_TIMER->iden_bit.ovfien)  // 当定时器溢出时，表示在预定的时间内未接收到完整的DSHOT帧，可能是信号丢失或干扰导致的
+  {
+    tmr_flag_clear(PWM_DUTY_INPUT_TIMER, TMR_OVF_FLAG);
+    dshot_frame_accumulator = 0;
+    dshot_frame_bit_count = 0;
+    dshot_expect_falling_edge = FALSE;
+    dshot_frame_synced = FALSE;
+    dshot_no_signal_counter++;
+
+    if(dshot_no_signal_counter >= DSHOT600_SIGNAL_LOSS_COUNT)
+    {
+      //speed_ramp.cmd_final = 0;
+      start_stop_btn_flag = RESET;
+      dshot_no_signal_counter = DSHOT600_SIGNAL_LOSS_COUNT;
+    }
+  }
+}
+
+#if 0
+
+#endif
+#endif

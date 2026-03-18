@@ -220,7 +220,18 @@ extern "C" {
 #define PWM_DUTY_INPUT_IRQn            TMR4_GLOBAL_IRQn
 #define PWM_DUTY_INPUT_FLAG            TMR_C3_FLAG
 #define PWM_DUTY_INPUT_INT             TMR_C3_INT
-#define TMR_PWM_DUTY_INPUT_FILTER      0xF												/* 0x0 ~ 0xF */
+#define TMR_PWM_DUTY_INPUT_FILTER      0x1                      /* 0x0 ~ 0xF */
+
+#define DMA_DSHOT_INPUT                DMA1
+#define DMA_DSHOT_INPUT_CRM_CLK        CRM_DMA1_PERIPH_CLOCK
+#define DMA_CHANNEL_DSHOT_INPUT        DMA1_CHANNEL7
+#define DMA_DSHOT_INPUT_FLEX           DMAMUX_DMAREQ_ID_TMR4_CH3
+#define DMA_DSHOT_INPUT_FLEX_CH        DMA1MUX_CHANNEL7
+#define DMA_DSHOT_INPUT_IRQn           DMA1_Channel7_IRQn
+#define DMA_DSHOT_INPUT_IRQHandler     DMA1_Channel7_IRQHandler
+#define DMA_DSHOT_INPUT_FDT_FLAG       DMA1_FDT7_FLAG
+#define DMA_DSHOT_INPUT_HDT_FLAG       DMA1_HDT7_FLAG
+#define DMA_DSHOT_INPUT_DTERR_FLAG     DMA1_DTERR7_FLAG
 
 #define PWM_DUTY_INPUT_GPIO_CRM_CLK      CRM_GPIOB_PERIPH_CLOCK
 #define PWM_DUTY_INPUT_PORT              GPIOB
@@ -465,8 +476,8 @@ void tmr_read_emf_init(void);
 void tmr_hall_init(void);
 /* timer init function for PWM */
 void tmr_pwm_init(void);
-/* timer init function for PWM input */
-void pwm_in_timer_init(void);
+/* timer init function for DSHOT input */
+void dshot_input_timer_init(void);
 /* timer init function for change phase */
 void tmr_sensorless_change_phase_init(void);
 /* timer init function for read EMF */

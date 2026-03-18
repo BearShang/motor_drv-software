@@ -6,5 +6,6 @@
         "cstdlib": "c",
         "compare": "c",
         "mc_lib.h": "c"
-    }
+    },
+    "cmake.ignoreCMakeListsMissing": true
 }

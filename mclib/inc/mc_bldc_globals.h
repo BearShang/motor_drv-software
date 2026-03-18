@@ -79,6 +79,18 @@ extern "C" {
 #define PWM_IN_GAIN                (512)
 #define PWM_IN_GAIN_LOG            (LOG2(PWM_IN_GAIN))
 #endif
+
+#if defined DSHOT600_INPUT
+#define DSHOT_DMA_CAPTURE_BUFFER_SIZE  (256U)
+
+extern volatile uint16_t dshot_dma_capture_buffer[DSHOT_DMA_CAPTURE_BUFFER_SIZE];
+extern volatile uint16_t dshot_debug_last_frame;
+extern volatile uint16_t dshot_debug_last_throttle;
+extern volatile uint32_t dshot_debug_crc_ok_count;
+extern volatile uint32_t dshot_debug_crc_fail_count;
+extern volatile uint32_t dshot_debug_dma_error_count;
+#endif
+
 /* SP */
 #define SP_OFFSET                  ((int16_t)(4095.0f*SP_THRESHOLD/3.3f))
 #define SP_RUN_POINT               ((int16_t)(4095.0f*(SP_RUN_VALUE-SP_THRESHOLD)/3.3f))

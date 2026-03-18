@@ -4,11 +4,6 @@
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_adc.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\device_support\at32m412_416.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\core_cm4.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
-  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\cmsis_version.h \
-  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\cmsis_compiler.h \
-  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\cmsis_armclang.h \
-  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\mpu_armv7.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\device_support\system_at32m412_416.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_def.h \
   ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_can.h \

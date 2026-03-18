@@ -71,9 +71,10 @@ void nvic_config(void)
   nvic_irq_enable(ADVTMR_CH1_EMF_PULL_IRQn, 5, 0);
 #endif
 #endif
-#if defined PWM_INPUT
-  /* pwm in interrupt nvic init */
+#if defined DSHOT600_INPUT
+  /* dshot input interrupt nvic init */
   nvic_irq_enable(PWM_DUTY_INPUT_IRQn, 6, 0);
+  nvic_irq_enable(DMA_DSHOT_INPUT_IRQn, 6, 1);
 #endif
   /* systick nvic init */
   nvic_irq_enable(SysTick_IRQn, 7, 0);
@@ -295,19 +296,21 @@ void tmr_comp_capture_init()
 }
 
 /**
-  * @brief  Initialize the timer for PWM input measurement.
+  * @brief  Initialize the timer for DSHOT600 input measurement.
   * @param  none
   * @retval none
   */
-void pwm_in_timer_init(void)
+void dshot_input_timer_init(void)
 {
   gpio_init_type gpio_init_struct = {0};
   tmr_input_config_type tmr_ic_init_structure;
+  dma_init_type dma_init_struct;
 
   crm_periph_clock_enable(PWM_DUTY_INPUT_CRM_CLK, TRUE);
   crm_periph_clock_enable(PWM_DUTY_INPUT_GPIO_CRM_CLK, TRUE);
+  crm_periph_clock_enable(DMA_DSHOT_INPUT_CRM_CLK, TRUE);
 
-  /* pwm in sensor pin Configuration */
+  /* dshot input pin Configuration */
   gpio_default_para_init(&gpio_init_struct);
   gpio_init_struct.gpio_pins = PWM_DUTY_INPUT_GPIO_PIN;
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
@@ -319,11 +322,11 @@ void pwm_in_timer_init(void)
   /* remap pwm input pin */
   gpio_pin_mux_config(PWM_DUTY_INPUT_PORT, PWM_DUTY_INPUT_GPIO_PIN_SOURCE, PWM_DUTY_INPUT_IOMUX);
 
-  /* pwm in timer configuration */
-  tmr_base_init(PWM_DUTY_INPUT_TIMER, MAX_CAP_COUNT, 179);
+  /* dshot input timer configuration */
+  tmr_base_init(PWM_DUTY_INPUT_TIMER, MAX_CAP_COUNT, DSHOT_INPUT_TIMER_DIV);
   tmr_cnt_dir_set(PWM_DUTY_INPUT_TIMER, TMR_COUNT_UP);
 
-  /* config ch1 as input source */
+  /* capture both edges into the same timer channel and stream timestamps through DMA */
   tmr_input_default_para_init(&tmr_ic_init_structure);
   tmr_ic_init_structure.input_channel_select = PWM_DUTY_INPUT_SELECT_CHANNEL;
   tmr_ic_init_structure.input_mapped_select = TMR_CC_CHANNEL_MAPPED_DIRECT;
@@ -331,14 +334,37 @@ void pwm_in_timer_init(void)
   tmr_ic_init_structure.input_filter_value = TMR_PWM_DUTY_INPUT_FILTER;
   tmr_input_channel_init(PWM_DUTY_INPUT_TIMER, &tmr_ic_init_structure, TMR_CHANNEL_INPUT_DIV_1);
 
-  /* clear interrupt flag of pwm in timer */
-  tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
+  dma_reset(DMA_CHANNEL_DSHOT_INPUT);
+  dma_default_para_init(&dma_init_struct);
+  dma_init_struct.buffer_size = DSHOT_DMA_CAPTURE_BUFFER_SIZE;
+  dma_init_struct.direction = DMA_DIR_PERIPHERAL_TO_MEMORY;
+  dma_init_struct.memory_base_addr = (uint32_t)dshot_dma_capture_buffer;
+  dma_init_struct.memory_data_width = DMA_MEMORY_DATA_WIDTH_HALFWORD;
+  dma_init_struct.memory_inc_enable = TRUE;
+  dma_init_struct.peripheral_base_addr = (uint32_t)&(PWM_DUTY_INPUT_TIMER->c3dt);
+  dma_init_struct.peripheral_data_width = DMA_PERIPHERAL_DATA_WIDTH_HALFWORD;
+  dma_init_struct.peripheral_inc_enable = FALSE;
+  dma_init_struct.priority = DMA_PRIORITY_VERY_HIGH;
+  dma_init_struct.loop_mode_enable = TRUE;
+  dma_init(DMA_CHANNEL_DSHOT_INPUT, &dma_init_struct);
+  dma_interrupt_enable(DMA_CHANNEL_DSHOT_INPUT, DMA_HDT_INT | DMA_FDT_INT | DMA_DTERR_INT, TRUE);
 
-  /* enable CH1 and overflow interrupt of pwm in timer */
-  tmr_interrupt_enable(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_INT, TRUE);
+  dmamux_enable(DMA_DSHOT_INPUT, TRUE);
+  dmamux_init(DMA_DSHOT_INPUT_FLEX_CH, DMA_DSHOT_INPUT_FLEX);
+
+  tmr_channel_dma_select(PWM_DUTY_INPUT_TIMER, TMR_DMA_REQUEST_BY_CHANNEL);
+  tmr_dma_request_enable(PWM_DUTY_INPUT_TIMER, TMR_C3_DMA_REQUEST, TRUE);
+
+  /* clear interrupt flag of dshot input timer */
+  tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
+  tmr_flag_clear(PWM_DUTY_INPUT_TIMER, TMR_OVF_FLAG);
+
+  /* keep only overflow interrupt for signal-loss detection */
+  tmr_interrupt_enable(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_INT, FALSE);
   tmr_interrupt_enable(PWM_DUTY_INPUT_TIMER, TMR_OVF_INT, TRUE);
 
-  /* enable pwm in timer */
+  dma_channel_enable(DMA_CHANNEL_DSHOT_INPUT, TRUE);
+  /* enable dshot input timer */
   tmr_counter_enable(PWM_DUTY_INPUT_TIMER, TRUE);
 }
 

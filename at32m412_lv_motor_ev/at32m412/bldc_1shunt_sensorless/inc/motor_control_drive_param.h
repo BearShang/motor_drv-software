@@ -76,8 +76,8 @@ extern "C" {
 
 /* choose how to start up */
 //#define INIT_ANGLE_STARTUP
-//#define ALIGN_AND_GO_STARTUP
-#define OPENLOOP_STARTUP
+#define ALIGN_AND_GO_STARTUP
+//#define OPENLOOP_STARTUP
 #endif
 
 #ifdef BLDC_SENSORLESS_COMP
@@ -211,14 +211,14 @@ extern "C" {
 #endif
 
 /* Bus voltage */
-#define OVER_VOLT_THRESHOLD       (17)          /*!< V */
-#define UNDER_VOLT_THRESHOLD      (12)          /*!< V */
+#define OVER_VOLT_THRESHOLD       (20)          /*!< V */
+#define UNDER_VOLT_THRESHOLD      (10)          /*!< V */
 /* Temperature sensing section */
 /* V[V]=V0+dV/dT[V/Celsius]*(T-T0)[Celsius]*/
 #define V0_V                      (2.5385)      /*!< in Volts */
 #define T0_C                      (25)          /*!< in Celsius degrees */
 #define dV_dT                     (-0.0228)     /*!< V/Celsius degrees */
-#define OVER_TEMP_THRESHOLD       (70)          /*!< Celsius degrees */
+#define OVER_TEMP_THRESHOLD       (100)          /*!< Celsius degrees */
 /* error code mask */
 #define MC_ERROR_MASK             (err_code_type) (MC_OVER_VOLT_ERROR | MC_UNDER_VOLT_ERROR | MC_OVER_TEMP_ERROR | MC_OVER_CURRENT_ERROR | MC_ENCODER_ERROR | MC_HALL_ERROR | MC_PARAM_IDENT_ERROR | MC_HALL_LEARN_ERROR)
 
@@ -246,7 +246,7 @@ extern "C" {
 #define REBOOT_PERIOD_MS           (1000)     /*!< msec */
 /* START-UP PARAMETER */
 #define START_CURRENT              (0.2)      /*!< A */
-#define START_VOLTAGE              (0.05)      /*!< V */
+#define START_VOLTAGE              (0.5)      /*!< V */
 /* SPEED */
 #define SPEED_FILTER_TIMES         (6)
 #define SPD_LP_BANDWIDTH           (300.0f)   /* 2*pi*freq */
@@ -262,8 +262,8 @@ extern "C" {
 #else
 #define MIN_SPEED_RPM              (350)      /*!< rpm */
 #endif
-#define MAX_SPEED_RPM              (11900)     /*!< rpm */
-#define MAX_CCW_SPEED_RPM          (11900)     /*!< rpm */
+#define MAX_SPEED_RPM              (7000)     /*!< rpm */
+#define MAX_CCW_SPEED_RPM          (7000)     /*!< rpm */
 
 #define ACC_SPD_SLOPE              (5)        /*!< rpm/ms */
 #define DEC_SPD_SLOPE              (5)
@@ -305,8 +305,8 @@ extern "C" {
 /* open loop start-up */
 #define OLC_STARTUP_PERIOD         (1500)     /*!< msec */
 /* align and go start-up */
-#define LOCK_VOLT                  (2.5)     /*!< 启动前转子对齐电压V */
-#define LOCK_PERIOD                (500)     /*!< 启动前转子对齐时间msec */
+#define LOCK_VOLT                  (0.5)     /*!< 启动前转子对齐电压V */
+#define LOCK_PERIOD                (200)     /*!< 启动前转子对齐时间msec */
 /* hall learning可能用于霍尔自学习，用不上 */
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */

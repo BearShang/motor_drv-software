@@ -502,19 +502,19 @@ void DMA_DSHOT_INPUT_IRQHandler(void)
 {
   tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
 
-  if (dma_flag_get(DMA_DSHOT_INPUT_DTERR_FLAG) != RESET)
+  if (dma_flag_get(DMA_DSHOT_INPUT_DTERR_FLAG) != RESET)  // DMA传输错误
   {
     dma_flag_clear(DMA_DSHOT_INPUT_DTERR_FLAG);
     dshot_debug_dma_error_count++;
   }
 
-  if (dma_flag_get(DMA_DSHOT_INPUT_HDT_FLAG) != RESET)
+  if (dma_flag_get(DMA_DSHOT_INPUT_HDT_FLAG) != RESET)  // DMA半传输完成，表示前半部分数据已经准备好，可以开始解码前半部分数据了
   {
     dma_flag_clear(DMA_DSHOT_INPUT_HDT_FLAG);
     dshot_capture_decode_range(0, DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U);
   }
 
-  if (dma_flag_get(DMA_DSHOT_INPUT_FDT_FLAG) != RESET)
+  if (dma_flag_get(DMA_DSHOT_INPUT_FDT_FLAG) != RESET)  // DMA传输完成，表示后半部分数据也准备好，可以继续解码后半部分数据了
   {
     dma_flag_clear(DMA_DSHOT_INPUT_FDT_FLAG);
     dshot_capture_decode_range(DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U, DSHOT_DMA_CAPTURE_BUFFER_SIZE);
@@ -523,7 +523,7 @@ void DMA_DSHOT_INPUT_IRQHandler(void)
 
 void PWM_DUTY_INPUT_IRQ(void)
 {
-  if (PWM_DUTY_INPUT_TIMER->ists_bit.ovfif && PWM_DUTY_INPUT_TIMER->iden_bit.ovfien)
+  if (PWM_DUTY_INPUT_TIMER->ists_bit.ovfif && PWM_DUTY_INPUT_TIMER->iden_bit.ovfien)  // 当定时器溢出时，表示在预定的时间内未接收到完整的DSHOT帧，可能是信号丢失或干扰导致的
   {
     tmr_flag_clear(PWM_DUTY_INPUT_TIMER, TMR_OVF_FLAG);
     dshot_frame_accumulator = 0;
@@ -534,7 +534,7 @@ void PWM_DUTY_INPUT_IRQ(void)
 
     if(dshot_no_signal_counter >= DSHOT600_SIGNAL_LOSS_COUNT)
     {
-      speed_ramp.cmd_final = 0;
+      //speed_ramp.cmd_final = 0;
       start_stop_btn_flag = RESET;
       dshot_no_signal_counter = DSHOT600_SIGNAL_LOSS_COUNT;
     }
@@ -543,93 +543,5 @@ void PWM_DUTY_INPUT_IRQ(void)
 
 #if 0
 
-void PWM_DUTY_INPUT_IRQ(void)
-{
-  uint16_t capture_value, pin_state;
-  uint16_t edge_ticks;
-  uint16_t throttle_value;
-  static uint16_t dshot_frame;
-  static uint16_t last_capture_value;
-  static uint8_t frame_bit_count;
-  static uint16_t no_signal_counter;
-
-  if (tmr_flag_get(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG) != RESET)
-  {
-    /* clear flags of ch1 events */
-    tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
-
-    capture_value = tmr_channel_value_get(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_SELECT_CHANNEL);
-    pin_state = gpio_input_data_bit_read(PWM_DUTY_INPUT_PORT, PWM_DUTY_INPUT_GPIO_PIN);
-    edge_ticks = (uint16_t)(capture_value - last_capture_value);
-    last_capture_value = capture_value;
-
-    if (pin_state != RESET) // 上升沿选择
-    {
-      if (edge_ticks >= DSHOT600_FRAME_GAP_TICKS) //位与位之间间隔长了,丢掉之前的数据,认为是新的一帧开始了
-      {
-        dshot_frame = 0;
-        frame_bit_count = 0;
-      }
-    }
-    else if (frame_bit_count < DSHOT600_FRAME_BITS) // 下降沿选择，且当前帧未接收完成
-    {
-      dshot_frame <<= 1; // 将之前接收的位左移，为新位腾出空间
-
-      if(edge_ticks >= DSHOT600_ONE_THRESHOLD)
-      {
-        dshot_frame |= 1U;
-      }
-      frame_bit_count++;
-
-      if (frame_bit_count >= DSHOT600_FRAME_BITS)   // 当接收到完整的DSHOT帧时，进行解码和验证
-      {
-        if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
-        {
-          dshot_debug_last_frame = dshot_frame;
-          throttle_value = (uint16_t)(dshot_frame >> 5);
-          dshot_debug_last_throttle = throttle_value;
-          dshot_debug_crc_ok_count++;
-          no_signal_counter = 0;
-
-          if (throttle_value >= DSHOT_CMD_MIN)
-          {
-            if (throttle_value > DSHOT_CMD_MAX)
-            {
-              throttle_value = DSHOT_CMD_MAX;
-            }
-
-            speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
-                                   (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
-            start_stop_btn_flag = SET;
-          }
-          else
-          {
-            speed_ramp.cmd_final = 0;
-            start_stop_btn_flag = RESET;
-          }
-        }
-        else
-        {
-          dshot_debug_crc_fail_count++;
-        }
-
-          dshot_frame = 0;
-          frame_bit_count = 0;
-      }
-    }
-  }
-  if (PWM_DUTY_INPUT_TIMER->ists_bit.ovfif && PWM_DUTY_INPUT_TIMER->iden_bit.ovfien)  // 当定时器溢出时，表示在预定的时间内未接收到完整的DSHOT帧，可能是信号丢失或干扰导致的
-  {
-    /* clear flags of overflow events */
-    tmr_flag_clear(PWM_DUTY_INPUT_TIMER, TMR_OVF_FLAG);
-    no_signal_counter++;
-    frame_bit_count = 0;
-    if(no_signal_counter >= DSHOT600_SIGNAL_LOSS_COUNT)
-    {
-      speed_ramp.cmd_final = 0;
-      start_stop_btn_flag = RESET;
-    }
-  }
-}
 #endif
 #endif

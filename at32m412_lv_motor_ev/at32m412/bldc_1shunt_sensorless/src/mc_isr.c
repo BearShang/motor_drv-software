@@ -419,10 +419,10 @@ static void dshot_frame_decode_and_apply(uint16_t dshot_frame)
 
   if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
   {
-    dshot_debug_last_frame = dshot_frame;
+    //dshot_debug_last_frame = dshot_frame;
     throttle_value = (uint16_t)(dshot_frame >> 5);
-    dshot_debug_last_throttle = throttle_value;
-    dshot_debug_crc_ok_count++;
+    //dshot_debug_last_throttle = throttle_value;
+    //dshot_debug_crc_ok_count++;
     dshot_no_signal_counter = 0;
 
     if (throttle_value >= DSHOT_CMD_MIN)
@@ -442,10 +442,10 @@ static void dshot_frame_decode_and_apply(uint16_t dshot_frame)
       start_stop_btn_flag = RESET;
     }
   }
-  else
-  {
-    dshot_debug_crc_fail_count++;
-  }
+  // else
+  // {
+  //   dshot_debug_crc_fail_count++;
+  // }
 }
 
 static void dshot_capture_decode_range(uint16_t start_index, uint16_t end_index)

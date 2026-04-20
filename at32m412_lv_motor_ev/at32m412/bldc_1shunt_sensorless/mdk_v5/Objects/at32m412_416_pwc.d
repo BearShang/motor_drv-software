@@ -1,0 +1,29 @@
+./objects/at32m412_416_pwc.o: \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\src\at32m412_416_pwc.c \
+  ..\inc\at32m412_416_conf.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_adc.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\device_support\at32m412_416.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\core_support\core_cm4.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\cmsis\cm4\device_support\system_at32m412_416.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_def.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_can.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_cmp.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_crc.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_crm.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_dac.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_debug.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_dma.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_ertc.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_exint.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_flash.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_gpio.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_i2c.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_misc.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_op.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_pwc.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_scfg.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_spi.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_tmr.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_usart.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wwdt.h \
+  ..\..\..\..\libraries\AT32M412_416_Firmware_Library\drivers\inc\at32m412_416_wdt.h

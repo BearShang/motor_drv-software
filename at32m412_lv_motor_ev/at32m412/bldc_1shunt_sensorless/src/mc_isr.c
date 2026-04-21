@@ -23,6 +23,10 @@
   */
 
 #include "mc_lib.h"
+#include <stdbool.h>
+
+// 函数声明
+extern void send_telemetry_nrz(uint16_t telemetry_data);
 
 int16_t *EmfContSampleEnd[2] = {&(lowspd_sample_end), &(highspd_sample_end)};
 flag_status detect_zcp_flag = RESET;
@@ -122,6 +126,7 @@ void ADVTMR_PWM_CYCLE_IRQ(void)
       calc_adc_sample_point(&adc_sample, pwm_comp_value);
 #if defined (BLDC_SENSORLESS_COMP)
       adc_sample.ADC_TMRx->c4dt = adc_sample.current_sampling_point;
+			blank_trigger.sample_point[1] = pwm_comp_value-BLANK_TIME_OFFSET;//官方人员修改的
 #else
       set_adc_sample_point(&adc_sample);
 #endif
@@ -320,7 +325,7 @@ void ADC_SHUNT_SAMP_READY_IRQ(void)
 }
 #endif
 
-
+volatile uint32_t system_time_ms;
 /**
   * @brief  this function handles systick handler.
   * @param  none
@@ -329,7 +334,17 @@ void ADC_SHUNT_SAMP_READY_IRQ(void)
 void SysTick_Handler(void)
 {
   static uint16_t led_blink_cnt = 0;
-
+//		#if defined(DSHOT_SENDER) && !defined(DSHOT_RECEIVER)
+//		dshot_send_packet(2047,0);
+//    #endif
+//		#if defined(DSHOT_RECEIVER) && defined(DSHOT_SENDER) && defined(DSHOT_BIDIRECTIONAL_INIT_SENDER)
+//    {
+// 
+//      // 1ms启动一次dshot波形发送
+//      dshot_sender.state = DSHOT_TX_STATE_SENDING_WAVEFORM;
+//      dshot_send_packet(2047, 0);  // 发送DShot波形
+//    }
+//    #endif
   if(ctrl_source == CTRL_SOURCE_EXTERNAL)
   {
     external_input_handler();
@@ -390,7 +405,260 @@ void ADVTMR_CH1_EMF_PULL_IRQ(void)
   }
 }
 
-#if defined DSHOT600_INPUT
+#if  defined DSHOT600_INPUT || defined DSHOT600_BIDIRECTIONAL
+ 
+extern volatile uint8_t dshot_bidir_state;
+// GCR解码查找表（5位GCR -> 4位数据，255表示无效）
+const uint8_t gcr_decode[32] = {
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,  // 0-7
+    0xFF, 0x09, 0x0A, 0x0B, 0xFF, 0x0D, 0x0E, 0x0F,  // 8-15
+    0xFF, 0xFF, 0x02, 0x03, 0xFF, 0x05, 0x06, 0x07,  // 16-23
+    0xFF, 0x00, 0x08, 0x01, 0xFF, 0x04, 0x0C, 0xFF   // 24-31
+};
+/**
+ * @brief  计算双向DShot接收的CRC校验和（取反）
+ * @param  data: 16油门值或命令（0-2047）
+ * @param  request_telemetry: 是否请求遥测
+ * @return 4位CRC校验和（已取反）
+ * @note   双向DShot的CRC需要取反，与标准DShot不同
+ */
+static uint8_t dshot_bidir_calculate_crc(uint16_t data)
+{
+    uint8_t crc = 0;
+    // 构建基本数据包：值左移1位，最低位为遥测请求位
+    uint16_t packet = data >> 4;
+    
+    // 计算4位校验和
+   crc = (packet ^ (packet >> 4) ^ (packet >> 8)) & 0x0F;
+   crc = ~crc & 0x0F; // 飞控使用的是取反后的CRC
+    
+    return (uint8_t)crc;
+}
+ /**
+  * @brief  计算DShot数据的CRC校验
+  * @param  data: 16位DShot数据
+  * @return 4位CRC校验值
+  */
+ uint8_t dshot_calculate_crc(uint16_t data)
+ {
+     uint8_t crc = 0;
+    
+     // 从原始数据中提取12位有效数据（去掉CRC位）
+     uint16_t temp = data >> 4;
+ 		// 普通DSHOT CRC算法
+ 		// CRC计算公式: crc = (data ^ (data >> 4) ^ (data >> 8)) & 0x0F
+ 		// DShot协议使用简单的3级XOR校验
+ 		crc = temp ^ (temp >> 4) ^ (temp >> 8);
+ 		crc &= 0x0F; // 保留低4位作为CRC
+     return crc;
+ }
+/**
+ * @brief  计算双向DShot发送端的CRC校验和（取反）
+ * @param  value: 11位油门值或命令（0-2047）
+ * @param  request_telemetry: 是否请求遥测
+ * @return 4位CRC校验和（已取反）
+ * @note   双向DShot的CRC需要取反，与标准DShot不同
+ */
+static uint8_t dshot_bidir_calculate_crc_tx(uint16_t value, bool request_telemetry)
+{
+    // 构建基本数据包：值左移1位，最低位为遥测请求位
+    uint16_t packet = (value << 1) | (request_telemetry ? 1 : 0);
+    
+    // 计算4位校验和
+    unsigned csum = 0;
+    unsigned csum_data = packet;
+    for (int i = 0; i < 3; i++) {
+        csum ^= (csum_data & 0x0F);  // 按半字节异或
+        csum_data >>= 4;
+    }
+    
+    // 双向DShot：CRC取反（关键区别！）
+    csum = ~csum & 0x0F;
+    
+    return (uint8_t)csum;
+}
+
+/**
+ * @brief  准备双向DShot数据包
+ * @param  value: 油门值或命令（0-2047）
+ * @param  request_telemetry: 是否请求遥测
+ * @return 16位DShot数据包
+ * @note   双向DShot的CRC需要取反，与标准DShot不同
+ */
+static uint16_t dshot_bidir_prepare_packet(uint16_t value, bool request_telemetry)
+{
+    uint16_t packet = 0;
+    
+    // 将11位值左移1位，留出遥测请求位
+    packet = (value & 0x07FF) << 1;
+    
+    // 设置遥测请求位（位0）
+    if (request_telemetry) {
+        packet |= 0x01;
+    }
+    
+    // 计算并添加4位校验和到数据包末尾
+    uint8_t csum = dshot_bidir_calculate_crc_tx(value, request_telemetry);
+    packet = (packet << 4) | csum;
+    
+    return packet;
+}
+
+/**
+ * @brief  将双向DShot数据包编码为PWM脉冲（反相极性）
+ * @param  packet: 16位DShot数据包
+ * @param  buffer: 输出缓冲区
+ * @return 实际编码长度
+ * @note   双向DShot使用反相极性：空闲HIGH，1=LOW脉冲，0=HIGH脉冲
+ */
+static uint8_t dshot_bidir_encode_to_pwm(uint16_t packet, uint16_t *buffer)
+{
+    uint8_t index = 0;
+    
+    // 双向DShot：反相极性编码
+    // 从最高位(位15)到最低位(位0)依次编码每个位
+    for (int8_t i = 15; i >= 0; i--) {
+        uint16_t bit = (packet >> i) & 0x01;
+        
+        // 反相极性：
+        // - 比特1：较短的低电平脉冲（DSHOT_PULSE_0_COUNT）
+        // - 比特0：较长的高电平脉冲（DSHOT_PULSE_1_COUNT）
+        // 注意：这里使用PWM模式B或反转逻辑实现
+        if (bit) {
+            // 比特1：低电平脉冲（在PWM模式B下，设置较小的值产生低电平）
+            buffer[index++] = DSHOT600_BIT_TICKS - DSHOT600_ONE_THRESHOLD;
+        } else {
+            // 比特0：高电平脉冲
+            buffer[index++] = DSHOT600_BIT_TICKS - DSHOT_PULSE_0_COUNT;
+        }
+    }
+    
+    // 添加帧结束空闲周期（双向DShot空闲状态为HIGH）
+    for (uint8_t i = 0; i < 2; i++) {
+        buffer[index++] = DSHOT600_BIT_TICKS;  // 100%占空比（高电平）
+    }
+    
+    return index;
+}
+
+/**
+ * @brief  GCR解码函数（21位GCR -> 16位数据）
+ * @param  gcr_data: 21位GCR编码数据
+ * @return 16位解码后的数据
+ * @note   电调回传的遥测数据使用GCR编码
+ */
+uint16_t dshot_gcr_decode(uint32_t gcr_data)
+{
+    uint16_t result = 0;
+    uint8_t nibble;
+    
+    // GCR编码：每5位GCR对应4位数据
+    // 21位GCR = 4个数据半字节(20位) + 1位保留
+    for (int8_t i = 3; i >= 0; i--) {
+        uint8_t gcr_nibble = (gcr_data >> (i * 5 + 1)) & 0x1F;  // 提取5位GCR
+        nibble = gcr_decode[gcr_nibble];               // 查表解码
+        
+        if (nibble == 255) {
+            // 无效的GCR编码
+            return 0xFFFF;  // 返回错误标记
+        }
+        
+        result |= (nibble << (i * 4));  // 组合4位数据
+    }
+    
+    return result;
+}
+
+/**
+ * @brief  GCR编码函数（16位数据 -> 21位GCR）
+ * @param  data: 16位遥测数据
+ * @return 21位GCR编码数据
+ * @note   电调回传的遥测数据使用GCR编码
+ */
+static uint32_t dshot_gcr_encode(uint16_t data)
+{
+    uint32_t gcr_data = 0;
+    
+    // GCR编码：每4位数据对应5位GCR
+    // 16位数据 = 4个数据半字节
+    for (int8_t i = 3; i >= 0; i--) {
+        uint8_t nibble = (data >> (i * 4)) & 0x0F;  // 提取4位数据
+        uint8_t gcr_nibble = dshot_gcr_encode_lut[nibble];  // 查表编码
+        gcr_data = (gcr_data << 5) | gcr_nibble;  // 组合5位GCR
+    }
+    
+    // 确保第一bit是0，起始位在最高位(MSB，第20位)
+    // 格式：0(起始位) + GCR(20位)
+    // 注意：我们保持20位GCR数据，发送时从第20位开始，第20位发送0，然后是19-0位的GCR数据
+    gcr_data = gcr_data & 0xFFFFF;  // 确保只有20位GCR数据
+    
+    return gcr_data;
+}
+
+
+/**
+ * @brief  将机械 RPM 转换为电气周期（微秒）
+ */
+static uint32_t rpm_to_eperiod_us(uint16_t actual_rpm, uint16_t pole_pairs)
+{
+    uint32_t erpm = (uint32_t)actual_rpm * pole_pairs;
+    if (erpm == 0) return 0xFFFF;   // 停转
+    return 60000000UL / erpm;
+}
+
+/**
+ * @brief  将电气周期编码为 12 位指数-尾数格式
+ */
+static uint16_t eperiod_to_12bit(uint32_t eperiod_us)
+{
+    if (eperiod_us == 0) return 0;
+    uint8_t exp = 0;
+    uint32_t val = eperiod_us;
+    while (val >= 512 && exp < 7) {
+        val >>= 1;
+        exp++;
+    }
+    uint16_t mant = (uint16_t)val & 0x1FF;
+    return ((uint16_t)exp << 9) | mant;
+}
+
+/**
+ * @brief  计算 4 位 CRC（双向 DShot 取反）
+ */
+static uint8_t crc4_rev(uint16_t data_12bit)
+{
+    uint8_t crc = 0;
+    uint16_t tmp = data_12bit;
+    for (int i = 0; i < 3; i++) {
+        crc ^= (tmp & 0x0F);
+        tmp >>= 4;
+    }
+    return ~crc & 0x0F;
+}
+
+/**
+ * @brief  构建 16 位遥测帧（替换原来的 dshot_calculate_telemetry_value）
+ */
+uint16_t dshot_build_telemetry_frame(uint16_t actual_rpm)
+{
+    uint16_t pole_pairs = POLE_PAIRS;
+    uint32_t eperiod = rpm_to_eperiod_us(actual_rpm, pole_pairs);
+    uint16_t data_12bit = eperiod_to_12bit(eperiod);
+    uint8_t crc = crc4_rev(data_12bit);
+    return (data_12bit << 4) | crc;
+}
+
+/**
+ * @brief  计算双向DShot遥测数据值（兼容旧接口）
+ * @param  actual_rpm: 实际转速（RPM）
+ * @return 16位遥测数据值
+ * @note   将实际转速转换为双向DShot遥测格式
+ */
+uint16_t dshot_calculate_telemetry_value(uint16_t actual_rpm)
+{
+    return dshot_build_telemetry_frame(actual_rpm);
+}
+
 static uint8_t dshot_checksum(uint16_t frame_value)
 {
   uint8_t checksum = 0;
@@ -412,12 +680,15 @@ static uint8_t dshot_frame_bit_count;
 static uint8_t dshot_expect_falling_edge;
 static uint8_t dshot_frame_synced;
 static uint16_t dshot_no_signal_counter;
-
-static void dshot_frame_decode_and_apply(uint16_t dshot_frame)
+ 
+ void dshot_frame_decode_and_apply(uint16_t dshot_frame)
 {
   uint16_t throttle_value;
-
-  if (dshot_checksum(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
+  #ifdef DSHOT600_INPUT 
+  if (dshot_calculate_crc(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
+  #else
+  if (dshot_bidir_calculate_crc(dshot_frame) == (uint8_t)(dshot_frame & 0x0F))
+  #endif
   {
     //dshot_debug_last_frame = dshot_frame;
     throttle_value = (uint16_t)(dshot_frame >> 5);
@@ -425,15 +696,19 @@ static void dshot_frame_decode_and_apply(uint16_t dshot_frame)
     //dshot_debug_crc_ok_count++;
     dshot_no_signal_counter = 0;
 
-    if (throttle_value >= DSHOT_CMD_MIN)
+    if (throttle_value > 0)
     {
       if (throttle_value > DSHOT_CMD_MAX)
       {
         throttle_value = DSHOT_CMD_MAX;
       }
 
-      speed_ramp.cmd_final = ((int32_t)(throttle_value - DSHOT_CMD_MIN) * MAX_SPEED_RPM) /
-                             (DSHOT_CMD_MAX - DSHOT_CMD_MIN);
+      if (throttle_value <= 47) {
+        speed_ramp.cmd_final = SPEED_RPM_MIN;
+      } else {
+        speed_ramp.cmd_final = SPEED_RPM_MIN + (((int32_t)(throttle_value - 47) * (MAX_SPEED_RPM - SPEED_RPM_MIN)) / (DSHOT_CMD_MAX - 47));
+      }
+
       start_stop_btn_flag = SET;
     }
     else
@@ -441,11 +716,28 @@ static void dshot_frame_decode_and_apply(uint16_t dshot_frame)
       speed_ramp.cmd_final = 0;
       start_stop_btn_flag = RESET;
     }
+		#ifdef  DSHOT600_BIDIRECTIONAL
+		   // 双向DShot：检查是否请求遥测
+		if (dshot_bidir_state==0) {
+				// 延迟 - 标准双向DShot要求电调在收到命令后等待30μs再回传遥测
+				//dshot_delay_us(10);
+
+				// 重置硬件
+				dshot_bidir_reset_hardware();
+
+				// 准备遥测数据：从实际转速计算
+				// 这里替换为实际的转速获取函数，例如：get_motor_rpm()
+				// 暂时使用模拟值2000 RPM
+				// uint16_t actual_rpm = 2000;
+				uint16_t telemetry_value = dshot_build_telemetry_frame(rotor_speed.filtered);
+				dshot_bidir_send_telemetry_nrz(telemetry_value);
+		}
+		#endif
   }
-  // else
-  // {
-  //   dshot_debug_crc_fail_count++;
-  // }
+  //else
+  //{
+  //  dshot_debug_crc_fail_count++;
+  //}
 }
 
 static void dshot_capture_decode_range(uint16_t start_index, uint16_t end_index)
@@ -500,25 +792,43 @@ static void dshot_capture_decode_range(uint16_t start_index, uint16_t end_index)
 
 void DMA_DSHOT_INPUT_IRQHandler(void)
 {
-  tmr_flag_clear(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_FLAG);
-
-  if (dma_flag_get(DMA_DSHOT_INPUT_DTERR_FLAG) != RESET)  // DMA传输错误
-  {
-    dma_flag_clear(DMA_DSHOT_INPUT_DTERR_FLAG);
-    dshot_debug_dma_error_count++;
-  }
-
-  if (dma_flag_get(DMA_DSHOT_INPUT_HDT_FLAG) != RESET)  // DMA半传输完成，表示前半部分数据已经准备好，可以开始解码前半部分数据了
-  {
-    dma_flag_clear(DMA_DSHOT_INPUT_HDT_FLAG);
-    dshot_capture_decode_range(0, DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U);
-  }
-
-  if (dma_flag_get(DMA_DSHOT_INPUT_FDT_FLAG) != RESET)  // DMA传输完成，表示后半部分数据也准备好，可以继续解码后半部分数据了
-  {
-    dma_flag_clear(DMA_DSHOT_INPUT_FDT_FLAG);
-    dshot_capture_decode_range(DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U, DSHOT_DMA_CAPTURE_BUFFER_SIZE);
-  }
+	// 处理发送模式的DMA中断
+	if (dshot_bidir_state == 1) { // 发送中
+		// 处理发送完成中断
+		if (dma_flag_get(DMA_DSHOT_INPUT_FDT_FLAG) != RESET) {
+			dma_flag_clear(DMA_DSHOT_INPUT_FDT_FLAG);  // 清除中断标志
+			
+			// 发送完成后切换回接收模式
+			dshot_bidir_state = 0;  // 接收中
+			dshot_input_timer_init();
+		}
+	}
+	// 处理接收模式的DMA中断
+	else {
+		// 处理半传输完成中断
+		// 当DMA缓冲区的前半部分填满时触发
+		// DSHOT_DMA_CAPTURE_BUFFER_SIZE=128，因此前半部分是0-63个元素
+		if (dma_flag_get(DMA_DSHOT_INPUT_HDT_FLAG) != RESET) {
+			dma_flag_clear(DMA_DSHOT_INPUT_HDT_FLAG);  // 清除中断标志
+			
+			// 解码缓冲区前半部分的数据（索引0到63）
+			// 使用/2是为了将128个元素的缓冲区分为两部分处理
+			// 这样可以实现数据的流式处理，提高效率
+			dshot_capture_decode_range(0, DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U);
+		}
+		
+		// 处理全传输完成中断
+		// 当DMA缓冲区的后半部分填满时触发
+		// DSHOT_DMA_CAPTURE_BUFFER_SIZE=128，因此后半部分是64-127个元素
+		if (dma_flag_get(DMA_DSHOT_INPUT_FDT_FLAG) != RESET) {
+			dma_flag_clear(DMA_DSHOT_INPUT_FDT_FLAG);  // 清除中断标志
+			
+			// 解码缓冲区后半部分的数据（索引64到127）
+			// 使用/2是为了将128个元素的缓冲区分为两部分处理
+			// 这样可以实现数据的流式处理，提高效率
+			dshot_capture_decode_range(DSHOT_DMA_CAPTURE_BUFFER_SIZE / 2U, DSHOT_DMA_CAPTURE_BUFFER_SIZE);
+		}
+	}
 }
 
 void PWM_DUTY_INPUT_IRQ(void)
@@ -541,7 +851,5 @@ void PWM_DUTY_INPUT_IRQ(void)
   }
 }
 
-#if 0
-
-#endif
+ 
 #endif

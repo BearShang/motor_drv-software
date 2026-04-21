@@ -87,10 +87,6 @@ extern "C" {
 #define TMR_ADC_TRIG_GPIO_PIN          GPIO_PINS_11
 #define TMR_ADC_TRIG_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE11
 #define TMR_ADC_TRIG_IOMUX             GPIO_MUX_1
-/**************** define CHANGE PHASE TRIG OUTPUT PIN ******************/
-#define CHANGE_PHASE_TRIG_GPIO_CRM_CLK      CRM_GPIOA_PERIPH_CLOCK
-#define CHANGE_PHASE_TRIG_PORT              GPIOA
-#define CHANGE_PHASE_TRIG_GPIO_PIN          GPIO_PINS_15
 
 #if defined HALL_SENSORS
 /**************** define Timer for Hall ******************/
@@ -109,38 +105,39 @@ extern "C" {
 // #define TMR_READ_EMF_FILTER            0x6                        /*0x0 ~ 0xF*/
 #endif
 /**************** define Timer for Change Phase ******************/
-#define CHANGE_PHASE_TIMER             TMR11
-#define CHANGE_PHASE_CRM_CLK           CRM_TMR11_PERIPH_CLOCK
-#define CHANGE_PHASE_IRQ               TMR1_TRG_HALL_TMR11_IRQHandler
-#define CHANGE_PHASE_IRQn              TMR1_TRG_HALL_TMR11_IRQn
+#define CHANGE_PHASE_TIMER             TMR7
+#define CHANGE_PHASE_CRM_CLK           CRM_TMR7_PERIPH_CLOCK
+#define CHANGE_PHASE_IRQ               TMR7_GLOBAL_IRQHandler
+#define CHANGE_PHASE_IRQn              TMR7_GLOBAL_IRQn
 #define TMR_CHANGE_PHASE_FILTER        0x6                        /*0x0 ~ 0xF*/
 /**************** define Timer for blank signal trigger source ******************/
-#define BLANK_TRIGGER_TIMER            TMR10                       // TMR9
-#define BLANK_TRIGGER_SELECT_CHANNEL   TMR_SELECT_CHANNEL_1        // TMR_SELECT_CHANNEL_1
-#define BLANK_TRIGGER_CRM_CLK          CRM_TMR10_PERIPH_CLOCK      // CRM_TMR9_PERIPH_CLOCK
-#define BLANK_TRIGGER_IRQ              TMR1_OVF_TMR10_IRQHandler   // TMR1_BRK_TMR9_IRQHandler
-#define BLANK_TRIGGER_IRQn             TMR1_OVF_TMR10_IRQn         // TMR1_BRK_TMR9_IRQn
+#define BLANK_TRIGGER_TIMER            TMR3                       
+#define BLANK_TRIGGER_SELECT_CHANNEL   TMR_SELECT_CHANNEL_1
+#define BLANK_TRIGGER_CRM_CLK          CRM_TMR3_PERIPH_CLOCK
+#define BLANK_TRIGGER_SYNC_INPUT_SEL   TMR_SUB_INPUT_SEL_IS0
+#define BLANK_TRIGGER_IRQ              TMR3_GLOBAL_IRQHandler
+#define BLANK_TRIGGER_IRQn             TMR3_GLOBAL_IRQn
 #define TMR_BLANK_TRIGGER_FILTER       0x6                        /*0x0 ~ 0xF*/
 
 #define DMA_BLANK_TRIGGER              DMA1
-#define DMA_BLANK_TRIGGER_REQUEST      TMR_C1_DMA_REQUEST          // TMR_C1_DMA_REQUEST
+#define DMA_BLANK_TRIGGER_REQUEST      TMR_C1_DMA_REQUEST
 #define DMA_CHANNEL_BLANK_TRIGGER      DMA1_CHANNEL5
-#define DMA_BLANK_TRIGGER_FLEX         DMAMUX_DMAREQ_ID_TMR10_CH1  // DMAMUX_DMAREQ_ID_TMR9_CH1
+#define DMA_BLANK_TRIGGER_FLEX         DMAMUX_DMAREQ_ID_TMR3_CH1
 #define DMA_BLANK_TRIGGER_FLEX_CH      DMA1MUX_CHANNEL5
 #define DMA_BLANK_TRIGGER_FT_STS_FLAG  DMA1_FDT5_FLAG
 #define DMA_BLANK_TRIGGER_GEN_SIGNAL   DMAMUX_GEN_ID_DMAMUX_CH5_EVT
 
-#define BLANK_TRIGGER_GPIO_CRM_CLK     CRM_GPIOA_PERIPH_CLOCK      //COMP2_OUT
-#define BLANK_TRIGGER_PORT             GPIOA
-#define BLANK_TRIGGER_GPIO_PIN         GPIO_PINS_12
-#define BLANK_TRIGGER_GPIO_PIN_SOURCE  GPIO_PINS_SOURCE12
-#define BLANK_TRIGGER_IOMUX            GPIO_MUX_3                 
+#define BLANK_TRIGGER_GPIO_CRM_CLK     CRM_GPIOB_PERIPH_CLOCK
+#define BLANK_TRIGGER_PORT             GPIOB
+#define BLANK_TRIGGER_GPIO_PIN         GPIO_PINS_4
+#define BLANK_TRIGGER_GPIO_PIN_SOURCE  GPIO_PINS_SOURCE4
+#define BLANK_TRIGGER_IOMUX            GPIO_MUX_2                 
 /**************** define Timer for blank signal ******************/
-#define BLANK_TIMER                    TMR9                        // TMR4
-#define BLANK_TIMER_SELECT_CHANNEL     TMR_SELECT_CHANNEL_2        // TMR_SELECT_CHANNEL_3
-#define BLANK_CRM_CLK                  CRM_TMR9_PERIPH_CLOCK       // CRM_TMR4_PERIPH_CLOCK
-#define BLANK_TMR_SYNC_INPUT_SEL       TMR_SUB_INPUT_SEL_IS2       // TMR_SUB_INPUT_SEL_IS3
-#define CMP_BLANKING_SOURCE            CMP_BLANKING_TMR9_CH2       // CMP_BLANKING_TMR4_CH3
+#define BLANK_TIMER                    TMR9
+#define BLANK_TIMER_SELECT_CHANNEL     TMR_SELECT_CHANNEL_1
+#define BLANK_CRM_CLK                  CRM_TMR9_PERIPH_CLOCK
+#define BLANK_TMR_SYNC_INPUT_SEL       TMR_SUB_INPUT_SEL_IS1
+#define CMP_BLANKING_SOURCE            CMP_BLANKING_TMR9_CH1
 #define TMR_BLANK_FILTER               0x6                        /*0x0 ~ 0xF*/
 
 #define DMA_BLANK_WINDOW               DMA1
@@ -148,11 +145,11 @@ extern "C" {
 #define DMA_BLANK_WINDOW_FLEX          DMAMUX_DMAREQ_ID_REQ_G1
 #define DMA_BLANK_WINDOW_FLEX_CH       DMA1MUX_CHANNEL6
 
-#define BLANK_SIGNAL_GPIO_CRM_CLK      CRM_GPIOB_PERIPH_CLOCK      // CRM_GPIOB_PERIPH_CLOCK(TMR9CH1)
-#define BLANK_SIGNAL_PORT              GPIOB                       // GPIOB(TMR9CH1)
-#define BLANK_SIGNAL_GPIO_PIN          GPIO_PINS_15                // GPIO_PINS_14(TMR9CH1)
-#define BLANK_SIGNAL_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE15          // GPIO_PINS_SOURCE14(TMR9CH1)
-#define BLANK_SIGNAL_IOMUX             GPIO_MUX_11                 // GPIO_MUX_3(TMR9CH1)
+#define BLANK_SIGNAL_GPIO_CRM_CLK      CRM_GPIOF_PERIPH_CLOCK
+#define BLANK_SIGNAL_PORT              GPIOF
+#define BLANK_SIGNAL_GPIO_PIN          GPIO_PINS_9
+#define BLANK_SIGNAL_GPIO_PIN_SOURCE   GPIO_PINS_SOURCE9
+#define BLANK_SIGNAL_IOMUX             GPIO_MUX_3
 /**************** define GPIO for Hall *******************/
 #define HALL_A_GPIO_CRM_CLK            CRM_GPIOB_PERIPH_CLOCK
 #define HALL_A_PORT                    GPIOB
@@ -197,21 +194,22 @@ extern "C" {
 #define COMP_N_GPIO_PIN                GPIO_PINS_7
 #define COMP_N_GPIO_PIN_SOURCE         GPIO_PINS_SOURCE7
 
-#define COMP_OUT_GPIO_CRM_CLK          CRM_GPIOB_PERIPH_CLOCK
-#define COMP_OUT_PORT                  GPIOB
-#define COMP_OUT_GPIO_PIN              GPIO_PINS_5
-#define COMP_OUT_GPIO_PIN_SOURCE       GPIO_PINS_SOURCE5
-#define COMP_OUT_IOMUX                 GPIO_MUX_12
+#define COMP_OUT_GPIO_CRM_CLK          CRM_GPIOB_PERIPH_CLOCK//CRM_GPIOB_PERIPH_CLOCK
+#define COMP_OUT_PORT                  GPIOB//GPIOB
+#define COMP_OUT_GPIO_PIN              GPIO_PINS_5//GPIO_PINS_9
+#define COMP_OUT_GPIO_PIN_SOURCE       GPIO_PINS_SOURCE5//GPIO_PINS_SOURCE9
+#define COMP_OUT_IOMUX                 GPIO_MUX_12//GPIO_MUX_12
 
-#define COMP_OUT_CAPTURE_TIMER           TMR3
-#define COMP_OUT_SELECT_CHANNEL          TMR_SELECT_CHANNEL_2
-#define COMP_OUT_CAPTURE_CRM_CLK         CRM_TMR3_PERIPH_CLOCK
+#define COMP_OUT_CAPTURE_TIMER           TMR11
+#define COMP_OUT_SELECT_CHANNEL          TMR_SELECT_CHANNEL_1
+#define COMP_OUT_CAPTURE_CRM_CLK         CRM_TMR11_PERIPH_CLOCK
 #define COMP_OUT_CAPTURE_FILTER_CLK_DIV  TMR_CLOCK_DIV2
-#define COMP_OUT_CAPTURE_IRQ             TMR3_GLOBAL_IRQHandler
-#define COMP_OUT_CAPTURE_IRQn            TMR3_GLOBAL_IRQn
-#define COMP_OUT_FLAG                    TMR_C2_FLAG
-#define COMP_OUT_INT                     TMR_C2_INT
-#define TMR_COMP_OUT_CAPTURE_FILTER      0xa                      /*0x0 ~ 0xF*/
+#define COMP_OUT_CAPTURE_IRQ             TMR1_TRG_HALL_TMR11_IRQHandler
+#define COMP_OUT_CAPTURE_IRQn            TMR1_TRG_HALL_TMR11_IRQn
+#define COMP_OUT_CAPTURE_INPUT           TMR_TMR11_CH1_CMP2
+#define COMP_OUT_FLAG                    TMR_C1_FLAG
+#define COMP_OUT_INT                     TMR_C1_INT
+#define TMR_COMP_OUT_CAPTURE_FILTER      0xF                        /*0x0 ~ 0xF*/
 /**************** define Timer for pwm input *******************/
 #define PWM_DUTY_INPUT_TIMER           TMR4
 #define PWM_DUTY_INPUT_SELECT_CHANNEL  TMR_SELECT_CHANNEL_3          
@@ -478,6 +476,9 @@ void tmr_hall_init(void);
 void tmr_pwm_init(void);
 /* timer init function for DSHOT input */
 void dshot_input_timer_init(void);
+void dshot_bidir_send_telemetry_nrz(uint16_t telemetry_data);
+extern const uint8_t dshot_gcr_encode_lut[16];
+void dshot_bidir_reset_hardware(void);
 /* timer init function for change phase */
 void tmr_sensorless_change_phase_init(void);
 /* timer init function for read EMF */

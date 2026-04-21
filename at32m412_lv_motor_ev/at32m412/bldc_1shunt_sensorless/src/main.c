@@ -74,7 +74,7 @@ int main(void)
   tmr_sensorless_change_phase_init();
 
   tmr_pwm_init();
-#if defined DSHOT600_INPUT
+#if  defined DSHOT600_INPUT || defined DSHOT600_BIDIRECTIONAL
   dshot_input_timer_init();
 #endif
 
@@ -118,7 +118,7 @@ int main(void)
   param_init();
 
   led_blink();
-
+ 
   while(1)
   {
     /* calculate motor speed */

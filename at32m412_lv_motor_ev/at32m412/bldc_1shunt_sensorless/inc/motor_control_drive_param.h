@@ -76,8 +76,8 @@ extern "C" {
 
 /* choose how to start up */
 //#define INIT_ANGLE_STARTUP
-#define ALIGN_AND_GO_STARTUP
-//#define OPENLOOP_STARTUP
+//#define ALIGN_AND_GO_STARTUP
+#define OPENLOOP_STARTUP
 #endif
 
 #ifdef BLDC_SENSORLESS_COMP
@@ -93,17 +93,19 @@ extern "C" {
 //#define MOTOR_PARAM_IDENTIFY
 
 /* use artery motor monitor or not */
-//#define USE_MOTOR_MONITOR   /* CTRL_SOURCE should be changed to CTRL_SOURCE_EXTERNAL if no motor monitor is used. */
+#define USE_MOTOR_MONITOR   /* CTRL_SOURCE should be changed to CTRL_SOURCE_EXTERNAL if no motor monitor is used. */
 
 /* use dshot600 input or not */
-#define DSHOT600_INPUT
+// #define DSHOT600_INPUT
+//双向dshot
+//#define DSHOT600_BIDIRECTIONAL
 
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
-#define RS_LL                        (0.512)           /* Stator resistance, ohm */
-#define LS_LL                        (5.25000)         /* Stator inductance, H */
-#define POLE_PAIRS                   (16/2)
-#define KE                           (0.00111111f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
+#define RS_LL                        (0.312f)           /* Stator resistance, ohm */
+#define LS_LL                        (0.0425f)         /* Stator inductance, H */
+#define POLE_PAIRS                   (14/2)
+#define KE                           (0.001538f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
 #define NOMINAL_CURRENT              (20.0)
 
 /* angle detect duty */
@@ -183,9 +185,10 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (175.5f)         /*!< usec */
-#define EMF_FALL_BLANK_TIME_LOW_SPD   (12.5f)        /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (15.5f)         /*!< usec */
+#define EMF_FALL_BLANK_TIME_LOW_SPD   (20.0f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (4000.0f)      /*!< rpm */
+#define BLANK_TIME_OFFSET             (-100) //官方人员修改的消隐空白窗口
 #define EMF_MIN_VALUE                 (1980)
 
 /* Only sensorless-ADC need to set */
@@ -228,7 +231,7 @@ extern "C" {
 
 
 /********************************* Control-related parameter *********************************/
-#define PWM_FREQ                   (30000)                            /*!< Hz */
+#define PWM_FREQ                   (24000)                            /*!< Hz */
 #define MOTOR_CONTROL_MODE         (motor_control_mode)(SPEED_CTRL)
 #define CTRL_SOURCE                (ctrl_source_type)(CTRL_SOURCE_SOFTWARE)  /* 1.CTRL_SOURCE_SOFTWARE 2.CTRL_SOURCE_EXTERNAL */
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */
@@ -262,11 +265,11 @@ extern "C" {
 #else
 #define MIN_SPEED_RPM              (350)      /*!< rpm */
 #endif
-#define MAX_SPEED_RPM              (7000)     /*!< rpm */
-#define MAX_CCW_SPEED_RPM          (7000)     /*!< rpm */
-
-#define ACC_SPD_SLOPE              (5)        /*!< rpm/ms */
-#define DEC_SPD_SLOPE              (5)
+#define MAX_SPEED_RPM              (5600)     /*!< rpm */
+#define MAX_CCW_SPEED_RPM          (5600)     /*!< rpm */
+#define SPEED_RPM_MIN              (1000)     /*!< rpm */
+#define ACC_SPD_SLOPE              (50)        /*!< rpm/ms */
+#define DEC_SPD_SLOPE              (50)
 
 #if defined SENSORLESS
 #define MIN_SENSE_SPEED            (100)      /*!< Lowest computable speed : 60*TMR_CLK*6/POLE_PAIRS/0x7FFFFFFFL */
@@ -274,16 +277,28 @@ extern "C" {
 #define MIN_SENSE_SPEED            (10)
 #endif
 /* DSHOT600 input(external speed command calculation) */
-#define DSHOT_INPUT_TIMER_CLK      (30000000UL) /*!< DSHOT输入定时器的计数频率，单位为Hz。DSHOT600要求至少30MHz的计数频率以满足时间分辨率要求 */
-#define DSHOT_INPUT_TIMER_DIV      ((uint16_t)((TMR_CLK / DSHOT_INPUT_TIMER_CLK) - 1U)) /*!< 预分频器设置，使得定时器计数频率为30MHz，满足DSHOT600输入捕获的时间分辨率要求 */
+// DSHOT600参数定义
 #define DSHOT600_BITRATE           (600000UL) /*!< DSHOT600, 600Kbps */
 #define DSHOT600_FRAME_BITS        (16U)  /*!< DSHOT 帧包含16位: 11 bits for command, 1 bit for telemetry request, and 4 bits for CRC */
-#define DSHOT600_BIT_TICKS         ((uint16_t)(DSHOT_INPUT_TIMER_CLK / DSHOT600_BITRATE)) /*!< DSHOT600每个比特的时间周期 */
-#define DSHOT600_ONE_THRESHOLD     ((uint16_t)((DSHOT600_BIT_TICKS * 9U) / 16U))  /*!< DSHOT600逻辑1的阈值 */
-#define DSHOT600_FRAME_GAP_TICKS   ((uint16_t)(DSHOT600_BIT_TICKS * 2U))  /*!< DSHOT600帧间隔的最小时间，确保帧与帧之间有足够的空闲时间以满足协议要求 */
-#define DSHOT600_SIGNAL_LOSS_COUNT (10U)  /*!< DSHOT600信号丢失计数阈值，当连续捕获到10帧无效数据时认为信号丢失，触发相应的保护措施 */
-#define DSHOT_CMD_MIN              (48U)  /*!< DSHOT命令的最小有效值，DSHOT协议规定0-47为特殊命令，48-2047为正常的速度/功能命令 */
-#define DSHOT_CMD_MAX              (2047U)  /*!< DSHOT命令的最大有效值，DSHOT协议规定命令值必须在48-2047范围内，超过此范围的值被视为无效 */
+#define DSHOT600_PULSE_1_US        (1.25f) /*!< 逻辑1的脉冲宽度（微秒） */
+#define DSHOT600_PULSE_0_US        (0.625f) /*!< 逻辑0的脉冲宽度（微秒） */
+#define DSHOT_INPUT_TIMER_CLK      (30000000UL) /*!< DSHOT输入定时器的计数频率，单位为Hz */
+#define DSHOT_INPUT_TIMER_DIV      ((uint16_t)((SYSTEM_CORE_CLOCK / DSHOT_INPUT_TIMER_CLK) - 1U)) /*!< 预分频器设置 */
+#define DSHOT600_INPUT_TIMER_CLK   DSHOT_INPUT_TIMER_CLK /*!< DSHOT输入定时器的计数频率，单位为Hz */
+#define DSHOT600_COUNT_PER_US      (DSHOT600_INPUT_TIMER_CLK / 1000000UL) /*!< 每微秒的计数次数 */
+#define DSHOT600_PULSE_1_TICKS     ((uint16_t)(DSHOT600_PULSE_1_US * DSHOT600_COUNT_PER_US)) /*!< 逻辑1的脉冲宽度（计数） */
+#define DSHOT600_PULSE_0_TICKS     ((uint16_t)(DSHOT600_PULSE_0_US * DSHOT600_COUNT_PER_US)) /*!< 逻辑0的脉冲宽度（计数） */
+#define DSHOT600_ONE_THRESHOLD     ((DSHOT600_PULSE_1_TICKS + DSHOT600_PULSE_0_TICKS) / 2) /*!< DSHOT600逻辑1的阈值 */
+#define DSHOT600_BIT_TICKS         ((uint16_t)(DSHOT600_INPUT_TIMER_CLK / DSHOT600_BITRATE)) /*!< DSHOT600每个比特的时间周期 */
+#define DSHOT600_FRAME_GAP_TICKS   ((uint16_t)(DSHOT600_BIT_TICKS * 2U))  /*!< DSHOT600帧间隔的最小时间 */
+#define DSHOT600_SIGNAL_LOSS_COUNT (10U)  /*!< DSHOT600信号丢失计数阈值 */
+#define DSHOT_CMD_MIN              (48U)  /*!< DSHOT命令的最小有效值 */
+#define DSHOT_CMD_MAX              (2047U)  /*!< DSHOT命令的最大有效值 */
+#define COUNT_PER_US               ((uint32_t)(DSHOT_INPUT_TIMER_CLK / 1000000UL)) /*!< 每微秒的计数 */
+#define DSHOT_PULSE_0_COUNT        ((uint16_t)(DSHOT600_BIT_TICKS * 5U / 16U)) /*!< DShot逻辑0的脉冲计数 */
+/* 双向DShot相关宏定义 */
+#define DSHOT600_BIT_PERIOD_TICKS  DSHOT600_BIT_TICKS /*!< DSHOT600位周期计数 */
+#define DSHOT600_GCR_BITRATE       (DSHOT600_BITRATE * 5 / 4) /*!< GCR比特率 */
 /* brake duty */
 #define BRAKE_DUTY                 (30)      /*!< brake force(%)*/
 #define DRAG_BRAKE_DUTY            (30)      /*!< drag brake force(%)*/
@@ -299,8 +314,8 @@ extern "C" {
 /* open loop control */
 #define OLC_INIT_SPD               (100)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
-#define OLC_TIMES                  (250)     /*!< Accumulated 200 times to reach the final speed */
-#define OLC_INIT_VOLT              (0.22)    /*!< V */
+#define OLC_TIMES                  (200)     /*!< Accumulated 200 times to reach the final speed */
+#define OLC_INIT_VOLT              (1.1)    /*!< V */
 #define OLC_VOLT_INC               (0.003)
 /* open loop start-up */
 #define OLC_STARTUP_PERIOD         (1500)     /*!< msec */
@@ -318,8 +333,8 @@ extern "C" {
 #define PID_IS_KI_DIV              32768
 #define PID_IS_KI_DIV_LOG          LOG2(PID_IS_KI_DIV)
 
-#define PID_SPD_KP_DEFUALT         6500
-#define PID_SPD_KI_DEFUALT         55
+#define PID_SPD_KP_DEFUALT         3000
+#define PID_SPD_KI_DEFUALT         12 
 #define PID_SPD_KP_DIV             1024
 #define PID_SPD_KP_DIV_LOG         LOG2(PID_SPD_KP_DIV)
 #define PID_SPD_KI_DIV             1024

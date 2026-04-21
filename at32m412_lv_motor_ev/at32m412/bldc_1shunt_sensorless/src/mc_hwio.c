@@ -71,7 +71,7 @@ void nvic_config(void)
   nvic_irq_enable(ADVTMR_CH1_EMF_PULL_IRQn, 5, 0);
 #endif
 #endif
-#if defined DSHOT600_INPUT
+#if  defined DSHOT600_INPUT || defined DSHOT600_BIDIRECTIONAL
   /* dshot input interrupt nvic init */
   nvic_irq_enable(PWM_DUTY_INPUT_IRQn, 6, 0);
   nvic_irq_enable(DMA_DSHOT_INPUT_IRQn, 6, 1);
@@ -285,7 +285,7 @@ void tmr_comp_capture_init()
   tmr_input_config_struct.input_filter_value = TMR_COMP_OUT_CAPTURE_FILTER;
   tmr_input_channel_init(COMP_OUT_CAPTURE_TIMER, &tmr_input_config_struct, TMR_CHANNEL_INPUT_DIV_1);
 
-  tmr_input_ch_select(COMP_OUT_CAPTURE_TIMER, TMR_TMR3_CH2_CMP2);
+  tmr_input_ch_select(COMP_OUT_CAPTURE_TIMER, COMP_OUT_CAPTURE_INPUT);
 
   /* clear flags of ch1 events of comparator capture timer */
   tmr_flag_clear(COMP_OUT_CAPTURE_TIMER, COMP_OUT_FLAG);
@@ -300,8 +300,31 @@ void tmr_comp_capture_init()
   * @param  none
   * @retval none
   */
+#if  defined DSHOT600_INPUT || defined DSHOT600_BIDIRECTIONAL
+volatile uint8_t dshot_bidir_state = 0;
+uint16_t dshot_bidir_rx_buffer[DSHOT_DMA_CAPTURE_BUFFER_SIZE]; 
+//重置硬件函数
+void dshot_bidir_reset_hardware(void)
+{
+    // 1. 禁用定时器和DMA
+    tmr_counter_enable(PWM_DUTY_INPUT_TIMER, FALSE);
+    dma_channel_enable(DMA_CHANNEL_DSHOT_INPUT, FALSE);
+    
+    // 2. 禁用所有定时器DMA请求
+    tmr_dma_request_enable(PWM_DUTY_INPUT_TIMER, TMR_C3_DMA_REQUEST, FALSE);
+    tmr_dma_request_enable(PWM_DUTY_INPUT_TIMER, TMR_OVERFLOW_DMA_REQUEST, FALSE);
+    
+    // 3. 完全重置硬件
+    tmr_reset(PWM_DUTY_INPUT_TIMER);
+    dma_reset(DMA_CHANNEL_DSHOT_INPUT);
+}
+
 void dshot_input_timer_init(void)
 {
+    //重置硬件
+    dshot_bidir_reset_hardware();
+    
+    // 4. 重新配置GPIO为输入模式
   gpio_init_type gpio_init_struct = {0};
   tmr_input_config_type tmr_ic_init_structure;
   dma_init_type dma_init_struct;
@@ -315,7 +338,12 @@ void dshot_input_timer_init(void)
   gpio_init_struct.gpio_pins = PWM_DUTY_INPUT_GPIO_PIN;
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
   gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-  gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
+  #if defined DSHOT600_INPUT
+    gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
+  #else
+    gpio_init_struct.gpio_pull = GPIO_PULL_UP;
+  #endif
+ 
   gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
   gpio_init(PWM_DUTY_INPUT_PORT, &gpio_init_struct);
 
@@ -366,7 +394,129 @@ void dshot_input_timer_init(void)
   dma_channel_enable(DMA_CHANNEL_DSHOT_INPUT, TRUE);
   /* enable dshot input timer */
   tmr_counter_enable(PWM_DUTY_INPUT_TIMER, TRUE);
+		
+    // 初始化状态
+    dshot_bidir_state = 0;  // 0: 空闲
 }
+// GCR编码查找表（4位数据 -> 5位GCR）
+const uint8_t dshot_gcr_encode_lut[16] = {
+    0x19, 0x1B, 0x12, 0x13, 0x1D, 0x15, 0x16, 0x17,
+    0x1A, 0x09, 0x0A, 0x0B, 0x1E, 0x0D, 0x0E, 0x0F
+};
+/**
+ * @brief  构建21位遥测波形的CCR数组（PWM模式B）
+ * @param  telemetry_data: 16位遥测数据（已包含CRC）
+ * @param  ccr_buf: 输出CCR数组（长度至少21）
+ * @param  period: 定时器周期值（对应GCR周期）
+ * @return 实际位数（固定21）
+ */
+static uint8_t dshot_build_ccr_buffer(uint16_t telemetry_data, uint16_t *ccr_buf, uint16_t period)
+{
+    // 1. 编码为20位GCR
+    uint32_t gcr_20bit = 0;
+    for (int i = 3; i >= 0; i--) {
+        uint8_t nibble = (telemetry_data >> (i * 4)) & 0x0F;
+        gcr_20bit = (gcr_20bit << 5) | dshot_gcr_encode_lut[nibble];
+    }
+    
+    // 起始位：强制低电平
+    ccr_buf[0] = period;
+    uint8_t current_level = 0;  // 起始位结束后电平为低
+    
+    // 编码剩余20位（GCR数据，从最高位到最低位）
+    for (int i = 19; i >= 0; i--) {
+        uint8_t bit = (gcr_20bit >> i) & 0x01;
+        if (bit) {
+            current_level = !current_level;  // 翻转电平
+        }
+        ccr_buf[20 - i] = (current_level == 1) ? 0 : period;
+    }
+    
+    return 21;
+}
+/**
+ * @brief  双向DShot发送遥测数据（方案3实现 - PWM模式 + DMA）
+ * @param  telemetry_data: 16位遥测数据
+ * @note   使用PWM模式B + DMA更新占空比生成NRZ波形，符合标准双向DShot回传格式
+ */
+void dshot_bidir_send_telemetry_nrz(uint16_t telemetry_data)
+{
+    // 检查DMA是否空闲
+    if (dma_data_number_get(DMA_CHANNEL_DSHOT_INPUT) != 0) return;
+
+    // 1. 禁用当前定时器和DMA（接收模式）
+    tmr_counter_enable(PWM_DUTY_INPUT_TIMER, FALSE);
+    dma_channel_enable(DMA_CHANNEL_DSHOT_INPUT, FALSE);
+    tmr_dma_request_enable(PWM_DUTY_INPUT_TIMER, TMR_OVERFLOW_DMA_REQUEST, FALSE);
+    tmr_dma_request_enable(PWM_DUTY_INPUT_TIMER, TMR_C3_DMA_REQUEST, FALSE);
+
+    // 2. 配置GPIO为复用输出（PWM）
+    gpio_init_type gpio_struct;
+    gpio_default_para_init(&gpio_struct);
+    gpio_struct.gpio_pins = PWM_DUTY_INPUT_GPIO_PIN;
+    gpio_struct.gpio_mode = GPIO_MODE_MUX;
+    gpio_struct.gpio_pull = GPIO_PULL_UP;
+    gpio_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+    gpio_init(PWM_DUTY_INPUT_PORT, &gpio_struct);
+    gpio_pin_mux_config(PWM_DUTY_INPUT_PORT, PWM_DUTY_INPUT_GPIO_PIN_SOURCE, PWM_DUTY_INPUT_IOMUX);
+
+    // 3. 计算GCR比特率和周期
+    uint32_t gcr_bitrate = DSHOT600_BITRATE * 5 / 4;
+    uint32_t period = (DSHOT_INPUT_TIMER_CLK + gcr_bitrate/2) / gcr_bitrate; // 四舍五入
+    if (period < 2) period = 2;
+    period--;  // ARR = period-1
+
+    // 4. 配置定时器为PWM模式B
+    tmr_base_init(PWM_DUTY_INPUT_TIMER, period, DSHOT_INPUT_TIMER_DIV);
+    tmr_cnt_dir_set(PWM_DUTY_INPUT_TIMER, TMR_COUNT_UP);
+    tmr_clock_source_div_set(PWM_DUTY_INPUT_TIMER, TMR_CLOCK_DIV1);
+
+    tmr_output_config_type out_cfg;
+    tmr_output_default_para_init(&out_cfg);
+    out_cfg.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
+    out_cfg.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
+    out_cfg.oc_output_state = TRUE;
+    tmr_output_channel_config(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_SELECT_CHANNEL, &out_cfg);
+    tmr_output_channel_buffer_enable(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_SELECT_CHANNEL, TRUE);
+    tmr_channel_enable(PWM_DUTY_INPUT_TIMER, PWM_DUTY_INPUT_SELECT_CHANNEL, TRUE);
+    tmr_output_enable(PWM_DUTY_INPUT_TIMER, TRUE);   // 使能输出
+
+    // 5. 构建CCR缓冲区（21位 + 2空闲）
+    uint16_t ccr_buf[23];
+    dshot_build_ccr_buffer(telemetry_data, ccr_buf, period + 1);
+    ccr_buf[21] = 0;
+    ccr_buf[22] = 0;
+
+    // 6. 配置DMA
+    dma_reset(DMA_CHANNEL_DSHOT_INPUT);
+    dma_init_type dma_cfg;
+    dma_default_para_init(&dma_cfg);
+    dma_cfg.direction = DMA_DIR_MEMORY_TO_PERIPHERAL;
+    dma_cfg.memory_base_addr = (uint32_t)ccr_buf;
+    dma_cfg.memory_data_width = DMA_MEMORY_DATA_WIDTH_HALFWORD;
+    dma_cfg.memory_inc_enable = TRUE;
+    dma_cfg.peripheral_base_addr = (uint32_t)&PWM_DUTY_INPUT_TIMER->c3dt;
+    dma_cfg.peripheral_data_width = DMA_PERIPHERAL_DATA_WIDTH_HALFWORD;
+    dma_cfg.peripheral_inc_enable = FALSE;
+    dma_cfg.priority = DMA_PRIORITY_HIGH;
+    dma_cfg.buffer_size = 23;
+    dma_cfg.loop_mode_enable = FALSE;
+    dma_init(DMA_CHANNEL_DSHOT_INPUT, &dma_cfg);
+    dmamux_init(DMA1MUX_CHANNEL7, DMAMUX_DMAREQ_ID_TMR4_OVERFLOW);
+    dmamux_enable(DMA1, TRUE);
+    dma_interrupt_enable(DMA_CHANNEL_DSHOT_INPUT, DMA_FDT_INT, TRUE);
+    // nvic_irq_enable(DMA_DSHOT_INPUT_IRQn, 6, 0);
+
+    // 7. 启动定时器和DMA
+    tmr_counter_value_set(PWM_DUTY_INPUT_TIMER, 0);
+    tmr_dma_request_enable(PWM_DUTY_INPUT_TIMER, TMR_OVERFLOW_DMA_REQUEST, TRUE);
+    dma_channel_enable(DMA_CHANNEL_DSHOT_INPUT, TRUE);
+    tmr_counter_enable(PWM_DUTY_INPUT_TIMER, TRUE);
+
+    // 8. 标记发送状态（DMA中断中会切换回接收）
+    dshot_bidir_state = 1;
+}
+#endif
 
 /**
   * @brief  initialization of a timer for sensorless change phase
@@ -433,7 +583,7 @@ void tmr_blank_init(void)
   dma_init_struct.memory_base_addr = (uint32_t)&blank.blank_window_dt;
   dma_init_struct.memory_data_width = DMA_MEMORY_DATA_WIDTH_HALFWORD;
   dma_init_struct.memory_inc_enable = TRUE;
-  dma_init_struct.peripheral_base_addr = (uint32_t) & (blank.TMRx->c2dt);
+  dma_init_struct.peripheral_base_addr = (uint32_t) & (blank.TMRx->c1dt);
   dma_init_struct.peripheral_data_width = DMA_PERIPHERAL_DATA_WIDTH_HALFWORD;
   dma_init_struct.peripheral_inc_enable = FALSE;
   dma_init_struct.priority = DMA_PRIORITY_HIGH;
@@ -444,7 +594,7 @@ void tmr_blank_init(void)
   dmamux_enable(DMA_BLANK_WINDOW, TRUE);
   dmamux_init(DMA_BLANK_WINDOW_FLEX_CH, DMA_BLANK_WINDOW_FLEX);
   
-  /* enable dma1 channe6 */
+  /* enable dma channe4 */
   dma_channel_enable(DMA_CHANNEL_BLANK_WINDOW, TRUE);
 }
 
@@ -484,6 +634,14 @@ void tmr_blank_trigger_init(void)
 
   /* disable change phase timer */
   tmr_counter_enable(blank_trigger.TMRx, FALSE);
+  
+  /* primary mode selection: TMR3 */
+  tmr_sub_sync_mode_set(blank_trigger.TMRx, TRUE);
+  tmr_primary_mode_select(blank_trigger.TMRx, TMR_PRIMARY_SEL_C1ORAW);
+  
+  /* subordinate mode selection */
+  tmr_sub_mode_select(blank_trigger.TMRx, TMR_SUB_RESET_MODE);
+  tmr_trigger_input_select(blank_trigger.TMRx, BLANK_TRIGGER_SYNC_INPUT_SEL);
 
   /* dma configuration */
   dma_reset(DMA_CHANNEL_BLANK_TRIGGER);
@@ -853,24 +1011,19 @@ void cmp2_config(void)
   gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
 
   crm_periph_clock_enable(TMR_ADC_TRIG_GPIO_CRM_CLK, TRUE);
-  gpio_init_struct.gpio_pins = TMR_ADC_TRIG_GPIO_PIN;    // T1C4 for ADC
+  gpio_init_struct.gpio_pins = TMR_ADC_TRIG_GPIO_PIN;    /* T1C4 for ADC*/
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
 
   gpio_init(TMR_ADC_TRIG_PORT, &gpio_init_struct);
   gpio_pin_mux_config(TMR_ADC_TRIG_PORT, TMR_ADC_TRIG_GPIO_PIN_SOURCE, TMR_ADC_TRIG_IOMUX);
   debug_apb2_periph_mode_set(DEBUG_TMR1_PAUSE, TRUE);
-  debug_apb1_periph_mode_set(DEBUG_TMR3_PAUSE, TRUE);
-
-  crm_periph_clock_enable(CHANGE_PHASE_TRIG_GPIO_CRM_CLK, TRUE);
+  
   gpio_default_para_init(&gpio_init_struct);
 
   gpio_init_struct.gpio_mode             = GPIO_MODE_OUTPUT;
   gpio_init_struct.gpio_out_type         = GPIO_OUTPUT_PUSH_PULL;
   gpio_init_struct.gpio_pull             = GPIO_PULL_NONE;
   gpio_init_struct.gpio_drive_strength   = GPIO_DRIVE_STRENGTH_STRONGER;
-
-  gpio_init_struct.gpio_pins = CHANGE_PHASE_TRIG_GPIO_PIN;
-  gpio_init(CHANGE_PHASE_TRIG_PORT, &gpio_init_struct);
 
   crm_periph_clock_enable(COMP_OUT_GPIO_CRM_CLK, TRUE);
   gpio_init_struct.gpio_pins = COMP_OUT_GPIO_PIN;
@@ -882,6 +1035,16 @@ void cmp2_config(void)
   gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
   gpio_init_struct.gpio_pins = GPIO_PINS_15;
   gpio_init(GPIOA, &gpio_init_struct);
+
+  /* PB4 configuration using macros */
+  crm_periph_clock_enable(BLANK_TRIGGER_GPIO_CRM_CLK, TRUE);
+  gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
+  gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+  gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
+  gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+  gpio_init_struct.gpio_pins = BLANK_TRIGGER_GPIO_PIN;
+  gpio_init(BLANK_TRIGGER_PORT, &gpio_init_struct);
+	gpio_pin_mux_config(BLANK_TRIGGER_PORT, BLANK_TRIGGER_GPIO_PIN_SOURCE, BLANK_TRIGGER_IOMUX);
 }
 
 /**

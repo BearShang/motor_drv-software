@@ -62,6 +62,7 @@ extern "C" {
 #include "motor_control_bldc.h"
 #include "mc_bldc_kernal.h"
 #include "mc_esc_state.h"
+ 
 
 #if defined (SIX_STEP_CONTROL) && defined (HALL_SENSORS)
 #define FIRMWARE_ID BLDC_HALL_SENSOR

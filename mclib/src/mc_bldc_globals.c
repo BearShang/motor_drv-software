@@ -95,7 +95,7 @@ err_code_type error_code = MC_NO_ERROR;
 err_code_type error_code_mask = MC_ERROR_MASK;
 uint16_t emf_edge = 0;
 
-#if defined DSHOT600_INPUT
+#if  defined DSHOT600_INPUT || defined DSHOT600_BIDIRECTIONAL
 volatile uint16_t dshot_dma_capture_buffer[DSHOT_DMA_CAPTURE_BUFFER_SIZE] = {0};
 volatile uint16_t dshot_debug_last_frame = 0;
 volatile uint16_t dshot_debug_last_throttle = 0;

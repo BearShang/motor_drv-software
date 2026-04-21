@@ -1,0 +1,55 @@
+# Windows / local filesystem
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor and local workspace noise
+*.swp
+*.swo
+*~
+.DS_Store
+**/.vscode/*.log
+**/.vscode/*.log.lock
+**/.vscode/ipch/
+
+# Keil / MDK generated output
+**/Objects/
+**/Listings/
+**/DebugConfig/
+**/RTE/_Target_*/
+
+# Keil user-local files
+*.uvguix.*
+*.uvguix
+*.uvgui.*
+*.uvgui
+*.uvgui_*
+JLinkLog.txt
+
+# Compiler, linker, and dependency artifacts
+*.o
+*.obj
+*.d
+*.dep
+*.crf
+*.lst
+*.lnp
+*.iex
+*.map
+*.axf
+*.elf
+*.hex
+*.bin
+*.build_log.htm
+*.htm
+
+# Generated scatter/backups inside build output directories
+**/Objects/*.sct
+**/Objects/*.Bak
+**/Objects/*.bak
+
+# Generic temporary output
+*.tmp
+*.temp
+*.bak
+*.Bak

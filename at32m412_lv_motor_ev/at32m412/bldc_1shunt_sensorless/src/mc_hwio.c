@@ -944,6 +944,16 @@ void ocp_cmp_config(void)
 
   /* enable cmp1 */
   cmp_enable(OCP_COMP, TRUE);
+
+  /* output CMP1 result to PA11 */
+  crm_periph_clock_enable(TMR_CMP1_OUT_GPIO_CRM_CLK, TRUE);
+  gpio_init_struct.gpio_pins = TMR_CMP1_OUT_GPIO_PIN;
+  gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
+  gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+  gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
+  gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+  gpio_init(TMR_CMP1_OUT_PORT, &gpio_init_struct);
+  gpio_pin_mux_config(TMR_CMP1_OUT_PORT, TMR_CMP1_OUT_GPIO_PIN_SOURCE, TMR_CMP1_OUT_IOMUX);
 }
 /**
  * @brief Configures Comparator 2 (BEMF_COMP) for Back-EMF (BEMF) detection.
@@ -1006,16 +1016,16 @@ void cmp2_config(void)
 {
   gpio_init_type gpio_init_struct = {0};
 
-  gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-  gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
-  gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+  // gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+  // gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
+  // gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
 
-  crm_periph_clock_enable(TMR_ADC_TRIG_GPIO_CRM_CLK, TRUE);
-  gpio_init_struct.gpio_pins = TMR_ADC_TRIG_GPIO_PIN;    /* T1C4 for ADC*/
-  gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
+  // crm_periph_clock_enable(TMR_ADC_TRIG_GPIO_CRM_CLK, TRUE);
+  // gpio_init_struct.gpio_pins = TMR_ADC_TRIG_GPIO_PIN;    /* T1C4 for ADC*/
+  // gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
 
-  gpio_init(TMR_ADC_TRIG_PORT, &gpio_init_struct);
-  gpio_pin_mux_config(TMR_ADC_TRIG_PORT, TMR_ADC_TRIG_GPIO_PIN_SOURCE, TMR_ADC_TRIG_IOMUX);
+  // gpio_init(TMR_ADC_TRIG_PORT, &gpio_init_struct);
+  // gpio_pin_mux_config(TMR_ADC_TRIG_PORT, TMR_ADC_TRIG_GPIO_PIN_SOURCE, TMR_ADC_TRIG_IOMUX);
   debug_apb2_periph_mode_set(DEBUG_TMR1_PAUSE, TRUE);
   
   gpio_default_para_init(&gpio_init_struct);
@@ -1025,23 +1035,16 @@ void cmp2_config(void)
   gpio_init_struct.gpio_pull             = GPIO_PULL_NONE;
   gpio_init_struct.gpio_drive_strength   = GPIO_DRIVE_STRENGTH_STRONGER;
 
+  /* PB5监测过零点，输出比较器的数字结果 */
   crm_periph_clock_enable(COMP_OUT_GPIO_CRM_CLK, TRUE);
   gpio_init_struct.gpio_pins = COMP_OUT_GPIO_PIN;
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
   gpio_init(COMP_OUT_PORT, &gpio_init_struct);
   gpio_pin_mux_config(COMP_OUT_PORT, COMP_OUT_GPIO_PIN_SOURCE, COMP_OUT_IOMUX);
 
-  crm_periph_clock_enable(CRM_GPIOA_PERIPH_CLOCK, TRUE);
-  gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
-  gpio_init_struct.gpio_pins = GPIO_PINS_15;
-  gpio_init(GPIOA, &gpio_init_struct);
-
-  /* PB4 configuration using macros */
+  /* PB4 消隐。高电平blanking有效 */
   crm_periph_clock_enable(BLANK_TRIGGER_GPIO_CRM_CLK, TRUE);
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
-  gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-  gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-  gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
   gpio_init_struct.gpio_pins = BLANK_TRIGGER_GPIO_PIN;
   gpio_init(BLANK_TRIGGER_PORT, &gpio_init_struct);
 	gpio_pin_mux_config(BLANK_TRIGGER_PORT, BLANK_TRIGGER_GPIO_PIN_SOURCE, BLANK_TRIGGER_IOMUX);

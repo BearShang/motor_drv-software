@@ -208,7 +208,7 @@ extern "C" {
 
 #if defined AT32M412xx || defined AT32M416xx
 #define DAC_VREF_SOURCE           (DAC_VDDA)   //选择参考电压源
-#define OCP_CURRENT               (21.0)       /*!< A */
+#define OCP_CURRENT               (10.0)       /*!< A for test */
 #define BUS_CURR_CMP_OCP_VOLT     (OCP_CURRENT*R_SHUNT*OP_GAIN+CURR_OFFSET_VOLT)  //计算过流电压
 #define TMR_BRK_FILTER_COUNT      (10)          //设置定时器刹车滤波次数
 #endif

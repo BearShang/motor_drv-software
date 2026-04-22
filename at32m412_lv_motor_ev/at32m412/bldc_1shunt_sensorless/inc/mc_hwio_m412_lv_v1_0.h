@@ -431,10 +431,10 @@ extern "C" {
 #define BUS_OUT_CRM_CLK                  CRM_GPIOB_PERIPH_CLOCK
 
 #define OCP_COMP                         CMP1_SELECTION
-#define COMP_BUS_GPIO_CRM_CLK            CRM_GPIOA_PERIPH_CLOCK
-#define COMP_BUS_PORT                    GPIOA
-#define COMP_BUS_GPIO_PIN                GPIO_PINS_4
-#define COMP_BUS_GPIO_PIN_SOURCE         GPIO_PINS_SOURCE4
+#define COMP_BUS_GPIO_CRM_CLK            CRM_GPIOB_PERIPH_CLOCK
+#define COMP_BUS_PORT                    GPIOB
+#define COMP_BUS_GPIO_PIN                GPIO_PINS_1
+#define COMP_BUS_GPIO_PIN_SOURCE         GPIO_PINS_SOURCE1
 #define COMP_BUS_CH                      CMP_NON_INVERTING_INP3
 #define TMR_BRKIN_SOURCE                 TMR_BRKIN_SOURCE_CMP1
 

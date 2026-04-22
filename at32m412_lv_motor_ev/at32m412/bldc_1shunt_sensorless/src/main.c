@@ -37,7 +37,7 @@
   * @brief main program
   * @{
   */
-
+extern volatile uint32_t system_time_ms;
 crm_clocks_freq_type crm_clocks_freq_struct = {0};
 void check_configured_core_clock(void);
 /**
@@ -121,6 +121,15 @@ int main(void)
  
   while(1)
   {
+		// if(system_time_ms>=5000)
+		// {
+		// 	// 使用更合适的频率和音量
+		// 	motor_beep(200, 200, 5);
+		// 	mc_delay_ms(200);
+		// 	motor_beep(1200, 500, 20);
+		// 	system_time_ms=0;
+		// }
+		
     /* calculate motor speed */
     if(calc_spd_rdy == SET)
     {

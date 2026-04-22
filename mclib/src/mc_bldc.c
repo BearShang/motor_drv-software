@@ -22,6 +22,7 @@
   **************************************************************************
   */
 #include "mc_lib.h"
+extern volatile uint32_t system_time_ms;
 
 /** @addtogroup Motor_Control_Library
   * @{
@@ -346,4 +347,188 @@ void brake_config(uint16_t brake_force_duty)
 
   /* enable pwm timer */
   tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
+}
+
+/**
+  * @brief  Generate beep sound using motor
+  * @param  frequency : Beep frequency in Hz (100Hz - 5kHz recommended)
+  * @param  duration : Beep duration in milliseconds
+  * @param  volume : Volume level (0-100%), recommended 5-20% to prevent overheating
+  * @retval none
+  * @note   Safe beep principle: Fixed AH-BL phase, AH PWM modulation (low duty),
+  *         BL always on. Current path: VDC->AH->PhaseA->PhaseB->BL->GND
+  *         Low duty (5-20%) ensures low average current, MOS won't overheat
+  */
+void motor_beep(uint16_t frequency, uint32_t duration, uint8_t volume)
+{
+  uint16_t temp;
+  uint16_t pwm_on_cval;
+  uint32_t half_period_us;
+  uint32_t start_time;
+  uint8_t toggle_state = 0;
+  uint8_t phase_state = 0;
+
+  /* Limit frequency range (200Hz - 2kHz is optimal for beeping) */
+  if(frequency < 200) frequency = 200;
+  if(frequency > 2000) frequency = 2000;
+
+  /* Limit volume to 5-15% to prevent MOS overheating */
+  if(volume > 15) volume = 15;
+  if(volume < 5) volume = 5;
+
+  /* Calculate PWM duty: volume% on time */
+  pwm_on_cval = ((uint32_t)volume * PWM_PERIOD) / 100;
+
+  /* pwm timer output disable */
+  tmr_output_enable(PWM_ADVANCE_TIMER, FALSE);
+  /* disable pwm timer */
+  tmr_counter_enable(PWM_ADVANCE_TIMER, FALSE);
+
+  /* reset counter value */
+  PWM_ADVANCE_TIMER->cval = 0;
+
+  /* Calculate half period in microseconds for better accuracy */
+  half_period_us = 500000 / frequency;
+  if(half_period_us < 500) half_period_us = 500; /* Minimum 0.5ms */
+
+  /* Set start time */
+  start_time = system_time_ms;
+
+  /* Main beep loop */
+  while((system_time_ms - start_time) < duration)
+  {
+    /* Cycle through different phase combinations */
+    switch(phase_state % 3)
+    {
+      case 0:
+        /* AH-BL (Phase A high-side, Phase B low-side) */
+        temp = PWM_ADVANCE_TIMER->cm1;
+        temp &= (~TMR_PWM_MODE_CM1_MASK);
+        temp |= AH_BL_PWM_MODE_CM1;
+        PWM_ADVANCE_TIMER->cm1 = temp;
+
+        temp = PWM_ADVANCE_TIMER->cm2;
+        temp &= (~TMR_PWM_MODE_CM2_MASK);
+        temp |= AH_BL_PWM_MODE_CM2;
+        PWM_ADVANCE_TIMER->cm2 = temp;
+
+        temp = PWM_ADVANCE_TIMER->cctrl;
+        temp &= (~TMR_PWM_OUT_MODE_MASK);
+        temp |= AH_BL_PWM_OUT_CCTRL;
+        PWM_ADVANCE_TIMER->cctrl = temp;
+        break;
+
+      case 1:
+        /* BH-CL (Phase B high-side, Phase C low-side) */
+        temp = PWM_ADVANCE_TIMER->cm1;
+        temp &= (~TMR_PWM_MODE_CM1_MASK);
+        temp |= BH_CL_PWM_MODE_CM1;
+        PWM_ADVANCE_TIMER->cm1 = temp;
+
+        temp = PWM_ADVANCE_TIMER->cm2;
+        temp &= (~TMR_PWM_MODE_CM2_MASK);
+        temp |= BH_CL_PWM_MODE_CM2;
+        PWM_ADVANCE_TIMER->cm2 = temp;
+
+        temp = PWM_ADVANCE_TIMER->cctrl;
+        temp &= (~TMR_PWM_OUT_MODE_MASK);
+        temp |= BH_CL_PWM_OUT_CCTRL;
+        PWM_ADVANCE_TIMER->cctrl = temp;
+        break;
+
+      case 2:
+        /* CH-AL (Phase C high-side, Phase A low-side) */
+        temp = PWM_ADVANCE_TIMER->cm1;
+        temp &= (~TMR_PWM_MODE_CM1_MASK);
+        temp |= CH_AL_PWM_MODE_CM1;
+        PWM_ADVANCE_TIMER->cm1 = temp;
+
+        temp = PWM_ADVANCE_TIMER->cm2;
+        temp &= (~TMR_PWM_MODE_CM2_MASK);
+        temp |= CH_AL_PWM_MODE_CM2;
+        PWM_ADVANCE_TIMER->cm2 = temp;
+
+        temp = PWM_ADVANCE_TIMER->cctrl;
+        temp &= (~TMR_PWM_OUT_MODE_MASK);
+        temp |= CH_AL_PWM_OUT_CCTRL;
+        PWM_ADVANCE_TIMER->cctrl = temp;
+        break;
+    }
+
+    if(toggle_state)
+    {
+      /* On state: PWM output with duty cycle */
+      switch(phase_state % 3)
+      {
+        case 0:
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, pwm_on_cval);
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, 0);
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, 0);
+          break;
+        case 1:
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, 0);
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, pwm_on_cval);
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, 0);
+          break;
+        case 2:
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, 0);
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, 0);
+          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, pwm_on_cval);
+          break;
+      }
+    }
+    else
+    {
+      /* Off state: all channels off */
+      tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, 0);
+      tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, 0);
+      tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, 0);
+    }
+
+    /* update pwm output mode from shadow buffer */
+    tmr_event_sw_trigger(PWM_ADVANCE_TIMER, TMR_HALL_SWTRIG);
+
+    /* enable pwm timer and output */
+    tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
+    tmr_output_enable(PWM_ADVANCE_TIMER, TRUE);
+
+    /* Wait for half period using microsecond delay for better accuracy */
+    mc_delay_us(half_period_us);
+
+    /* Disable output before phase change */
+    tmr_output_enable(PWM_ADVANCE_TIMER, FALSE);
+    tmr_counter_enable(PWM_ADVANCE_TIMER, FALSE);
+    
+    /* Small delay to prevent shoot-through */
+    mc_delay_us(2);
+
+    /* Toggle state */
+    toggle_state = !toggle_state;
+    phase_state++;
+  }
+
+  /* Disable all outputs */
+  tmr_output_enable(PWM_ADVANCE_TIMER, FALSE);
+  tmr_counter_enable(PWM_ADVANCE_TIMER, FALSE);
+
+  /* Reset PWM values to 0 */
+  tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, 0);
+  tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, 0);
+  tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, 0);
+}
+
+/**
+  * @brief  Generate tone sequence using motor
+  * @param  frequencies : Array of frequencies in Hz
+  * @param  durations : Array of durations in milliseconds
+  * @param  count : Number of tones in sequence
+  * @param  volume : Volume level (0-100%)
+  * @retval none
+  */
+void motor_tone_sequence(uint16_t *frequencies, uint32_t *durations, uint8_t count, uint8_t volume)
+{
+  for(uint8_t i = 0; i < count; i++)
+  {
+    motor_beep(frequencies[i], durations[i], volume);
+  }
 }

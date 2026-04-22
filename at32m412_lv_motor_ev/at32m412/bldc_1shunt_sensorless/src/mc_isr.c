@@ -350,10 +350,10 @@ void SysTick_Handler(void)
  
  
 
-  if(ctrl_source == CTRL_SOURCE_EXTERNAL)
-  {
-    external_input_handler();
-  }
+  // if(ctrl_source == CTRL_SOURCE_EXTERNAL)
+  // {
+  //   external_input_handler();
+  // }
 
   ESC_State_Task(esc_state_old);
 

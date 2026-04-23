@@ -235,13 +235,24 @@ void tmr_pwm_init()
   tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_OVF_FLAG);
   tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
 
-  /* enable Break in interrupt*/
-  tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, TRUE);
+  if(cmp_output_value_get(OCP_COMP) == RESET)
+  {
+    /* enable brkin only when the CMP1 brake source is inactive */
+    tmr_brkdt_config_struct.brk_enable = TRUE;
+    tmr_brkdt_config(PWM_ADVANCE_TIMER, &tmr_brkdt_config_struct);
+    tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
+
+    /* enable Break in interrupt */
+    tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, TRUE);
+  }
+  else
+  {
+    tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
+    error_code |= error_code_mask & MC_OVER_CURRENT_ERROR;
+  }
+
   /* enable update interrupts of pwm timer */
   tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_OVF_INT, TRUE);
-    /* enable brkin */
-  tmr_brkdt_config_struct.brk_enable = TRUE;
-  tmr_brkdt_config(PWM_ADVANCE_TIMER, &tmr_brkdt_config_struct);
 
   /* disable single pulse mode */
   tmr_one_cycle_mode_enable(PWM_ADVANCE_TIMER, FALSE);

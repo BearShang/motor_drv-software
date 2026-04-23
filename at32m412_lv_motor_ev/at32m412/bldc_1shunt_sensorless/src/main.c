@@ -108,6 +108,7 @@ int main(void)
   I_offset_init();
   /* Reset pwm timer */
   tmr_pwm_init();
+  ocp_brake_enable_after_startup();
   gpio_output_init(); //for test
   /* enable pwm timer */
   tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);

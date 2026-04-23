@@ -24,6 +24,14 @@
 
 #include "mc_lib.h"
 
+#ifndef OCP_STARTUP_STABLE_MS
+#define OCP_STARTUP_STABLE_MS     (5)
+#endif
+
+#ifndef OCP_STARTUP_TIMEOUT_MS
+#define OCP_STARTUP_TIMEOUT_MS    (50)
+#endif
+
 /** @addtogroup at32m412_lv_motor_ev
   * @{
   */
@@ -235,21 +243,8 @@ void tmr_pwm_init()
   tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_OVF_FLAG);
   tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
 
-  if(cmp_output_value_get(OCP_COMP) == RESET)
-  {
-    /* enable brkin only when the CMP1 brake source is inactive */
-    tmr_brkdt_config_struct.brk_enable = TRUE;
-    tmr_brkdt_config(PWM_ADVANCE_TIMER, &tmr_brkdt_config_struct);
-    tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
-
-    /* enable Break in interrupt */
-    tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, TRUE);
-  }
-  else
-  {
-    tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
-    error_code |= error_code_mask & MC_OVER_CURRENT_ERROR;
-  }
+  /* OCP brake is armed after startup analog signals are stable. */
+  tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
 
   /* enable update interrupts of pwm timer */
   tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_OVF_INT, TRUE);
@@ -266,6 +261,57 @@ void tmr_pwm_init()
   /* primary mode selection: TMR1 */
   tmr_sub_sync_mode_set(PWM_ADVANCE_TIMER, TRUE);
   tmr_primary_mode_select(PWM_ADVANCE_TIMER, TMR_PRIMARY_SEL_OVERFLOW);
+}
+
+/**
+  * @brief  Enable over-current brake after CMP1 remains inactive at startup.
+  * @param  none
+  * @retval none
+  */
+void ocp_brake_enable_after_startup(void)
+{
+  uint16_t stable_ms = 0;
+  uint16_t timeout_ms = 0;
+  tmr_brkdt_config_type tmr_brkdt_config_struct;
+
+  while(timeout_ms < OCP_STARTUP_TIMEOUT_MS)
+  {
+    if(cmp_output_value_get(OCP_COMP) == RESET)
+    {
+      stable_ms++;
+      if(stable_ms >= OCP_STARTUP_STABLE_MS)
+      {
+        break;
+      }
+    }
+    else
+    {
+      stable_ms = 0;
+    }
+
+    timeout_ms++;
+    mc_delay_ms(1);
+  }
+
+  if(stable_ms >= OCP_STARTUP_STABLE_MS)
+  {
+    tmr_brkdt_default_para_init(&tmr_brkdt_config_struct);
+    tmr_brkdt_config_struct.brk_enable = TRUE;
+    tmr_brkdt_config_struct.auto_output_enable = FALSE;
+    tmr_brkdt_config_struct.deadtime = DEADTIME;
+    tmr_brkdt_config_struct.fcsodis_state = TRUE;
+    tmr_brkdt_config_struct.fcsoen_state = TRUE;
+    tmr_brkdt_config_struct.brk_polarity = TMR_BRK_INPUT_ACTIVE_HIGH;
+    tmr_brkdt_config_struct.wp_level = TMR_WP_OFF;
+    tmr_brkdt_config(PWM_ADVANCE_TIMER, &tmr_brkdt_config_struct);
+    tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
+    tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, TRUE);
+  }
+  else
+  {
+    tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
+    error_code |= error_code_mask & MC_OVER_CURRENT_ERROR;
+  }
 }
 
 /**

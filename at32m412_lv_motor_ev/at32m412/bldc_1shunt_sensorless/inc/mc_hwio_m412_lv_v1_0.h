@@ -481,6 +481,7 @@ void tmr_read_emf_init(void);
 void tmr_hall_init(void);
 /* timer init function for PWM */
 void tmr_pwm_init(void);
+void ocp_brake_enable_after_startup(void);
 /* timer init function for DSHOT input */
 void dshot_input_timer_init(void);
 void dshot_bidir_send_telemetry_nrz(uint16_t telemetry_data);

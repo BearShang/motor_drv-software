@@ -239,6 +239,9 @@ void tmr_pwm_init()
   tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, TRUE);
   /* enable update interrupts of pwm timer */
   tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_OVF_INT, TRUE);
+    /* enable brkin */
+  tmr_brkdt_config_struct.brk_enable = TRUE;
+  tmr_brkdt_config(PWM_ADVANCE_TIMER, &tmr_brkdt_config_struct);
 
   /* disable single pulse mode */
   tmr_one_cycle_mode_enable(PWM_ADVANCE_TIMER, FALSE);
@@ -914,7 +917,7 @@ void ocp_cmp_config(void)
   /* gpiob peripheral clock enable */
   crm_periph_clock_enable(BUS_OUT_CRM_CLK, TRUE);
 
-  /* configure pb0: pb0 is used as cmp1 non inveting input */
+  /* configure pb1: pb1 is used as cmp1 non inveting input */
   gpio_init_struct.gpio_pins = BUS_OUT_PIN;
   gpio_init_struct.gpio_mode = GPIO_MODE_ANALOG;
   gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
@@ -931,7 +934,7 @@ void ocp_cmp_config(void)
   /* cmp peripheral clock enable */
   crm_periph_clock_enable(CRM_SCFG_PERIPH_CLOCK, TRUE);
 
-  /* cmp1 init: pb0 is used cmp1 inverting input */
+  /* cmp1 init: pb1 is used cmp1 inverting input */
   cmp_default_para_init(&cmp_init_struct);
   cmp_init_struct.cmp_non_inverting = COMP_BUS_CH;
   cmp_init_struct.cmp_inverting = CMP_INVERTING_INM2;         //INM2:DAC1_OUT  INM3:DAC2_OUT

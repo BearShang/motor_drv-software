@@ -150,8 +150,10 @@ void tmr_pwm_init()
   gpio_init(PWM_PHASE_C_LOW_PORT, &gpio_init_struct);
   gpio_pin_mux_config(PWM_PHASE_C_LOW_PORT, PWM_PHASE_C_LOW_PIN_SOURCE, PWM_PHASE_C_LOW_IOMUX);
 
+	tmr_brkdt_default_para_init(&tmr_brkdt_config_struct);
   /* disable brkin */
   tmr_brkdt_config_struct.brk_enable = FALSE;
+	tmr_brkdt_config_struct.brk_polarity=TMR_BRK_INPUT_ACTIVE_HIGH;
   tmr_brkdt_config(PWM_ADVANCE_TIMER, &tmr_brkdt_config_struct);
 
   /* clear interupt flag */
@@ -213,10 +215,11 @@ void tmr_pwm_init()
 
   /* set dead time clock */
   tmr_clock_source_div_set(PWM_ADVANCE_TIMER, DEADTIME_CLK_SFT_BITS);
-
+	
+  mc_delay_ms(500);
   /* automatic output enable, break, dead time and lock configuration */
   tmr_brkdt_default_para_init(&tmr_brkdt_config_struct);
-  tmr_brkdt_config_struct.brk_enable = FALSE;
+  tmr_brkdt_config_struct.brk_enable = TRUE;
   tmr_brkdt_config_struct.auto_output_enable = FALSE;
   tmr_brkdt_config_struct.deadtime = DEADTIME;
   tmr_brkdt_config_struct.fcsodis_state = TRUE;
@@ -244,7 +247,7 @@ void tmr_pwm_init()
   tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
 
   /* OCP brake is armed after startup analog signals are stable. */
-  tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
+  tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, TRUE);
 
   /* enable update interrupts of pwm timer */
   tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_OVF_INT, TRUE);

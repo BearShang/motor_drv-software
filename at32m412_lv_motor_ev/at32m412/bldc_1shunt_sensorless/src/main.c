@@ -106,10 +106,16 @@ int main(void)
 
   /* current offset initialization */
   I_offset_init();
+ 
+
+ 
   /* Reset pwm timer */
   tmr_pwm_init();
-  ocp_brake_enable_after_startup();
+	mc_delay_ms(1000);
+	motor_play_laputa(10); // 使用天空之城音乐，建议音量设为 10
+
   gpio_output_init(); //for test
+
   /* enable pwm timer */
   tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
 
@@ -119,15 +125,14 @@ int main(void)
   param_init();
 
   led_blink();
- 
+
+  
   while(1)
   {
+    /* 蜂鸣器测试*/
 		// if(system_time_ms>=5000)
 		// {
-		// 	// 使用更合适的频率和音量
-		// 	motor_beep(200, 200, 5);
-		// 	mc_delay_ms(200);
-		// 	motor_beep(1200, 500, 20);
+		// 	motor_dji_beep(5);//音量
 		// 	system_time_ms=0;
 		// }
 		

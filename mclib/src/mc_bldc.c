@@ -350,185 +350,213 @@ void brake_config(uint16_t brake_force_duty)
 }
 
 /**
-  * @brief  Generate beep sound using motor
-  * @param  frequency : Beep frequency in Hz (100Hz - 5kHz recommended)
-  * @param  duration : Beep duration in milliseconds
-  * @param  volume : Volume level (0-100%), recommended 5-20% to prevent overheating
+  * @brief  Motor beep function - generates audible tone by switching motor coils
+  * @param  frequency : Tone frequency in Hz (20~20000 Hz)
+  * @param  duration  : Duration in milliseconds
+  * @param  volume    : Volume level (0-100), controls PWM duty cycle
   * @retval none
-  * @note   Safe beep principle: Fixed AH-BL phase, AH PWM modulation (low duty),
-  *         BL always on. Current path: VDC->AH->PhaseA->PhaseB->BL->GND
-  *         Low duty (5-20%) ensures low average current, MOS won't overheat
+  * @note   Uses two-phase switching to avoid MOS overheating
   */
 void motor_beep(uint16_t frequency, uint32_t duration, uint8_t volume)
 {
-  uint16_t temp;
-  uint16_t pwm_on_cval;
-  uint32_t half_period_us;
-  uint32_t start_time;
-  uint8_t toggle_state = 0;
-  uint8_t phase_state = 0;
+  uint32_t toggle_period_us;
+  uint32_t elapsed_us = 0;
+  uint32_t total_duration_us = duration * 1000;
+  uint16_t pwm_duty;
+  uint8_t phase_step = 0;
+  
+  /* Save current PWM mode registers, error state, and BRK configuration */
+  uint32_t saved_cm1 = PWM_ADVANCE_TIMER->cm1;
+  uint32_t saved_cm2 = PWM_ADVANCE_TIMER->cm2;
+  uint32_t saved_cctrl = PWM_ADVANCE_TIMER->cctrl;
+  uint32_t saved_brk = PWM_ADVANCE_TIMER->brk;
+  err_code_type saved_error_code = error_code;
 
-  /* Limit frequency range (200Hz - 2kHz is optimal for beeping) */
-  if(frequency < 200) frequency = 200;
-  if(frequency > 2000) frequency = 2000;
+  /* Temporarily lock OCP threshold to a fixed value during beeping to ensure 
+     consistent volume regardless of the global OCP_CURRENT setting.
+     Fixed at 10A equivalent DAC value for beeping. */
+  #define BEEP_FIXED_OCP_DAC_VAL  ((uint16_t)(63.0 * (10.0 * R_SHUNT * OP_GAIN + CURR_OFFSET_VOLT) / ADC_REFERENCE_VOLT))
+  dac_1_data_set(BEEP_FIXED_OCP_DAC_VAL);
 
-  /* Limit volume to 5-15% to prevent MOS overheating */
-  if(volume > 15) volume = 15;
-  if(volume < 5) volume = 5;
+  /* Keep hardware BRK function enabled to protect MOSFETs and limit peak current.
+     This prevents the motor from rotating due to excessive current. */
+  PWM_ADVANCE_TIMER->brk_bit.brken = TRUE;
 
-  /* Calculate PWM duty: volume% on time */
-  pwm_on_cval = ((uint32_t)volume * PWM_PERIOD) / 100;
+  /* Temporarily disable break interrupt during beeping to avoid entering error state.
+     The hardware will still "chop" the pulse if OCP is reached, but software won't lock out. */
+  tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
 
-  /* pwm timer output disable */
+  /* Limit frequency to audible range */
+  if(frequency < 20) frequency = 20;
+  if(frequency > 20000) frequency = 20000;
+
+  /* Limit volume - for static motor beep, even low duty can cause high current */
+  if(volume > 100) volume = 100; 
+
+  /* Calculate half period in us (toggle period) */
+  toggle_period_us = 500000 / frequency;
+  if(toggle_period_us < 25) toggle_period_us = 25; /* Max frequency 20kHz */
+
+  /* Calculate PWM duty based on volume (percentage of PWM_PERIOD).
+     Using / 1000 or / 2000 to balance sound and current. 
+     Hardware BRK (OCP) will act as the final current limiter. */
+  pwm_duty = (uint16_t)((uint32_t)volume * PWM_PERIOD / 1000); 
+  if(pwm_duty < 5) pwm_duty = 5; /* Minimum duty to ensure sound */
+
+  /* Disable normal PWM output only, keep timer running */
   tmr_output_enable(PWM_ADVANCE_TIMER, FALSE);
-  /* disable pwm timer */
-  tmr_counter_enable(PWM_ADVANCE_TIMER, FALSE);
 
-  /* reset counter value */
-  PWM_ADVANCE_TIMER->cval = 0;
-
-  /* Calculate half period in microseconds for better accuracy */
-  half_period_us = 500000 / frequency;
-  if(half_period_us < 500) half_period_us = 500; /* Minimum 0.5ms */
-
-  /* Set start time */
-  start_time = system_time_ms;
-
-  /* Main beep loop */
-  while((system_time_ms - start_time) < duration)
+  /* Generate tone by toggling between phases */
+  while(elapsed_us < total_duration_us)
   {
-    /* Cycle through different phase combinations */
-    switch(phase_state % 3)
+    /* CRITICAL: Clear break flag at every step. 
+       If a previous pulse was "chopped" by hardware OCP, the flag must be cleared
+       to allow the next pulse to be output. */
+    if(tmr_flag_get(PWM_ADVANCE_TIMER, TMR_BRK_FLAG))
+    {
+      tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
+    }
+
+    /* Alternate between four phase combinations to reduce MOS heating */
+    switch(phase_step)
     {
       case 0:
-        /* AH-BL (Phase A high-side, Phase B low-side) */
-        temp = PWM_ADVANCE_TIMER->cm1;
-        temp &= (~TMR_PWM_MODE_CM1_MASK);
-        temp |= AH_BL_PWM_MODE_CM1;
-        PWM_ADVANCE_TIMER->cm1 = temp;
-
-        temp = PWM_ADVANCE_TIMER->cm2;
-        temp &= (~TMR_PWM_MODE_CM2_MASK);
-        temp |= AH_BL_PWM_MODE_CM2;
-        PWM_ADVANCE_TIMER->cm2 = temp;
-
-        temp = PWM_ADVANCE_TIMER->cctrl;
-        temp &= (~TMR_PWM_OUT_MODE_MASK);
-        temp |= AH_BL_PWM_OUT_CCTRL;
-        PWM_ADVANCE_TIMER->cctrl = temp;
+        /* AH-BL pattern */
+        PWM_ADVANCE_TIMER->cm1 = AH_BL_PWM_MODE_CM1;
+        PWM_ADVANCE_TIMER->cm2 = AH_BL_PWM_MODE_CM2;
+        PWM_ADVANCE_TIMER->cctrl = AH_BL_PWM_OUT_CCTRL;
         break;
 
       case 1:
-        /* BH-CL (Phase B high-side, Phase C low-side) */
-        temp = PWM_ADVANCE_TIMER->cm1;
-        temp &= (~TMR_PWM_MODE_CM1_MASK);
-        temp |= BH_CL_PWM_MODE_CM1;
-        PWM_ADVANCE_TIMER->cm1 = temp;
-
-        temp = PWM_ADVANCE_TIMER->cm2;
-        temp &= (~TMR_PWM_MODE_CM2_MASK);
-        temp |= BH_CL_PWM_MODE_CM2;
-        PWM_ADVANCE_TIMER->cm2 = temp;
-
-        temp = PWM_ADVANCE_TIMER->cctrl;
-        temp &= (~TMR_PWM_OUT_MODE_MASK);
-        temp |= BH_CL_PWM_OUT_CCTRL;
-        PWM_ADVANCE_TIMER->cctrl = temp;
+        /* BH-AL pattern */
+        PWM_ADVANCE_TIMER->cm1 = BH_AL_PWM_MODE_CM1;
+        PWM_ADVANCE_TIMER->cm2 = BH_AL_PWM_MODE_CM2;
+        PWM_ADVANCE_TIMER->cctrl = BH_AL_PWM_OUT_CCTRL;
         break;
 
       case 2:
-        /* CH-AL (Phase C high-side, Phase A low-side) */
-        temp = PWM_ADVANCE_TIMER->cm1;
-        temp &= (~TMR_PWM_MODE_CM1_MASK);
-        temp |= CH_AL_PWM_MODE_CM1;
-        PWM_ADVANCE_TIMER->cm1 = temp;
+        /* AH-CL pattern */
+        PWM_ADVANCE_TIMER->cm1 = AH_CL_PWM_MODE_CM1;
+        PWM_ADVANCE_TIMER->cm2 = AH_CL_PWM_MODE_CM2;
+        PWM_ADVANCE_TIMER->cctrl = AH_CL_PWM_OUT_CCTRL;
+        break;
 
-        temp = PWM_ADVANCE_TIMER->cm2;
-        temp &= (~TMR_PWM_MODE_CM2_MASK);
-        temp |= CH_AL_PWM_MODE_CM2;
-        PWM_ADVANCE_TIMER->cm2 = temp;
+      case 3:
+        /* CH-AL pattern */
+        PWM_ADVANCE_TIMER->cm1 = CH_AL_PWM_MODE_CM1;
+        PWM_ADVANCE_TIMER->cm2 = CH_AL_PWM_MODE_CM2;
+        PWM_ADVANCE_TIMER->cctrl = CH_AL_PWM_OUT_CCTRL;
+        break;
 
-        temp = PWM_ADVANCE_TIMER->cctrl;
-        temp &= (~TMR_PWM_OUT_MODE_MASK);
-        temp |= CH_AL_PWM_OUT_CCTRL;
-        PWM_ADVANCE_TIMER->cctrl = temp;
+      default:
+        phase_step = 0;
         break;
     }
 
-    if(toggle_state)
-    {
-      /* On state: PWM output with duty cycle */
-      switch(phase_state % 3)
-      {
-        case 0:
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, pwm_on_cval);
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, 0);
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, 0);
-          break;
-        case 1:
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, 0);
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, pwm_on_cval);
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, 0);
-          break;
-        case 2:
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, 0);
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, 0);
-          tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, pwm_on_cval);
-          break;
-      }
-    }
-    else
-    {
-      /* Off state: all channels off */
-      tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, 0);
-      tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, 0);
-      tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, 0);
-    }
+    /* Set PWM duty for all channels */
+    PWM_ADVANCE_TIMER->c1dt = pwm_duty;
+    PWM_ADVANCE_TIMER->c2dt = pwm_duty;
+    PWM_ADVANCE_TIMER->c3dt = pwm_duty;
 
-    /* update pwm output mode from shadow buffer */
+    /* Update output mode */
     tmr_event_sw_trigger(PWM_ADVANCE_TIMER, TMR_HALL_SWTRIG);
 
-    /* enable pwm timer and output */
-    tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
+    /* Enable output */
     tmr_output_enable(PWM_ADVANCE_TIMER, TRUE);
 
-    /* Wait for half period using microsecond delay for better accuracy */
-    mc_delay_us(half_period_us);
-
-    /* Disable output before phase change */
-    tmr_output_enable(PWM_ADVANCE_TIMER, FALSE);
-    tmr_counter_enable(PWM_ADVANCE_TIMER, FALSE);
+    /* Delay for toggle period - safely handle us delay > 1ms */
+    uint32_t delay_cnt = toggle_period_us;
+    while(delay_cnt >= 1000)
+    {
+      mc_delay_ms(1);
+      delay_cnt -= 1000;
+    }
+    if(delay_cnt > 0)
+    {
+      mc_delay_us(delay_cnt);
+    }
     
-    /* Small delay to prevent shoot-through */
-    mc_delay_us(2);
+    elapsed_us += toggle_period_us;
 
-    /* Toggle state */
-    toggle_state = !toggle_state;
-    phase_state++;
+    /* Toggle phase */
+    phase_step++;
+    if(phase_step > 3) phase_step = 0;
   }
 
-  /* Disable all outputs */
+  /* Disable PWM output */
   tmr_output_enable(PWM_ADVANCE_TIMER, FALSE);
-  tmr_counter_enable(PWM_ADVANCE_TIMER, FALSE);
 
-  /* Reset PWM values to 0 */
-  tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_1, 0);
-  tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_2, 0);
-  tmr_channel_value_set(PWM_ADVANCE_TIMER, TMR_SELECT_CHANNEL_3, 0);
+  /* Reset timer channels to safe state */
+  PWM_ADVANCE_TIMER->c1dt = 0;
+  PWM_ADVANCE_TIMER->c2dt = 0;
+  PWM_ADVANCE_TIMER->c3dt = 0;
+  
+  /* Restore original PWM mode registers */
+  PWM_ADVANCE_TIMER->cm1 = saved_cm1;
+  PWM_ADVANCE_TIMER->cm2 = saved_cm2;
+  PWM_ADVANCE_TIMER->cctrl = saved_cctrl;
+  
+  /* Update output mode from shadow registers to active registers */
+  tmr_event_sw_trigger(PWM_ADVANCE_TIMER, TMR_HALL_SWTRIG);
+
+  /* Clear any overcurrent error caused by the beep itself to prevent ESC lock-out */
+  tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
+  if (!(saved_error_code & MC_OVER_CURRENT_ERROR))
+  {
+    error_code &= ~MC_OVER_CURRENT_ERROR;
+  }
+
+  /* Restore BRK configuration and re-enable break interrupt for normal operation */
+  PWM_ADVANCE_TIMER->brk = saved_brk;
+  tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, TRUE);
+  
+  /* Restore original OCP DAC threshold */
+  dac_1_data_set(DAC_OCP_REF);
 }
-
 /**
-  * @brief  Generate tone sequence using motor
-  * @param  frequencies : Array of frequencies in Hz
-  * @param  durations : Array of durations in milliseconds
-  * @param  count : Number of tones in sequence
-  * @param  volume : Volume level (0-100%)
+  * @brief  Play "Castle in the Sky" (Laputa) melody
+  * @param  volume : Volume level (0-100)
   * @retval none
   */
-void motor_tone_sequence(uint16_t *frequencies, uint32_t *durations, uint8_t count, uint8_t volume)
+void motor_play_laputa(uint8_t volume)
 {
-  for(uint8_t i = 0; i < count; i++)
-  {
-    motor_beep(frequencies[i], durations[i], volume);
-  }
+  /* Musical Note Frequencies (Hz) */
+  #define NOTE_G4  392
+  #define NOTE_A4  440
+  #define NOTE_B4  494
+  #define NOTE_C5  523
+  #define NOTE_D5  587
+  #define NOTE_E5  659
+  #define NOTE_F5  698
+  #define NOTE_G5  784
+
+  /* Tempo: Quarter note = 400ms */
+  uint32_t q = 400; 
+  uint32_t h = q / 2; // Half note (eighth)
+  
+  /* Melody: 6 7 | 1' 7 1' 3' | 7 - - 3 | 6 5 6 1' | 5 - - */
+  
+  // 6 7
+  motor_beep(NOTE_A4, h, volume); mc_delay_ms(50);
+  motor_beep(NOTE_B4, h, volume); mc_delay_ms(50);
+
+  // 1' 7 1' 3'
+  motor_beep(NOTE_C5, q + h, volume); mc_delay_ms(50);
+  motor_beep(NOTE_B4, h, volume);     mc_delay_ms(50);
+  motor_beep(NOTE_C5, q, volume);     mc_delay_ms(50);
+  motor_beep(NOTE_E5, q, volume);     mc_delay_ms(50);
+
+  // 7 - - 3
+  motor_beep(NOTE_B4, q * 2, volume); mc_delay_ms(50);
+  motor_beep(NOTE_E5, h, volume);     mc_delay_ms(50); // Using E5 as high 3
+
+  // 6 5 6 1'
+  motor_beep(NOTE_A4, q + h, volume); mc_delay_ms(50);
+  motor_beep(NOTE_G4, h, volume);     mc_delay_ms(50);
+  motor_beep(NOTE_A4, q, volume);     mc_delay_ms(50);
+  motor_beep(NOTE_C5, q, volume);     mc_delay_ms(50);
+
+  // 5 - -
+  motor_beep(NOTE_G4, q * 2, volume); mc_delay_ms(50);
 }
+ 

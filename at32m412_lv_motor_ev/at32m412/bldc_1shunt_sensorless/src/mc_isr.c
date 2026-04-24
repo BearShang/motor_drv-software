@@ -167,7 +167,7 @@ void ADVTMR_PWM_BRK_IRQ(void)
 {
   if (PWM_ADVANCE_TIMER->ists_bit.brkif && PWM_ADVANCE_TIMER->iden_bit.brkie)
   {
-    tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
+    //tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
     tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
 
     /* Over current protection */

@@ -37,7 +37,7 @@
   * @brief main program
   * @{
   */
-
+extern volatile uint32_t system_time_ms;
 crm_clocks_freq_type crm_clocks_freq_struct = {0};
 void check_configured_core_clock(void);
 /**
@@ -106,9 +106,16 @@ int main(void)
 
   /* current offset initialization */
   I_offset_init();
+ 
+
+ 
   /* Reset pwm timer */
   tmr_pwm_init();
+	mc_delay_ms(1000);
+	motor_play_startup_tone(10);  
+
   gpio_output_init(); //for test
+
   /* enable pwm timer */
   tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
 
@@ -118,7 +125,8 @@ int main(void)
   param_init();
 
   led_blink();
- 
+
+  
   while(1)
   {
     /* calculate motor speed */

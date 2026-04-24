@@ -345,10 +345,15 @@ void SysTick_Handler(void)
 //      dshot_send_packet(2047, 0);  // 发送DShot波形
 //    }
 //    #endif
-  if(ctrl_source == CTRL_SOURCE_EXTERNAL)
-  {
-    external_input_handler();
-  }
+ 
+    system_time_ms++;
+ 
+ 
+
+  // if(ctrl_source == CTRL_SOURCE_EXTERNAL)
+  // {
+  //   external_input_handler();
+  // }
 
   ESC_State_Task(esc_state_old);
 

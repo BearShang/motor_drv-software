@@ -431,10 +431,10 @@ extern "C" {
 #define BUS_OUT_CRM_CLK                  CRM_GPIOB_PERIPH_CLOCK
 
 #define OCP_COMP                         CMP1_SELECTION
-#define COMP_BUS_GPIO_CRM_CLK            CRM_GPIOA_PERIPH_CLOCK
-#define COMP_BUS_PORT                    GPIOA
-#define COMP_BUS_GPIO_PIN                GPIO_PINS_4
-#define COMP_BUS_GPIO_PIN_SOURCE         GPIO_PINS_SOURCE4
+#define COMP_BUS_GPIO_CRM_CLK            CRM_GPIOB_PERIPH_CLOCK
+#define COMP_BUS_PORT                    GPIOB
+#define COMP_BUS_GPIO_PIN                GPIO_PINS_1
+#define COMP_BUS_GPIO_PIN_SOURCE         GPIO_PINS_SOURCE1
 #define COMP_BUS_CH                      CMP_NON_INVERTING_INP3
 #define TMR_BRKIN_SOURCE                 TMR_BRKIN_SOURCE_CMP1
 
@@ -481,6 +481,7 @@ void tmr_read_emf_init(void);
 void tmr_hall_init(void);
 /* timer init function for PWM */
 void tmr_pwm_init(void);
+void ocp_brake_enable_after_startup(void);
 /* timer init function for DSHOT input */
 void dshot_input_timer_init(void);
 void dshot_bidir_send_telemetry_nrz(uint16_t telemetry_data);

@@ -129,13 +129,6 @@ int main(void)
   
   while(1)
   {
-    /* 蜂鸣器测试*/
-		// if(system_time_ms>=5000)
-		// {
-		// 	motor_dji_beep(5);//音量
-		// 	system_time_ms=0;
-		// }
-		
     /* calculate motor speed */
     if(calc_spd_rdy == SET)
     {

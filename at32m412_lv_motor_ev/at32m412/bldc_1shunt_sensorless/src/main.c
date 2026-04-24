@@ -112,7 +112,7 @@ int main(void)
   /* Reset pwm timer */
   tmr_pwm_init();
 	mc_delay_ms(1000);
-	motor_play_laputa(10); // 使用天空之城音乐，建议音量设为 10
+	motor_play_startup_tone(10);  
 
   gpio_output_init(); //for test
 

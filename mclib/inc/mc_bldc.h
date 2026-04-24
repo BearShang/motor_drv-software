@@ -39,6 +39,7 @@ void bldc_hall_learning(hall_sensor_type *hall_handler, hall_learn_type *hall_le
 void brake_config(uint16_t brake_duty);
 void motor_beep(uint16_t frequency, uint32_t duration, uint8_t volume);
 void motor_play_laputa(uint8_t volume);
+void motor_play_startup_tone(uint8_t volume);
 #ifdef __cplusplus
 }
 #endif

@@ -559,4 +559,37 @@ void motor_play_laputa(uint8_t volume)
   // 5 - -
   motor_beep(NOTE_G4, q * 2, volume); mc_delay_ms(50);
 }
+
+/**
+  * @brief  Play custom startup melody: f4 e4 g3 _ a3 c4 d4
+  * @param  volume : Volume level (0-100)
+  * @retval none
+  */
+void motor_play_startup_tone(uint8_t volume)
+{
+  /* Frequencies for the requested sequence (Hz) */
+  #define NOTE_F4  349
+  #define NOTE_E4  330
+  #define NOTE_G3  196
+  #define NOTE_A3  220
+  #define NOTE_C4  262
+  #define NOTE_D4  294
+
+  uint32_t note_duration = 180; // Standard duration for each note
+  uint32_t gap = 40;            // Small gap between notes
+  uint32_t long_pause = 150;    // The "_" in the sequence
+
+  // f4 e4 g3
+  motor_beep(NOTE_F4, note_duration, volume); mc_delay_ms(gap);
+  motor_beep(NOTE_E4, note_duration, volume); mc_delay_ms(gap);
+  motor_beep(NOTE_G3, note_duration, volume); 
+  
+  // _ (Pause)
+  mc_delay_ms(long_pause);
+
+  // a3 c4 d4
+  motor_beep(NOTE_A3, note_duration, volume); mc_delay_ms(gap);
+  motor_beep(NOTE_C4, note_duration, volume); mc_delay_ms(gap);
+  motor_beep(NOTE_D4, note_duration, volume); mc_delay_ms(gap);
+}
  

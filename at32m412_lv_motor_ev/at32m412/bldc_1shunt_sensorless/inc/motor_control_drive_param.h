@@ -315,7 +315,7 @@ extern "C" {
 #define OLC_INIT_SPD               (100)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
 #define OLC_TIMES                  (200)     /*!< Accumulated 200 times to reach the final speed */
-#define OLC_INIT_VOLT              (1.1)    /*!< V */
+#define OLC_INIT_VOLT              (0.8)    /*!< V */
 #define OLC_VOLT_INC               (0.003)
 /* open loop start-up */
 #define OLC_STARTUP_PERIOD         (1500)     /*!< msec */

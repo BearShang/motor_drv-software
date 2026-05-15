@@ -94,9 +94,6 @@ int main(void)
   tmr_blank_trigger_init();
   tmr_blank_init();
 
-  /* enable pwm timer */
-  tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
-
   /* UART initialization */
 #if defined USE_MOTOR_MONITOR
   uart_init(&ui_usart);
@@ -111,13 +108,15 @@ int main(void)
  
   /* Reset pwm timer */
   tmr_pwm_init();
-	mc_delay_ms(1000);
-	motor_play_startup_tone(10);  
-
-  //gpio_output_init(); //for test
-
-  /* enable pwm timer */
+    /* enable pwm timer */
   tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
+	mc_delay_ms(100);
+	motor_play_startup_tone(80);
+
+  gpio_output_init(); //for test
+    /* enable pwm timer */
+  tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
+
 
   /* get system clock */
   crm_clocks_freq_get(&crm_clocks_freq_struct);

@@ -397,16 +397,6 @@
           <WinNumber>2</WinNumber>
           <ItemText>speed_LPF,0x0A</ItemText>
         </Ww>
-        <Ww>
-          <count>24</count>
-          <WinNumber>2</WinNumber>
-          <ItemText>bldc_rdy</ItemText>
-        </Ww>
-        <Ww>
-          <count>25</count>
-          <WinNumber>2</WinNumber>
-          <ItemText>dshot_dma_capture_buffer,0x0A</ItemText>
-        </Ww>
       </WatchWindow2>
       <Tracepoint>
         <THDelay>0</THDelay>

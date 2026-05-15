@@ -168,7 +168,7 @@ extern "C" {
 #define CHANGE_PHASE_TMR_DIV      (TMR_CLK/2/1000000)                /*!< 0.5usec/per cval */
 /* Dead-time inserted */
 #define DEADTIME_CLK_SFT_BITS     ((tmr_clock_division_type)2)
-#define DEADTIME_NS               ((uint16_t)50)                    /* in nsec; check the MOSFET/IGBT/IPM specification
+#define DEADTIME_NS               ((uint16_t)0)                    /* in nsec; check the MOSFET/IGBT/IPM specification
                                                                         SYSTEM_CORE_CLOCK = 240MHz, range is [0...2000];
                                                                         SYSTEM_CORE_CLOCK = 200MHz, range is [0...2500];
                                                                         SYSTEM_CORE_CLOCK = 150MHz, range is [0...3000];
@@ -208,7 +208,7 @@ extern "C" {
 
 #if defined AT32M412xx || defined AT32M416xx
 #define DAC_VREF_SOURCE           (DAC_VDDA)   //选择参考电压源
-#define OCP_CURRENT               (10.0)       /*!< A for test */
+#define OCP_CURRENT               (29.0)       /*!< A for test */
 #define BUS_CURR_CMP_OCP_VOLT     (OCP_CURRENT*R_SHUNT*OP_GAIN+CURR_OFFSET_VOLT)  //计算过流电压
 #define TMR_BRK_FILTER_COUNT      (10)          //设置定时器刹车滤波次数
 #endif
@@ -315,7 +315,7 @@ extern "C" {
 #define OLC_INIT_SPD               (100)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
 #define OLC_TIMES                  (200)     /*!< Accumulated 200 times to reach the final speed */
-#define OLC_INIT_VOLT              (0.8)    /*!< V */
+#define OLC_INIT_VOLT              (0.5)    /*!< V */
 #define OLC_VOLT_INC               (0.003)
 /* open loop start-up */
 #define OLC_STARTUP_PERIOD         (1500)     /*!< msec */
@@ -326,8 +326,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          2500
-#define PID_IS_KI_DEFUALT          200
+#define PID_IS_KP_DEFUALT          5000
+#define PID_IS_KI_DEFUALT          1200
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768

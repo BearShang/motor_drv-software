@@ -185,7 +185,7 @@ PMSM(BLDC)电机
 图 1. 开发板主要连接介面图
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/e8e0f507f5866ed0ad0ad192313fe5797c90e31bfb2ec1e5418f0da4526d54d4.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-01.jpg' | relative_url }}" alt="图 1">
 
 
 ### 2.2 软件环境准备
@@ -208,22 +208,22 @@ PMSM(BLDC)电机
 图 2. AT32M412CBT7 ROM 配置(Keil)
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/ec0f45852e1acaa0a606b29f62a99d1a27769917bc9c3e7b884a710513a3fb72.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-02.jpg' | relative_url }}" alt="图 2">
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/2fa1579ec2d90183e26c76af747235d35558da27e971e709b5b35885c7fe0376.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-03.jpg' | relative_url }}" alt="图 3">
 
 
 图 3. AT32M412CBT7 ROM 配置(AT32IDE)
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/9245036fe389472faf70d14c64d2f02e1a4a370ddfd829ad4c086bbfbcd6da2b.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-04.jpg' | relative_url }}" alt="图 4">
 
 
 图 4. AT32M412CBT7 之 ROM 配置(IAR)
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/d2fb461360cb0b75354791b31ded2b304e8ae92c5324ecf40752fb9fab60a8eb.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-05.jpg' | relative_url }}" alt="图 5">
 
 
 ## 3 BLDC 电机库文档说明
@@ -260,7 +260,7 @@ AN0214_AT32_BLDC_Sensorless_Quick_Start_Guide。
 图 5. 说明文档位置
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/d7722c0f9e4911cd942d297c092d5ec09754f732dfaf14e26b38d13e12465678.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-06.jpg' | relative_url }}" alt="图 6">
 
 
 ## 4 快速上手操作指南
@@ -301,7 +301,7 @@ AT32M412 以及AT32M416 带有4组运算放大器(OP)，因此可以应用在BLD
 图 6. 独立模式电路图
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/93f480194d4d6657c3ccbd1a8fa5c2d1add2076fb0b9c324747247a5dfe95477.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-07.jpg' | relative_url }}" alt="图 7">
 
 
 ### 4.4 电流保护
@@ -312,7 +312,7 @@ AT32M412 以及AT32M416 均带有DAC以及比较器且有煞车输入的功能�
 图 7. 过流保护配置示意图（以 M412 为例）
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/27bf54193946701683a672d5286c263651a4141bbb12594c7dafaa7a431ba207.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-08.jpg' | relative_url }}" alt="图 8">
 
 
 可以透过修改宏定义配置过流点的电压，亦可选择适当的 DAC 参考电压来源，如图8
@@ -321,7 +321,7 @@ AT32M412 以及AT32M416 均带有DAC以及比较器且有煞车输入的功能�
 图 8. 配置過流點的電壓（以 M412 为例）
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/70dbe6c7a2f334d0abcd612c3e6e0a723bf91bd8b4e9bc4ef91fb53cff2d6573.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-09.jpg' | relative_url }}" alt="图 9">
 
 
 ### 4.5 比较器检测反电势过零点
@@ -332,7 +332,7 @@ AT32M412 以及AT32M416 均带有DAC以及比较器且有煞车输入的功能�
 图 9. 使用内部比较器之反电势分压参考电路（以 M412 为例）
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/3029e4c70dc7271fa0e61a052f81084bcb61873e652cf44ee8a85157742a6922.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-10.jpg' | relative_url }}" alt="图 10">
 
 
 比较器的侦测法可以使用外部比较器也可以使用内部比较器，为节省成本以及缩小电路体积，雅特力提供带有内部比较器的芯片如 AT32F421、AT32F415、AT32M412、AT32M416 等，具体配置可以参考图10。
@@ -341,7 +341,7 @@ AT32M412 以及AT32M416 均带有DAC以及比较器且有煞车输入的功能�
 图 10. 内部比较器配置方法（以 M412 为例）
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/a9363e11fca698a5c98ef6755d0cb22143e5324c46131108582b6ec000c12fda.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-11.jpg' | relative_url }}" alt="图 11">
 
 
 电机运转时，MOSFET开关时通常会有切换杂讯，建议可以搭配比较器消隐功能将杂讯滤除，可提高系统稳定性，另外，若消隐窗口配置适当，可将比较后的信号直接连接到定时器捕获通道直接触发延后30度换相，即可节省使用软件判断式滤除杂讯的运行时间，达到更即时换相的效果。
@@ -356,13 +356,13 @@ EMF_RISE_BLANK_TIME、EMF_FALL_BLANK_TIME 两个参数定义调整消隐窗口�
 图 11. 消隐窗口设置示意图
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/c3d7906350f7385799a6b39207a8fec7274774883cb18b703528045c674f172c.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-12.jpg' | relative_url }}" alt="图 12">
 
 
 图 12. 消隐窗口大小定义
 
 
-![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/5de86c0fdcf7fefddc203b5cc20aab06b08f6cbcaf162c80cc668bea18d6faf3.jpg)
+<img src="{{ '/docs/pics/motor-control/figure-13.jpg' | relative_url }}" alt="图 13">
 
 
 ## 5 文档版本历史

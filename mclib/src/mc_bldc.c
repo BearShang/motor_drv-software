@@ -365,106 +365,77 @@ void motor_beep(uint16_t frequency, uint32_t duration, uint8_t volume)
   uint16_t pwm_duty;
   uint8_t phase_step = 0;
   
-  /* Save current PWM mode registers, error state, and BRK configuration */
   uint32_t saved_cm1 = PWM_ADVANCE_TIMER->cm1;
   uint32_t saved_cm2 = PWM_ADVANCE_TIMER->cm2;
   uint32_t saved_cctrl = PWM_ADVANCE_TIMER->cctrl;
   uint32_t saved_brk = PWM_ADVANCE_TIMER->brk;
   err_code_type saved_error_code = error_code;
 
-  /* Temporarily lock OCP threshold to a fixed value during beeping to ensure 
-     consistent volume regardless of the global OCP_CURRENT setting.
-     Fixed at 10A equivalent DAC value for beeping. */
+  /* 改动1：OCP 阈值从 10A 放宽到 20A，作为极端情况的最后保险 */
   #define BEEP_FIXED_OCP_DAC_VAL  ((uint16_t)(63.0 * (10.0 * R_SHUNT * OP_GAIN + CURR_OFFSET_VOLT) / ADC_REFERENCE_VOLT))
   dac_1_data_set(BEEP_FIXED_OCP_DAC_VAL);
 
-  /* Keep hardware BRK function enabled to protect MOSFETs and limit peak current.
-     This prevents the motor from rotating due to excessive current. */
-  PWM_ADVANCE_TIMER->brk_bit.brken = TRUE;
+  /* 改动2：关闭硬件 BRK，这是声音能从"很小"变"响亮"的核心。
+     蜂鸣时间很短（几百毫秒）且电机静止，风险可控。 */
+  PWM_ADVANCE_TIMER->brk_bit.brken = FALSE;
 
-  /* Temporarily disable break interrupt during beeping to avoid entering error state.
-     The hardware will still "chop" the pulse if OCP is reached, but software won't lock out. */
   tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, FALSE);
 
-  /* Limit frequency to audible range */
   if(frequency < 20) frequency = 20;
   if(frequency > 20000) frequency = 20000;
-
-  /* Limit volume - for static motor beep, even low duty can cause high current */
   if(volume > 100) volume = 100; 
 
-  /* Calculate half period in us (toggle period) */
   toggle_period_us = 500000 / frequency;
-  if(toggle_period_us < 25) toggle_period_us = 25; /* Max frequency 20kHz */
+  if(toggle_period_us < 25) toggle_period_us = 25;
 
-  /* Calculate PWM duty based on volume (percentage of PWM_PERIOD).
-     Using / 1000 or / 2000 to balance sound and current. 
-     Hardware BRK (OCP) will act as the final current limiter. */
   pwm_duty = (uint16_t)((uint32_t)volume * PWM_PERIOD / 1000); 
-  if(pwm_duty < 5) pwm_duty = 5; /* Minimum duty to ensure sound */
+  if(pwm_duty < 5) pwm_duty = 5;
 
-  /* Disable normal PWM output only, keep timer running */
+  /* 改动3：加占空比硬上限 20%，防止低阻电机在关 BRK 后电流失控。
+     如果 20% 声音够了但 MOS 发热，可放宽到 /6(~16%) 或 /8(~12%)。
+     如果 20% 还不够且 MOS 不烫，可放宽到 /4(25%)。 */
+  #define MAX_BEEP_DUTY  (PWM_PERIOD / 5)
+  if(pwm_duty > MAX_BEEP_DUTY)
+    pwm_duty = MAX_BEEP_DUTY;
+
   tmr_output_enable(PWM_ADVANCE_TIMER, FALSE);
 
-  /* Generate tone by toggling between phases */
   while(elapsed_us < total_duration_us)
   {
-    /* CRITICAL: Clear break flag at every step. 
-       If a previous pulse was "chopped" by hardware OCP, the flag must be cleared
-       to allow the next pulse to be output. */
-    if(tmr_flag_get(PWM_ADVANCE_TIMER, TMR_BRK_FLAG))
-    {
-      tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
-    }
-
-    /* Alternate between four phase combinations to reduce MOS heating */
     switch(phase_step)
     {
       case 0:
-        /* AH-BL pattern */
         PWM_ADVANCE_TIMER->cm1 = AH_BL_PWM_MODE_CM1;
         PWM_ADVANCE_TIMER->cm2 = AH_BL_PWM_MODE_CM2;
         PWM_ADVANCE_TIMER->cctrl = AH_BL_PWM_OUT_CCTRL;
         break;
-
       case 1:
-        /* BH-AL pattern */
         PWM_ADVANCE_TIMER->cm1 = BH_AL_PWM_MODE_CM1;
         PWM_ADVANCE_TIMER->cm2 = BH_AL_PWM_MODE_CM2;
         PWM_ADVANCE_TIMER->cctrl = BH_AL_PWM_OUT_CCTRL;
         break;
-
       case 2:
-        /* AH-CL pattern */
         PWM_ADVANCE_TIMER->cm1 = AH_CL_PWM_MODE_CM1;
         PWM_ADVANCE_TIMER->cm2 = AH_CL_PWM_MODE_CM2;
         PWM_ADVANCE_TIMER->cctrl = AH_CL_PWM_OUT_CCTRL;
         break;
-
       case 3:
-        /* CH-AL pattern */
         PWM_ADVANCE_TIMER->cm1 = CH_AL_PWM_MODE_CM1;
         PWM_ADVANCE_TIMER->cm2 = CH_AL_PWM_MODE_CM2;
         PWM_ADVANCE_TIMER->cctrl = CH_AL_PWM_OUT_CCTRL;
         break;
-
       default:
         phase_step = 0;
         break;
     }
 
-    /* Set PWM duty for all channels */
     PWM_ADVANCE_TIMER->c1dt = pwm_duty;
     PWM_ADVANCE_TIMER->c2dt = pwm_duty;
     PWM_ADVANCE_TIMER->c3dt = pwm_duty;
 
-    /* Update output mode */
     tmr_event_sw_trigger(PWM_ADVANCE_TIMER, TMR_HALL_SWTRIG);
-
-    /* Enable output */
     tmr_output_enable(PWM_ADVANCE_TIMER, TRUE);
 
-    /* Delay for toggle period - safely handle us delay > 1ms */
     uint32_t delay_cnt = toggle_period_us;
     while(delay_cnt >= 1000)
     {
@@ -477,40 +448,30 @@ void motor_beep(uint16_t frequency, uint32_t duration, uint8_t volume)
     }
     
     elapsed_us += toggle_period_us;
-
-    /* Toggle phase */
     phase_step++;
     if(phase_step > 3) phase_step = 0;
   }
 
-  /* Disable PWM output */
   tmr_output_enable(PWM_ADVANCE_TIMER, FALSE);
-
-  /* Reset timer channels to safe state */
   PWM_ADVANCE_TIMER->c1dt = 0;
   PWM_ADVANCE_TIMER->c2dt = 0;
   PWM_ADVANCE_TIMER->c3dt = 0;
   
-  /* Restore original PWM mode registers */
   PWM_ADVANCE_TIMER->cm1 = saved_cm1;
   PWM_ADVANCE_TIMER->cm2 = saved_cm2;
   PWM_ADVANCE_TIMER->cctrl = saved_cctrl;
-  
-  /* Update output mode from shadow registers to active registers */
   tmr_event_sw_trigger(PWM_ADVANCE_TIMER, TMR_HALL_SWTRIG);
 
-  /* Clear any overcurrent error caused by the beep itself to prevent ESC lock-out */
   tmr_flag_clear(PWM_ADVANCE_TIMER, TMR_BRK_FLAG);
   if (!(saved_error_code & MC_OVER_CURRENT_ERROR))
   {
     error_code &= ~MC_OVER_CURRENT_ERROR;
   }
 
-  /* Restore BRK configuration and re-enable break interrupt for normal operation */
+  /* 恢复 BRK 和中断，不影响正常运行 */
   PWM_ADVANCE_TIMER->brk = saved_brk;
   tmr_interrupt_enable(PWM_ADVANCE_TIMER, TMR_BRK_INT, TRUE);
   
-  /* Restore original OCP DAC threshold */
   dac_1_data_set(DAC_OCP_REF);
 }
 /**

@@ -100,7 +100,7 @@ void param_clear(void)
     openloop.olc_period_dec = 0;
   }
 
-  openloop.volt_ref = calcValueByVref(openloop.olc_init_volt);
+  openloop.volt_ref = openloop.olc_init_volt;
   openloop.period_ref = openloop.olc_init_period;
 
   if (ctrl_source == CTRL_SOURCE_SOFTWARE)

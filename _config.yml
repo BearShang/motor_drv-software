@@ -13,9 +13,9 @@ defaults:
       layout: default
 
 nav:
-  - title: 首页
-    url: /
   - title: 简介
-    url: /docs/intro.html
+    url: /
+    aliases:
+      - /docs/intro.html
   - title: 电机控制
     url: /docs/motor-control.html

@@ -29,6 +29,9 @@
             {% if page.url == item.url or page.url == item_url %}
               {% assign active = true %}
             {% endif %}
+            {% if item.aliases contains page.url %}
+              {% assign active = true %}
+            {% endif %}
             {% if item.url == '/' and page.url == '/index.html' %}
               {% assign active = true %}
             {% endif %}

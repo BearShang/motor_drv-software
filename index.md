@@ -1,8 +1,8 @@
 ---
-title: motor_drv-software
+title: Tiny_ESC
 ---
 
-# motor_drv-software
+# Tiny_ESC
 
 AT32M412 电机驱动软件文档。
 

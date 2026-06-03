@@ -13,27 +13,27 @@ title: 简介
 - MCU内建的OPA放大母线电流信号，可通过配置，直连内建的CMP，构成过流保护单元，过流点可由DAC配置。
 - 支持雅特丽原厂上位机控制、单向DSHOT600、双向BDSHOT600。
 
-![alt text](pics/length.jpg)
+<img src="{{ '/docs/pics/length.jpg' | relative_url }}" alt="长度尺寸图">
 
-![alt text](pics/width.jpg)
+<img src="{{ '/docs/pics/width.jpg' | relative_url }}" alt="宽度尺寸图">
 
 ## 原理图预览
 
 ### PWR
 
-![alt text](pics/image.png)
+<img src="{{ '/docs/pics/image.png' | relative_url }}" alt="PWR 原理图">
 
 ### MCU
 
-![alt text](pics/image-1.png)
+<img src="{{ '/docs/pics/image-1.png' | relative_url }}" alt="MCU 原理图">
 
 ### Driver
 
-![alt text](pics/image-2.png)
+<img src="{{ '/docs/pics/image-2.png' | relative_url }}" alt="Driver 原理图">
 
 ### Sensing
 
-![alt text](pics/image-3.png)
+<img src="{{ '/docs/pics/image-3.png' | relative_url }}" alt="Sensing 原理图">
 
 ## 感谢
 

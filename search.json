@@ -17,8 +17,14 @@ permalink: /search.json
   {%- if should_index -%}
     {%- unless first -%},{%- endunless -%}
     {%- assign first = false -%}
+    {%- assign display_title = indexed_page.title | default: site.title -%}
+    {%- for nav_item in site.nav -%}
+      {%- if nav_item.url == indexed_page.url -%}
+        {%- assign display_title = nav_item.title -%}
+      {%- endif -%}
+    {%- endfor -%}
     {
-      "title": {{ indexed_page.title | default: site.title | jsonify }},
+      "title": {{ display_title | jsonify }},
       "url": {{ indexed_page.url | relative_url | jsonify }},
       "content": {{ indexed_page.content | markdownify | strip_html | strip_newlines | normalize_whitespace | jsonify }}
     }

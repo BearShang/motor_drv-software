@@ -2,7 +2,7 @@
 title: Motor Driver Software
 ---
 
-# Motor Driver Software
+# Motor Driver
 
 AT32M412 BLDC Motor Control Library入门指南
 

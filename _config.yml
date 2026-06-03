@@ -19,6 +19,8 @@ nav:
       - /docs/intro.html
   - title: 快速开始
     url: /docs/quick-start.html
+  - title: 编译和烧录
+    url: /docs/build-flash.html
   - title: 性能调优
     url: /docs/performance-tuning.html
   - title: 电机控制

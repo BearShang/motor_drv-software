@@ -1,0 +1,27 @@
+---
+layout: null
+permalink: /search.json
+---
+[
+{%- assign searchable_pages = site.pages | sort: "url" -%}
+{%- assign first = true -%}
+{%- for indexed_page in searchable_pages -%}
+  {%- assign page_path = indexed_page.path | default: "" -%}
+  {%- assign page_ext = page_path | split: "." | last -%}
+  {%- assign should_index = false -%}
+  {%- if page_path == "index.md" -%}
+    {%- assign should_index = true -%}
+  {%- elsif page_path contains "docs/" and page_ext == "md" and indexed_page.url != "/docs/intro.html" -%}
+    {%- assign should_index = true -%}
+  {%- endif -%}
+  {%- if should_index -%}
+    {%- unless first -%},{%- endunless -%}
+    {%- assign first = false -%}
+    {
+      "title": {{ indexed_page.title | default: site.title | jsonify }},
+      "url": {{ indexed_page.url | relative_url | jsonify }},
+      "content": {{ indexed_page.content | markdownify | strip_html | strip_newlines | normalize_whitespace | jsonify }}
+    }
+  {%- endif -%}
+{%- endfor -%}
+]

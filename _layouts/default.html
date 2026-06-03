@@ -13,9 +13,16 @@
     <header class="site-header">
       <div class="site-header__inner">
         <a class="site-brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        <nav class="top-nav" aria-label="站点链接">
-          <a href="https://github.com/BearShang/motor_drv-software" rel="noreferrer">GitHub</a>
-        </nav>
+        <div class="top-actions">
+          <form class="site-search" role="search" data-search-index="{{ '/search.json' | relative_url }}" autocomplete="off">
+            <label class="search-label" for="site-search-input">搜索文档</label>
+            <input id="site-search-input" class="search-input" type="search" placeholder="搜索文档" aria-label="搜索文档">
+            <div id="site-search-results" class="search-results" role="listbox" aria-label="搜索结果"></div>
+          </form>
+          <nav class="top-nav" aria-label="站点链接">
+            <a href="https://github.com/BearShang/motor_drv-software" rel="noreferrer">GitHub</a>
+          </nav>
+        </div>
       </div>
     </header>
 

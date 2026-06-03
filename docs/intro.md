@@ -1,4 +1,9 @@
+---
+title: 简介
+---
+
 # 概述
+
 - 泛用低压三相电机驱动器，无感BLDC，适用于无人机ESC，RC小车驱动等。
 - 上升沿10ns，极小的米勒平台。
 - AT32M412KBU7-4 (Cortex-M4F)是一颗180MHz时脉带有浮点运算器的微控制器，双ADC转换器、 2个比较、4个运放，几乎不需要外设。
@@ -7,18 +12,29 @@
 - 1个直流地母线电流检测电阻，搭配MCU内建OPA可实现单电阻电流电测。
 - MCU内建的OPA放大母线电流信号，可通过配置，直连内建的CMP，构成过流保护单元，过流点可由DAC配置。
 - 支持雅特丽原厂上位机控制、单向DSHOT600、双向BDSHOT600。
-![alt text](pics/length.jpg)
-![alt text](pics/width.jpg)
-# 原理图预览
 
-## PWR
+![alt text](pics/length.jpg)
+
+![alt text](pics/width.jpg)
+
+## 原理图预览
+
+### PWR
+
 ![alt text](pics/image.png)
-## MCU
+
+### MCU
+
 ![alt text](pics/image-1.png)
-## Driver
+
+### Driver
+
 ![alt text](pics/image-2.png)
-## Sensing
+
+### Sensing
+
 ![alt text](pics/image-3.png)
 
-# 感谢
+## 感谢
+
 特别感谢雅特丽原厂工程师们的支持！！

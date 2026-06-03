@@ -6,17 +6,19 @@ title: Motor Driver Software
 
 AT32M412 BLDC Motor Control Library入门指南
 
-# 前言
+## 前言
 
 这篇应用笔记描述了如何使用AT32M412_LV_MOTOR_DRV 低压泛用型电机开发板搭配AT32电机库调试不同电机运转。
 
-支持型号列表：
+<div class="admonition info">
+<div class="admonition-title">支持型号列表：</div>
 
 <table><tr><td>支持型号</td><td>AT32M412 系列</td></tr></table>
 
-# AT32M412 BLDC Motor Control Library User Guide
+</div>
 
-# 目录
+
+## 本页总览
 
 1 电机库算法概述..
 
@@ -42,9 +44,8 @@ AT32M412 BLDC Motor Control Library入门指南
 
 5 文档版本历史..... . 18
 
-# AT32M412 BLDC Motor Control Library User Guide
 
-# 表目录
+## 表目录
 
 表1. 对应闪存存储空间ROM配置表.. 9
 
@@ -52,9 +53,8 @@ AT32M412 BLDC Motor Control Library入门指南
 
 表 3. 文档版本历史. .. 18
 
-# AT32M412 BLDC Motor Control Library User Guide
 
-# 图目录
+## 图目录
 
 图1. 开发板主要连接介面图 8
 
@@ -80,7 +80,7 @@ AT32M412 BLDC Motor Control Library入门指南
 
 图12. 消隐窗口大小定义.. .17
 
-# 1 电机库算法概述
+## 1 电机库算法概述
 
 这篇应用笔记使用电机库相关算法主要内容如下
 
@@ -132,9 +132,8 @@ ADC检测反电势过零点
 
 转速控制
 
-# AT32M412 BLDC Motor Control Library User Guide
 
-# 自动调试功能：
+### 自动调试功能：
 
 霍尔状态自学习(霍尔传感器专用)
 
@@ -142,9 +141,9 @@ ADC检测反电势过零点
 
 电流PI控制参数自整定
 
-# 2 环境准备
+## 2 环境准备
 
-# 2.1 硬件环境准备
+### 2.1 硬件环境准备
 
 需要准备硬件项目主要包括 PMSM(BLDC)电机、AT-Link 或第三方调试下载器以及一块电机开发控制板 AT32M412_LV_MOTOR_DRV，相关硬件配置可参考 UM0016 AT32M412 微控制器低压电机开发板用户手册。
 
@@ -154,7 +153,7 @@ PMSM(BLDC)电机
 
 电机控制开发板: AT32M412_LV_MOTOR_DRV
 
-# 电机开发板额定规格
+#### 电机开发板额定规格
 
 输入电压：6V~45V
 
@@ -162,7 +161,7 @@ PMSM(BLDC)电机
 
 过电流保护点：55APEAK
 
-# 启动步骤
+#### 启动步骤
 
 1) 使用位置传感器时，将霍尔传感器(增量编码器)接线连接到开发板的CN3
 
@@ -182,8 +181,6 @@ PMSM(BLDC)电机
 
 9) 操作雅特力电机监控(ArteryMotorMonitor)软件，清除低电压错误警报(因烧录程式后，母线电源尚未输入)，设定参数并控制电机运转
 
-# AT32M412 BLDC Motor Control Library User Guide
-
 
 图 1. 开发板主要连接介面图
 
@@ -191,7 +188,7 @@ PMSM(BLDC)电机
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/e8e0f507f5866ed0ad0ad192313fe5797c90e31bfb2ec1e5418f0da4526d54d4.jpg)
 
 
-# 2.2 软件环境准备
+### 2.2 软件环境准备
 
 1) 开启 bldc_1shunt_sensorless 范例工程
 
@@ -214,10 +211,7 @@ PMSM(BLDC)电机
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/ec0f45852e1acaa0a606b29f62a99d1a27769917bc9c3e7b884a710513a3fb72.jpg)
 
 
-# AT32M412 BLDC Motor Control Library User Guide
-
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/2fa1579ec2d90183e26c76af747235d35558da27e971e709b5b35885c7fe0376.jpg)
-
 
 
 图 3. AT32M412CBT7 ROM 配置(AT32IDE)
@@ -226,16 +220,13 @@ PMSM(BLDC)电机
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/9245036fe389472faf70d14c64d2f02e1a4a370ddfd829ad4c086bbfbcd6da2b.jpg)
 
 
-# AT32M412 BLDC Motor Control Library User Guide
-
-
 图 4. AT32M412CBT7 之 ROM 配置(IAR)
 
 
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/d2fb461360cb0b75354791b31ded2b304e8ae92c5324ecf40752fb9fab60a8eb.jpg)
 
 
-# 3 BLDC 电机库文档说明
+## 3 BLDC 电机库文档说明
 
 M412低压泛用型开发板硬件电路说明，请参照
 
@@ -272,15 +263,15 @@ AN0214_AT32_BLDC_Sensorless_Quick_Start_Guide。
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/d7722c0f9e4911cd942d297c092d5ec09754f732dfaf14e26b38d13e12465678.jpg)
 
 
-# 4 快速上手操作指南
+## 4 快速上手操作指南
 
-# 4.1 六步方波霍尔传感器控制调适流程
+### 4.1 六步方波霍尔传感器控制调适流程
 
 请参照 AN0213_AT32_BLDC_Hall_Quick_Start_Guide 快速入门指南进行操作。
 
 M412低压泛用型开发板较特别的地方为使用内部比较器以及 DAC 进行过流保护，关于过流保护的调整可以参考4.4。
 
-# 4.2 六步方波无感调适流程
+### 4.2 六步方波无感调适流程
 
 请参照 AN0214_AT32_BLDC_Sensorless_Quick_Start_Guide 快速入门指南进行操作。
 
@@ -292,7 +283,7 @@ AT32M412 以及AT32M416 带有内部比较器，因此本范例采用内部比�
 
 M412低压泛用型开发板较特别的地方为使用内部比较器以及 DAC 进行过流保护，关于过流保护的调整可以参考4.4。
 
-# 4.3 電流檢測
+### 4.3 電流檢測
 
 AT32M412 以及AT32M416 带有4组运算放大器(OP)，因此可以应用在BLDC电流检测上，本范例即使用其中一组OP做母线电流信号检测，并且使用独立模式的配置。
 
@@ -306,8 +297,6 @@ AT32M412 以及AT32M416 带有4组运算放大器(OP)，因此可以应用在BLD
 
 当 OPx_CTRL.OPEN 配置为 1 之后就进入了独立模式。
 
-# AT32M412 BLDC Motor Control Library User Guide
-
 
 图 6. 独立模式电路图
 
@@ -315,7 +304,7 @@ AT32M412 以及AT32M416 带有4组运算放大器(OP)，因此可以应用在BLD
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/93f480194d4d6657c3ccbd1a8fa5c2d1add2076fb0b9c324747247a5dfe95477.jpg)
 
 
-# 4.4 电流保护
+### 4.4 电流保护
 
 AT32M412 以及AT32M416 均带有DAC以及比较器且有煞车输入的功能，因此可以用来做过电流保护的侦测，使用DAC输出电压当作过流保护点，与电流输入信号比较，再将比较结果当成TMRx_BRK 输入信号，配置如下图：
 
@@ -335,7 +324,7 @@ AT32M412 以及AT32M416 均带有DAC以及比较器且有煞车输入的功能�
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/70dbe6c7a2f334d0abcd612c3e6e0a723bf91bd8b4e9bc4ef91fb53cff2d6573.jpg)
 
 
-# 4.5 比较器检测反电势过零点
+### 4.5 比较器检测反电势过零点
 
 检测反电势过零点的另一个方法是使用比较器，藉由三相反电动势电压的分压信号和虚拟中性点做比较得到过零点，其原理图设计如下：
 
@@ -370,14 +359,13 @@ EMF_RISE_BLANK_TIME、EMF_FALL_BLANK_TIME 两个参数定义调整消隐窗口�
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/c3d7906350f7385799a6b39207a8fec7274774883cb18b703528045c674f172c.jpg)
 
 
-
 图 12. 消隐窗口大小定义
 
 
 ![image](https://cdn-mineru.openxlab.org.cn/result/2026-06-03/73bb11e1-d235-4c8e-af6a-94badbe727ce/5de86c0fdcf7fefddc203b5cc20aab06b08f6cbcaf162c80cc668bea18d6faf3.jpg)
 
 
-# 5 文档版本历史
+## 5 文档版本历史
 
 
 表 3. 文档版本历史
@@ -385,7 +373,7 @@ EMF_RISE_BLANK_TIME、EMF_FALL_BLANK_TIME 两个参数定义调整消隐窗口�
 
 <table><tr><td>日期</td><td>版本</td><td>变更</td></tr><tr><td>2025.08.28</td><td>1.0.0</td><td>最初版本</td></tr></table>
 
-# 重要通知 - 请仔细阅读
+## 重要通知 - 请仔细阅读
 
 买方自行负责对本文所述雅特力产品和服务的选择和使用，雅特力概不承担与选择或使用本文所述雅特力产品和服务相关的任何责任。
 

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'zh-CN' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+    <script src="{{ '/assets/js/site.js' | relative_url }}" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        <nav class="top-nav" aria-label="站点链接">
+          <a href="{{ '/docs/motor-control.html' | relative_url }}">文档</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="doc-shell">
+      <aside class="doc-sidebar" aria-label="文档导航">
+        <div class="sidebar-title">项目文档</div>
+        <nav class="sidebar-nav">
+          {% for item in site.nav %}
+            {% assign item_url = item.url | relative_url %}
+            {% assign active = false %}
+            {% if page.url == item.url or page.url == item_url %}
+              {% assign active = true %}
+            {% endif %}
+            {% if item.url == '/' and page.url == '/index.html' %}
+              {% assign active = true %}
+            {% endif %}
+            <a class="sidebar-link{% if active %} is-active{% endif %}" href="{{ item.url | relative_url }}">{{ item.title }}</a>
+          {% endfor %}
+        </nav>
+      </aside>
+
+      <main id="main-content" class="doc-main">
+        <article class="doc-article">
+          {{ content }}
+        </article>
+      </main>
+
+      <aside class="doc-toc" aria-label="本页总览">
+        <div class="toc-title">本页总览</div>
+        <nav id="page-toc" class="toc-nav"></nav>
+      </aside>
+    </div>
+
+    <footer class="site-footer">
+      <span>Copyright © {{ site.time | date: '%Y' }} {{ site.title }}</span>
+    </footer>
+  </body>
+</html>

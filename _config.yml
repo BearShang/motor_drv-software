@@ -1,0 +1,21 @@
+title: motor_drv-software
+lang: zh-CN
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+nav:
+  - title: 首页
+    url: /
+  - title: 简介
+    url: /docs/intro.html
+  - title: 电机控制
+    url: /docs/motor-control.html

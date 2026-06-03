@@ -17,6 +17,8 @@ nav:
     url: /
     aliases:
       - /docs/intro.html
+  - title: 原理图
+    url: /docs/schematic.html
   - title: 快速开始
     url: /docs/quick-start.html
   - title: 编译和烧录

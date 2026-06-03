@@ -17,24 +17,6 @@ title: 简介
 
 <img src="{{ '/docs/pics/width.jpg' | relative_url }}" alt="宽度尺寸图">
 
-## 原理图预览
-
-### PWR
-
-<img src="{{ '/docs/pics/image.png' | relative_url }}" alt="PWR 原理图">
-
-### MCU
-
-<img src="{{ '/docs/pics/image-1.png' | relative_url }}" alt="MCU 原理图">
-
-### Driver
-
-<img src="{{ '/docs/pics/image-2.png' | relative_url }}" alt="Driver 原理图">
-
-### Sensing
-
-<img src="{{ '/docs/pics/image-3.png' | relative_url }}" alt="Sensing 原理图">
-
 ## 感谢
 
 特别感谢雅特丽原厂工程师们的支持！！

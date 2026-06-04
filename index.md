@@ -17,6 +17,6 @@ title: 简介
 
 <img src="{{ '/docs/pics/width.jpg' | relative_url }}" alt="宽度尺寸图">
 
-## 感谢
+# 感谢
 
 特别感谢雅特丽原厂工程师们的支持！！

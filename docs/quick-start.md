@@ -8,23 +8,25 @@ title: 快速开始
 
 ## 准备
 
-- Tiny_ESC 硬件板、三相 BLDC 电机、4S 电池或限流直流电源。
-
-<img src="{{ '/docs/pics/UVW 输出端.jpg' | relative_url }}" alt="UVW 输出端">
-
+- Tiny_ESC 硬件板。
 - 4S，KV650的电机（出厂固件按这个电机调的，需要更换参考【性能调优】）。
-- AT-Link 或兼容调试下载器。
-- Keil MDK v5 / AT32 BSP 环境，打开工程 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1shunt_sensorless/mdk_v5/bldc_1shunt_sensorless.uvprojx`。
-- 如需上位机调试，准备 ArteryMotorMonitor 和 USB 转 TTL 串口。
-- 首次上电建议使用限流电源，并让电机空载固定，避免桨叶或负载直接参与调试。
+- 4S电池或可调电源。
+- usb转uart调试器。
+- PC电脑，及原厂上位机软件。https://www.arterytek.com/file/download/2014
 
 ## 硬件连接
 
 - 电机三相连接到开发板的 U/V/W 输出端。
 - 电源正负极连接到母线输入端，先不要打开电源输出。
-- 调试下载器连接到 SWD 调试接口。
-- 使用上位机时，将串口 TX/RX 连接到控制板通信接口。
-- 使用 PWM/DSHOT 外部控制时，将控制信号接入对应输入端，并保证控制器与 ESC 共地。
+<img src="{{ '/docs/pics/UVW 输出端.jpg' | relative_url }}" alt="UVW 输出端">
+- 使用上位机时，将串口 TX/RX/GND 连接到控制板通信接口。
+<img src="{{ '/docs/pics/uart调试口.jpg' | relative_url }}" alt="uart调试口">
+- 打开上位机软件
+<img src="{{ '/docs/pics/监视器打开项目.png' | relative_url }}" alt="监视器打开项目">
+- 打开工程
+<img src="{{ '/docs/pics/监视器打开项目库2.png' | relative_url }}" alt="监视器打开项目库2">
+- 打开串口
+<img src="{{ '/docs/pics/监视器打开项目3.png' | relative_url }}" alt="监视器打开项目3">
 
 ## 第一次启动
 

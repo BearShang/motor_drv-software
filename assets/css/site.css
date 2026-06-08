@@ -319,7 +319,7 @@ a:hover {
 
 .doc-article video {
   display: block;
-  width: min(100%, 640px);
+  width: 100%;
   max-width: 100%;
   height: auto;
   margin: 16px 0 28px;

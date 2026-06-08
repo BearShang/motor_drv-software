@@ -17,6 +17,20 @@ title: 简介
 
 <img src="{{ '/docs/pics/width.jpg' | relative_url }}" alt="宽度尺寸图">
 
+## 测试台
+
+<video controls preload="metadata" playsinline>
+  <source src="{{ '/docs/pics/测试台.mp4' | relative_url }}" type="video/mp4">
+  当前浏览器不支持视频播放。
+</video>
+
+## 上飞机
+
+<video controls preload="metadata" playsinline>
+  <source src="{{ '/docs/pics/上飞机.mp4' | relative_url }}" type="video/mp4">
+  当前浏览器不支持视频播放。
+</video>
+
 ## 感谢
 
 特别感谢雅特丽原厂工程师们的支持！！

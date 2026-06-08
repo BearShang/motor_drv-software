@@ -317,6 +317,17 @@ a:hover {
   background: #fff;
 }
 
+.doc-article video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 16px 0 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: #000;
+}
+
 .doc-article table {
   display: block;
   width: 100%;

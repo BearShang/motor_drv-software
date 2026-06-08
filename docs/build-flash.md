@@ -4,7 +4,7 @@ title: 编译和烧录
 
 # 编译和烧录
 
-本项目使用keil开发，故解析来只讲keil，如需使用IAR等其它IDE，请参考官方文档。
+本项目使用keil开发，故只讲keil，如需使用IAR等其它IDE，请参考官方文档。
 
 ## 软件环境准备
 
@@ -29,3 +29,9 @@ title: 编译和烧录
 
 
 <img src="{{ '/docs/pics/motor-control/figure-03.jpg' | relative_url }}" alt="图 3">
+
+## 编译和烧录
+
+- 编译和烧录
+<img src="{{ '/docs/pics/build-flash/编译和烧录.png' | relative_url }}" alt="编译和烧录">
+

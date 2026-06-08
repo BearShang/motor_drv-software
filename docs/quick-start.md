@@ -4,11 +4,12 @@ title: 快速开始
 
 # 快速开始
 
-这页用于把 Tiny_ESC 从代码工程带到第一次安全转动。更细的电机库、比较器、过流保护说明见 [电机控制](motor-control.html)。
+这页用于把 Tiny_ESC 从代码工程带到第一次安全转动。更细的电机库、比较器、过流保护说明见 [性能调优](performance-tuning.html)。
 
 ## 准备
 
-- Tiny_ESC 硬件板、三相 BLDC 电机、4S~6S 电池或限流直流电源。
+- Tiny_ESC 硬件板、三相 BLDC 电机、4S 电池或限流直流电源。
+- 4S KV650的电机。
 - AT-Link 或兼容调试下载器。
 - Keil MDK v5 / AT32 BSP 环境，打开工程 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1shunt_sensorless/mdk_v5/bldc_1shunt_sensorless.uvprojx`。
 - 如需上位机调试，准备 ArteryMotorMonitor 和 USB 转 TTL 串口。

@@ -9,10 +9,10 @@ title: 快速开始
 ## 准备
 
 - Tiny_ESC 硬件板。
-- 4S，KV650的电机（出厂固件按这个电机调的，需要更换参考【性能调优】）。
+- 4S，KV650的电机（出厂固件按这个电机调的，需要更换参考[性能调优](performance-tuning.html)）。
 - 4S电池或可调电源。
 - usb转uart调试器。
-- PC电脑，及[原厂上位机软件](https://www.arterytek.com/file/download/2014)。
+- PC电脑，及原厂[上位机软件](https://www.arterytek.com/file/download/2014)。
 
 ## 硬件连接
 

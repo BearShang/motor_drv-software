@@ -9,7 +9,10 @@ title: 快速开始
 ## 准备
 
 - Tiny_ESC 硬件板、三相 BLDC 电机、4S 电池或限流直流电源。
-- 4S KV650的电机。
+
+<img src="{{ '/docs/pics/UVW 输出端.jpg' | relative_url }}" alt="UVW 输出端">
+
+- 4S，KV650的电机（出厂固件按这个电机调的，需要更换参考【性能调优】）。
 - AT-Link 或兼容调试下载器。
 - Keil MDK v5 / AT32 BSP 环境，打开工程 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1shunt_sensorless/mdk_v5/bldc_1shunt_sensorless.uvprojx`。
 - 如需上位机调试，准备 ArteryMotorMonitor 和 USB 转 TTL 串口。

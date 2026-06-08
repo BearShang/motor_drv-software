@@ -10,7 +10,7 @@ title: 编译和烧录
 
 - 下载并安装芯片[pack包](https://www.arterytek.com/file/download/1691)。
 - 打开keil工程。
-<img src="{{ '/docs/pics/build-flash/打开keil工程.pngg' | relative_url }}" alt="打开keil工程">
+<img src="{{ '/docs/pics/build-flash/打开keil工程.png' | relative_url }}" alt="打开keil工程">
 - Keil 的配置需根据各个 AT32 MCU 的闪存存储大小修改 Options 中的 Read/Only MemoryAreas，详细参照表 1，例：AT32M412CBT7 的闪存存储大小为 128 K 字节，则其 IROM1 的起始位置为 0x8000000，大小为 0x1FC00，其 IROM2 的起始位置为 0x801FC00，大小为0x400, AT32M412CBT7 的修改范例如图 2 所示；AT32IDE 的配置需根据各个 AT32 MCU 的闪存存储大小修改Id 文件如图3所示；
 
 

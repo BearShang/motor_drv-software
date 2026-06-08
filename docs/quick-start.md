@@ -38,14 +38,12 @@ title: 快速开始
 
 ## 输入方式
 
-当前工程支持上位机控制、单向 DSHOT600 和双向 BDSHOT600。DSHOT 相关配置集中在 `motor_control_drive_param.h`：
+当前工程支持上位机控制、单向 DSHOT600 和双向 BDSHOT600。默认固件使用原厂上位机软件控制，如需修改见 [性能调优](performance-tuning.html)。
 
 | 配置项 | 用途 |
 | --- | --- |
 | `DSHOT600_INPUT` | 启用单向 DSHOT600 输入 |
 | `DSHOT600_BIDIRECTIONAL` | 启用双向 DSHOT600 |
-| `DSHOT_CMD_MIN` / `DSHOT_CMD_MAX` | 有效油门命令范围 |
-| `DSHOT600_SIGNAL_LOSS_COUNT` | DSHOT 信号丢失判定次数 |
 
 ## 安全检查
 

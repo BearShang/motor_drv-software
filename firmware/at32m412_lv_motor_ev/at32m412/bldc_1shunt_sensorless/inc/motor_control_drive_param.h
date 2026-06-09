@@ -179,7 +179,7 @@ extern "C" {
 #define CURR_OFFSET_VOLT          (ADC_REFERENCE_VOLT/2.0f)                  /*!< 1.65 V */
 
 /* EMF */
-#define EMF_SENSE_GAIN            (3.0f/(43.0f+3.0f))   /*!< 0.0652 */
+#define EMF_SENSE_GAIN            (7.5f/(43.0f+7.5f))   /*!< 0.1428 */
 #define GATE_DELAY_TIME           (0.8)          /*!< usec */   
 #define EMF_SIG_RISING_TIME       (9.8)          /*!< usec */
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 

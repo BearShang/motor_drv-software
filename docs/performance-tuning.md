@@ -88,6 +88,7 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 | `OpenLoop times` | 递增次数 |
 | `OpenLoop increase volt` | 每次递增电压 |
 
+
 开环控制的示意图：
 
 <img src="{{ '/docs/pics/performance-tuning/performance-tuning5.png' | relative_url }}" alt="开环控制示意图 - 1">

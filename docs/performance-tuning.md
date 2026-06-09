@@ -16,10 +16,10 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 
 | 电阻 | 原值 | 新值 |
 |------|------|------|
-| R231（VBUS 分压） | — | 5.6kΩ |
-| R214（BEMF 分压 U 相） | — | 56kΩ |
-| R216（BEMF 分压 V 相） | — | 56kΩ |
-| R219（BEMF 分压 W 相） | — | 56kΩ |
+| R231（VBUS 分压） | 10kΩ | 5.6kΩ |
+| R214（BEMF 分压 U 相） | 7.5kΩ | 56kΩ |
+| R216（BEMF 分压 V 相） | 7.5kΩ | 56kΩ |
+| R219（BEMF 分压 W 相） | 7.5kΩ | 56kΩ |
 
 ### 软件修改
 
@@ -57,7 +57,7 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 |------|------|------|
 | `RS_LL` | 相电阻（线间） | Ω |
 | `LS_LL` | 相电感（线间） | H |
-| `POLE_PAIRS` | 极对数 | — |
+| `POLE_PAIRS` | 极对数 | P |
 | `KE` | 反电动势常数 | V·s/rad |
 
 > **提示：** 这些参数可通过 LCR 电桥测量，或参考电机 datasheet。若使用出厂默认的 KV650 电机，可保持默认值。
@@ -151,7 +151,7 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 
 <img src="{{ '/docs/pics/performance-tuning/performance-tuning17.png' | relative_url }}" alt="电流 PI 参数调节 - 2">
 
-> ⚠️ 修改好 PI 参数后**务必点击写闪存**，否则断电后仍使用之前的 PI 参数。
+> ⚠️ 调试的时候修改好 PI 参数后**务必点击写闪存**，否则断电后仍使用之前的 PI 参数。
 
 确认 PI 参数后，修改 `motor_control_drive_param.h` 中的对应宏定义并重新编译烧录：
 

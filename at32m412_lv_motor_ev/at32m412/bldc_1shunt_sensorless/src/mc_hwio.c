@@ -639,6 +639,11 @@ void tmr_blank_trigger_init(void)
   tmr_output_channel_config(blank_trigger.TMRx, BLANK_TRIGGER_SELECT_CHANNEL, &tmr_output_struct);
   tmr_channel_value_set(blank_trigger.TMRx, BLANK_TRIGGER_SELECT_CHANNEL, 10);
   tmr_output_channel_buffer_enable(blank_trigger.TMRx, BLANK_TRIGGER_SELECT_CHANNEL, FALSE);
+  
+  /* channel 3 */
+  tmr_output_channel_config(blank_trigger.TMRx, TMR_SELECT_CHANNEL_3, &tmr_output_struct);
+  tmr_channel_value_set(blank_trigger.TMRx, TMR_SELECT_CHANNEL_3, 0);
+  tmr_output_channel_buffer_enable(blank_trigger.TMRx, TMR_SELECT_CHANNEL_3, FALSE);
 
   /* enable timer dma request : TMR16CH1 */
   tmr_dma_request_enable(blank_trigger.TMRx, DMA_BLANK_TRIGGER_REQUEST, TRUE);
@@ -1027,16 +1032,16 @@ void cmp2_config(void)
 {
   gpio_init_type gpio_init_struct = {0};
 
-  // gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-  // gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
-  // gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+  gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+  gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
+  gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
 
-  // crm_periph_clock_enable(TMR_ADC_TRIG_GPIO_CRM_CLK, TRUE);
-  // gpio_init_struct.gpio_pins = TMR_ADC_TRIG_GPIO_PIN;    /* T1C4 for ADC*/
-  // gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
+  crm_periph_clock_enable(CRM_TMR3_PERIPH_CLOCK, TRUE);
+  gpio_init_struct.gpio_pins = GPIO_PINS_3;    /* T3C3 for ADC*/
+  gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
 
-  // gpio_init(TMR_ADC_TRIG_PORT, &gpio_init_struct);
-  // gpio_pin_mux_config(TMR_ADC_TRIG_PORT, TMR_ADC_TRIG_GPIO_PIN_SOURCE, TMR_ADC_TRIG_IOMUX);
+  gpio_init(GPIOB, &gpio_init_struct);
+  gpio_pin_mux_config(GPIOB, GPIO_PINS_SOURCE3, GPIO_MUX_2);  /* T3C3=MUX2*/
   debug_apb2_periph_mode_set(DEBUG_TMR1_PAUSE, TRUE);
   
   gpio_default_para_init(&gpio_init_struct);

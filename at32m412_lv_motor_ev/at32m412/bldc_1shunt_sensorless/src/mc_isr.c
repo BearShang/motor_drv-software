@@ -130,6 +130,7 @@ void ADVTMR_PWM_CYCLE_IRQ(void)
 #else
       set_adc_sample_point(&adc_sample);
 #endif
+      TMR3->c3dt = adc_sample.ADC_TMRx->c4dt;
     }
 
     /* calculate motor speed */

@@ -185,8 +185,8 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (15.5f)         /*!< usec */
-#define EMF_FALL_BLANK_TIME_LOW_SPD   (20.0f)        /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (10.5f)         /*!< usec */
+#define EMF_FALL_BLANK_TIME_LOW_SPD   (25.0f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (4000.0f)      /*!< rpm */
 #define BLANK_TIME_OFFSET             (-100) //官方人员修改的消隐空白窗口
 #define EMF_MIN_VALUE                 (1980)
@@ -240,8 +240,8 @@ extern "C" {
 #define TUNE_CURRENT_TOTAL_PERIOD  (100)      /*!< msec */
 #define TUNE_CURRENT_STEP_PERIOD   (10)        /*!< msec */
 /* I-SAMPLE PARAMETER */
-#define I_SAMP_MIN_TIME            (30)       /*!< nsec */
-#define I_SAMP_DELAY               (400)      /*!< nsec */
+#define I_SAMP_MIN_TIME            (140)       /*!< nsec */
+#define I_SAMP_DELAY               (350)      /*!< nsec */
 #define CURR_LP_BANDWIDTH          (2000.0f)  /*!< 2*pi*freq */
 /* EMF-SAMPLE PARAMETER */
 #define SENSE_HALL_TIMES           (8)
@@ -326,8 +326,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          5000
-#define PID_IS_KI_DEFUALT          1200
+#define PID_IS_KP_DEFUALT          1000
+#define PID_IS_KI_DEFUALT          450
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768

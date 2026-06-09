@@ -1,0 +1,24 @@
+第一步：如果使用6s电池需要修改vbus电阻R231改为5.6k电阻，反向电动势的分压电阻R214，R216，R219改为56k电阻，然后修改VDC_RATED，BAT_LOW_VOLT，V_SENSE_GAIN，EMF_SENSE_GAIN参数如图performance-tuning1，performance-tuning2所示
+第二步：先打开USE_MOTOR_MONITOR进行调参，调参完成之后在选择单向还是双向dshot，目前dshot只支持600，如图performance-tuning3所示
+第三步：填写电机寄生参数，RS_LL，LS_LL，POLE_PAIRS，KE，修改为自己的电机参数
+第四步：六步方波开环控制，此模式使用开环电压控制模式，不需位置传感器即可转动电机，用来确认电机是否可正常运转与运转
+方向是否正确或用来调整 BLDC 无传感器开环启动参数。开环电压与速度递增量的调试方式可视电机
+运转速度与电机相电流大小调整。
+STEP-1. 将控制模式下拉菜单选为 Open Loop control如图performance-tuning4，STEP-2. 切换到 Tuning Parameters 页面(如图 27)，调整初始电压(OpenLoop initial voltage)、初始
+速度(OpenLoop initial speed)、最终速度(OpenLoop final speed)以及递增次数(OpenLoop times) 、
+每次递增电压(OpenLoop increase volt)，开环控制的示意图如图 performance-tuning5，performance-tuning6。调适 Tips.
+１. 刚开始可以先将 Openloop increase volt, Openloop times 调整为 0, Openloop final speed 与
+Openloop initial speed 调整成一样的数值, 先找到适当的起始电压及速度
+２. 找到适当起始电压后，进一步设定最终速度，并调整 increase volt 以及 Openloop times，若觉
+得运转无力则调大 increase volt 增加每次递增电压或 Openloop times 增加递增次数(一般来说建
+议递增次数可以大于 50 次)
+STEP-3. 按下启动电机(Start Motor)按纽，观察电流大小以及电机运转情况, 直到电机正常运转。(开
+环电压避免过大以免造成电机过热损毁)
+STEP-4. 将调适后参数填入 motor_control_drive_param.h 文件宏定义，如图 performance-tuning7所示，并重新编译烧录代码。
+第五步：电流测试点检测，第四步改好之后我们继续使用开环测试，下面如图performance-tuning8所示，黄色为U相，绿色为电流，蓝色为电流测试点，绿色请使用弹簧表笔去触碰OP3_OUT_BUS信号如图performance-tuning9所示，具体测试流程如图performance-tuning10，performance-tuning11，performance-tuning12，performance-tuning13所示，填写好参数之后，我们切换为IQ模式去调节我们的PI参数，如图performance-tuning14，performance-tuning15，performance-tuning16，performance-tuning17所示，修改好PI参数记得写闪存否则还是使用之前的PI参数，修改PID_IS_KP_DEFUALT和PID_IS_KI_DEFUALT并重新烧录代码
+第六步：开始反电动势检测的调参，如图performance-tuning18所示蓝色为中心点EMF_NUTRAL，黄色为反电动势EMF_U，紫色为消隐窗口，绿色为测试点，上位机切换为speed模式如图performance-tuning19所示，以图片performance-tuning20为例，EMF_RISE_BLANK_TIME修改左边上升时刻，EMF_FALL_BLANK_TIME_HIGH_SPD和EMF_FALL_BLANK_TIME_LOW_SPD修改右边下降时刻，修改我们的消隐空白窗口，如图performance-tuning21，performance-tuning22演示进行调节我们的参数，下图为速度1000rpm的详细调参方向performance-tuning23，performance-tuning24，performance-tuning25，performance-tuning24图是左边上升时刻，绿色下降对应黄色上升，上升对应黄色下降，可通过BLANK_TIME_OFFSET进行修改，从第一个紫色开始黄色就开始比蓝色大，那么左边就不允许出现紫色的脉冲波形，可通过EMF_RISE_BLANK_TIME调节，
+performance-tuning25图是右边下降时刻，绿色下降对应黄色上升，上升对应黄色下降，可通过BLANK_TIME_OFFSET进行修改，从第一个紫色开始蓝色就比黄色大，那么左边就不允许出现紫色的脉冲波形，可通过EMF_FALL_BLANK_TIME_HIGH_SPD和EMF_FALL_BLANK_TIME_LOW_SPD调节，这两个参数区分高速和低速，通过EMF_BLANK_TIME_CHANGED_RPM区分开，速度小于EMF_BLANK_TIME_CHANGED_RPM调节EMF_FALL_BLANK_TIME_LOW_SPD，高于调节EMF_FALL_BLANK_TIME_HIGH_SPD
+下面展示高速时候的波形如图performance-tuning26，performance-tuning27，performance-tuning28所示，通过EMF_FALL_BLANK_TIME_HIGH_SPD调节消隐
+消隐调节完之后修改参数并重新烧录代码
+第七步：开始速度PI调节，如图performance-tuning29，performance-tuning30，performance-tuning31，performance-tuning32，ACC_SPD_SLOPE和DEC_SPD_SLOPE为上升下降的速率，调节好PI参数之后修改并重新烧录代码
+第八步：修改dshot启动转速和最高转速如图performance-tuning33所示

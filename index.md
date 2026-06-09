@@ -12,6 +12,7 @@ title: 简介
 - 1个直流地母线电流检测电阻，搭配MCU内建OPA可实现单电阻电流电测。
 - MCU内建的OPA放大母线电流信号，可通过配置，直连内建的CMP，构成过流保护单元，过流点可由DAC配置。
 - 支持雅特丽原厂上位机控制、单向DSHOT600、双向BDSHOT600。
+- 最大29A，过流触发保护。
 
 <img src="{{ '/docs/pics/length.jpg' | relative_url }}" alt="长度尺寸图">
 

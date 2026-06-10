@@ -25,5 +25,3 @@ nav:
     url: /docs/build-flash.html
   - title: 性能调优
     url: /docs/performance-tuning.html
-  - title: 电机控制
-    url: /docs/motor-control.html

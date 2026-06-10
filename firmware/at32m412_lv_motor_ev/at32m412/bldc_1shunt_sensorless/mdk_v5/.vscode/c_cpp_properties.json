@@ -82,21 +82,21 @@
         {
             "name": "bldc_1shunt_sensorless",
             "includePath": [
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\mclib\\inc",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\at32m412_lv_motor_ev\\at32m412\\bldc_1shunt_sensorless\\inc",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\libraries\\AT32M412_416_Firmware_Library\\drivers\\inc",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\core_support",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\device_support",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\dsp\\include",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\dsp\\PrivateInclude",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\mclib\\inc",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\at32m412_lv_motor_ev\\at32m412\\bldc_1shunt_sensorless\\inc",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\libraries\\AT32M412_416_Firmware_Library\\drivers\\inc",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\core_support",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\device_support",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\dsp\\include",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\dsp\\PrivateInclude",
                 "D:\\keil\\anzhuang\\32\\anzhuang\\ARM\\ARMCLANG\\include",
                 "D:\\keil\\anzhuang\\32\\anzhuang\\ARM\\ARMCLANG\\include\\arm_linux",
                 "D:\\keil\\anzhuang\\32\\anzhuang\\ARM\\ARMCLANG\\include\\arm_linux_compat",
                 "D:\\keil\\anzhuang\\32\\anzhuang\\ARM\\ARMCLANG\\include\\libcxx",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\at32m412_lv_motor_ev\\at32m412\\bldc_1shunt_sensorless\\src",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\libraries\\AT32M412_416_Firmware_Library\\drivers\\src",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\device_support\\startup\\mdk",
-                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650\\mclib\\src"
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\at32m412_lv_motor_ev\\at32m412\\bldc_1shunt_sensorless\\src",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\libraries\\AT32M412_416_Firmware_Library\\drivers\\src",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\libraries\\AT32M412_416_Firmware_Library\\cmsis\\cm4\\device_support\\startup\\mdk",
+                "d:\\00_hwzx\\PCB\\开发板\\电机\\Motor_drv\\kv650_github\\firmware\\mclib\\src"
             ],
             "defines": [
                 "AT32M412KBU7_4",

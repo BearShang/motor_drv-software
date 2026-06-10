@@ -1033,17 +1033,6 @@ void cmp2_config(void)
 {
   gpio_init_type gpio_init_struct = {0};
 
-  gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-  gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
-  gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
-
-  crm_periph_clock_enable(CRM_TMR3_PERIPH_CLOCK, TRUE);
-  gpio_init_struct.gpio_pins = GPIO_PINS_3;    /* T3C3 for ADC*/
-  gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
-
-  gpio_init(GPIOB, &gpio_init_struct);
-  gpio_pin_mux_config(GPIOB, GPIO_PINS_SOURCE3, GPIO_MUX_2);  /* T3C3=MUX2*/
-
   // gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
   // gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
   // gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
@@ -1060,8 +1049,19 @@ void cmp2_config(void)
 
   gpio_init_struct.gpio_mode             = GPIO_MODE_OUTPUT;
   gpio_init_struct.gpio_out_type         = GPIO_OUTPUT_PUSH_PULL;
-  gpio_init_struct.gpio_pull             = GPIO_PULL_NONE;
+  gpio_init_struct.gpio_pull             = GPIO_PULL_DOWN;
   gpio_init_struct.gpio_drive_strength   = GPIO_DRIVE_STRENGTH_STRONGER;
+
+  /* PB3监测电流采样 */
+  crm_periph_clock_enable(DEBUG_TMR_ADC_TRIG_TIMER_CRM_CLK, TRUE);
+  crm_periph_clock_enable(DEBUG_TMR_ADC_TRIG_GPIO_CRM_CLK, TRUE);
+  gpio_init_struct.gpio_pins = DEBUG_TMR_ADC_TRIG_GPIO_PIN;
+  gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
+  gpio_init(DEBUG_TMR_ADC_TRIG_PORT, &gpio_init_struct);
+  gpio_pin_mux_config(DEBUG_TMR_ADC_TRIG_PORT, DEBUG_TMR_ADC_TRIG_GPIO_PIN_SOURCE, DEBUG_TMR_ADC_TRIG_IOMUX);
+  
+  gpio_init_struct.gpio_mode             = GPIO_MODE_OUTPUT;
+  gpio_init_struct.gpio_pull             = GPIO_PULL_NONE;
 
   /* PB5监测过零点，输出比较器的数字结果 */
   crm_periph_clock_enable(COMP_OUT_GPIO_CRM_CLK, TRUE);

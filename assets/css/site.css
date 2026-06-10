@@ -293,6 +293,7 @@ a:hover {
 .doc-article ul,
 .doc-article ol,
 .doc-article table,
+.doc-article .checklist,
 .doc-article .admonition {
   margin-top: 0;
   margin-bottom: 18px;
@@ -305,6 +306,33 @@ a:hover {
 
 .doc-article li + li {
   margin-top: 4px;
+}
+
+.checklist {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  padding: 14px 16px;
+}
+
+.checklist label {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.checklist input {
+  width: 16px;
+  height: 16px;
+  margin: 4px 0 0;
+  accent-color: var(--color-link);
+  flex: 0 0 auto;
 }
 
 .doc-article img {

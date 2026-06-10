@@ -6,6 +6,19 @@ title: 性能调优
 
 Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1shunt_sensorless/inc/motor_control_drive_param.h`。调参时建议一次只改一类参数，调完一步验证一步，避免多变量同时改动导致无法定位问题。
 
+## 调参检查清单
+
+<div class="checklist">
+  <label><input type="checkbox"> 电池电压适配（4S 保持默认 / 6S 修改分压参数）</label>
+  <label><input type="checkbox"> 上位机模式下调参，完成后切换目标协议</label>
+  <label><input type="checkbox"> 电机寄生参数与实物一致</label>
+  <label><input type="checkbox"> 开环启动平稳，方向正确</label>
+  <label><input type="checkbox"> 电流采样点正确，PI 参数已写闪存</label>
+  <label><input type="checkbox"> 消隐窗口干净，无噪声误触发</label>
+  <label><input type="checkbox"> 速度 PI 响应无振荡、无过冲</label>
+  <label><input type="checkbox"> DSHOT 转速范围合理</label>
+</div>
+
 ---
 
 ## 第一步：6S 电池适配（可选）
@@ -285,16 +298,3 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 <img src="{{ '/docs/pics/performance-tuning/performance-tuning33.png' | relative_url }}" alt="DSHOT 转速配置">
 
 修改完成后重新编译烧录，至此调参全部完成。
-
----
-
-## 调参检查清单
-
-- [ ] 电池电压适配（4S 保持默认 / 6S 修改分压参数）
-- [ ] 上位机模式下调参，完成后切换目标协议
-- [ ] 电机寄生参数与实物一致
-- [ ] 开环启动平稳，方向正确
-- [ ] 电流采样点正确，PI 参数已写闪存
-- [ ] 消隐窗口干净，无噪声误触发
-- [ ] 速度 PI 响应无振荡、无过冲
-- [ ] DSHOT 转速范围合理

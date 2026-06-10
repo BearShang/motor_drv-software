@@ -25,10 +25,10 @@ title: 编译和烧录
 图 1. AT32M412CBT7 ROM 配置(Keil)
 
 
-<img src="{{ '/docs/pics/motor-control/figure-02.jpg' | relative_url }}" alt="图 2">
+<img src="{{ '/docs/pics/build-flash/rom-keil.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="图 2">
 
 
-<img src="{{ '/docs/pics/motor-control/figure-03.jpg' | relative_url }}" alt="图 3">
+<img src="{{ '/docs/pics/build-flash/rom-at32ide.jpg' | relative_url }}?v={{ site.time | date: '%s' }}" alt="图 3">
 
 ## 编译和烧录
 

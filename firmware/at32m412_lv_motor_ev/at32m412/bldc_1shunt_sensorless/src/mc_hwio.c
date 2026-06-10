@@ -1060,8 +1060,8 @@ void cmp2_config(void)
   gpio_init(DEBUG_TMR_ADC_TRIG_PORT, &gpio_init_struct);
   gpio_pin_mux_config(DEBUG_TMR_ADC_TRIG_PORT, DEBUG_TMR_ADC_TRIG_GPIO_PIN_SOURCE, DEBUG_TMR_ADC_TRIG_IOMUX);
   
-  gpio_init_struct.gpio_mode             = GPIO_MODE_OUTPUT;
-  gpio_init_struct.gpio_pull             = GPIO_PULL_NONE;
+  gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
+  gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
 
   /* PB5监测过零点，输出比较器的数字结果 */
   crm_periph_clock_enable(COMP_OUT_GPIO_CRM_CLK, TRUE);

@@ -291,10 +291,22 @@
     var lightboxImage = overlay.querySelector(".image-lightbox__image");
     var caption = overlay.querySelector(".image-lightbox__caption");
     var closeButton = overlay.querySelector(".image-lightbox__close");
+    var zoom = 1;
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function applyZoom() {
+      lightboxImage.style.transform = "scale(" + zoom.toFixed(3) + ")";
+      lightboxImage.classList.toggle("is-zoomed", zoom > 1.01);
+    }
 
     function openLightbox(image) {
+      zoom = 1;
       lightboxImage.src = image.currentSrc || image.src;
       lightboxImage.alt = image.alt || "";
+      applyZoom();
       caption.textContent = image.alt || "";
       caption.hidden = !image.alt;
       overlay.classList.add("is-open");
@@ -306,6 +318,8 @@
       overlay.classList.remove("is-open");
       document.body.classList.remove("has-lightbox");
       lightboxImage.removeAttribute("src");
+      lightboxImage.removeAttribute("style");
+      zoom = 1;
     }
 
     images.forEach(function (image) {
@@ -333,6 +347,19 @@
         closeLightbox();
       }
     });
+
+    overlay.addEventListener(
+      "wheel",
+      function (event) {
+        if (!overlay.classList.contains("is-open")) return;
+        event.preventDefault();
+        var direction = event.deltaY < 0 ? 1 : -1;
+        var factor = direction > 0 ? 1.12 : 1 / 1.12;
+        zoom = clamp(zoom * factor, 0.5, 4);
+        applyZoom();
+      },
+      { passive: false }
+    );
 
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape" && overlay.classList.contains("is-open")) {

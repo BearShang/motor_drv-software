@@ -52,9 +52,9 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 | `V_SENSE_GAIN` | VBUS 电压检测增益 |
 | `EMF_SENSE_GAIN` | 反电动势检测增益 |
 
-<img src="{{ '/docs/pics/performance-tuning/performance-tuning1.png' | relative_url }}" alt="VBUS 与 BEMF 参数配置 - 1">
+<img src="{{ '/docs/pics/performance-tuning/basic.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="VBUS 参数配置">
 
-<img src="{{ '/docs/pics/performance-tuning/performance-tuning2.png' | relative_url }}" alt="VBUS 与 BEMF 参数配置 - 2">
+<img src="{{ '/docs/pics/performance-tuning/EMF_gain.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="EMF gain 参数配置">
 
 ---
 

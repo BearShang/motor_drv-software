@@ -270,8 +270,80 @@
     });
   }
 
+  function setupImageLightbox() {
+    var article = document.querySelector(".doc-article");
+    if (!article) return;
+
+    var images = Array.prototype.slice.call(article.querySelectorAll("img"));
+    if (!images.length) return;
+
+    var overlay = document.createElement("div");
+    overlay.className = "image-lightbox";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-label", "Image preview");
+    overlay.innerHTML =
+      '<button class="image-lightbox__close" type="button" aria-label="Close image preview">×</button>' +
+      '<img class="image-lightbox__image" alt="">' +
+      '<div class="image-lightbox__caption"></div>';
+    document.body.appendChild(overlay);
+
+    var lightboxImage = overlay.querySelector(".image-lightbox__image");
+    var caption = overlay.querySelector(".image-lightbox__caption");
+    var closeButton = overlay.querySelector(".image-lightbox__close");
+
+    function openLightbox(image) {
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt || "";
+      caption.textContent = image.alt || "";
+      caption.hidden = !image.alt;
+      overlay.classList.add("is-open");
+      document.body.classList.add("has-lightbox");
+      closeButton.focus();
+    }
+
+    function closeLightbox() {
+      overlay.classList.remove("is-open");
+      document.body.classList.remove("has-lightbox");
+      lightboxImage.removeAttribute("src");
+    }
+
+    images.forEach(function (image) {
+      image.classList.add("is-zoomable");
+      image.setAttribute("tabindex", "0");
+      image.setAttribute("role", "button");
+      image.setAttribute("aria-label", (image.alt || "Image") + " - click to enlarge");
+
+      image.addEventListener("click", function () {
+        openLightbox(image);
+      });
+
+      image.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openLightbox(image);
+        }
+      });
+    });
+
+    closeButton.addEventListener("click", closeLightbox);
+
+    overlay.addEventListener("click", function (event) {
+      if (event.target === overlay) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && overlay.classList.contains("is-open")) {
+        closeLightbox();
+      }
+    });
+  }
+
   onReady(function () {
     buildToc();
     setupSearch();
+    setupImageLightbox();
   });
 })();

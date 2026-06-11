@@ -37,6 +37,10 @@ title: 编译和烧录
 
 ## 切换控制协议
 
-- 切换成单向DSHOT600
+- 切换成单向DSHOT600，重新编译并烧录
 
 <img src="{{ '/docs/pics/build-flash/切换控制协议.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="切换控制协议">
+
+- 切换成双向DSHOT600，重新编译并烧录
+
+<img src="{{ '/docs/pics/build-flash/切换双向DSHOT600.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="切换双向DSHOT600">

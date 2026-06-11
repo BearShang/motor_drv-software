@@ -292,18 +292,37 @@
     var caption = overlay.querySelector(".image-lightbox__caption");
     var closeButton = overlay.querySelector(".image-lightbox__close");
     var zoom = 1;
+    var panX = 0;
+    var panY = 0;
+    var dragStartX = 0;
+    var dragStartY = 0;
+    var startPanX = 0;
+    var startPanY = 0;
+    var isDragging = false;
 
     function clamp(value, min, max) {
       return Math.min(Math.max(value, min), max);
     }
 
+    function resetPan() {
+      panX = 0;
+      panY = 0;
+      isDragging = false;
+      lightboxImage.classList.remove("is-dragging");
+    }
+
     function applyZoom() {
-      lightboxImage.style.transform = "scale(" + zoom.toFixed(3) + ")";
+      if (zoom <= 1.01) {
+        resetPan();
+      }
+      lightboxImage.style.transform =
+        "translate(" + panX.toFixed(1) + "px, " + panY.toFixed(1) + "px) scale(" + zoom.toFixed(3) + ")";
       lightboxImage.classList.toggle("is-zoomed", zoom > 1.01);
     }
 
     function openLightbox(image) {
       zoom = 1;
+      resetPan();
       lightboxImage.src = image.currentSrc || image.src;
       lightboxImage.alt = image.alt || "";
       applyZoom();
@@ -320,6 +339,7 @@
       lightboxImage.removeAttribute("src");
       lightboxImage.removeAttribute("style");
       zoom = 1;
+      resetPan();
     }
 
     images.forEach(function (image) {
@@ -360,6 +380,41 @@
       },
       { passive: false }
     );
+
+    lightboxImage.addEventListener("pointerdown", function (event) {
+      if (zoom <= 1.01) return;
+      event.preventDefault();
+      isDragging = true;
+      dragStartX = event.clientX;
+      dragStartY = event.clientY;
+      startPanX = panX;
+      startPanY = panY;
+      lightboxImage.classList.add("is-dragging");
+      if (lightboxImage.setPointerCapture) {
+        lightboxImage.setPointerCapture(event.pointerId);
+      }
+    });
+
+    lightboxImage.addEventListener("pointermove", function (event) {
+      if (!isDragging) return;
+      event.preventDefault();
+      panX = startPanX + event.clientX - dragStartX;
+      panY = startPanY + event.clientY - dragStartY;
+      applyZoom();
+    });
+
+    function endDrag(event) {
+      if (!isDragging) return;
+      isDragging = false;
+      lightboxImage.classList.remove("is-dragging");
+      if (event && lightboxImage.releasePointerCapture) {
+        lightboxImage.releasePointerCapture(event.pointerId);
+      }
+    }
+
+    lightboxImage.addEventListener("pointerup", endDrag);
+    lightboxImage.addEventListener("pointercancel", endDrag);
+    lightboxImage.addEventListener("lostpointercapture", endDrag);
 
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape" && overlay.classList.contains("is-open")) {

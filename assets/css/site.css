@@ -422,11 +422,17 @@ a:hover {
   cursor: zoom-in;
   transform-origin: center center;
   transition: transform 120ms ease;
+  user-select: none;
   will-change: transform;
 }
 
 .image-lightbox__image.is-zoomed {
-  cursor: zoom-out;
+  cursor: grab;
+}
+
+.image-lightbox__image.is-dragging {
+  cursor: grabbing;
+  transition: none;
 }
 
 .image-lightbox__close {

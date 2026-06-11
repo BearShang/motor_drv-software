@@ -34,3 +34,7 @@ title: 编译和烧录
 
 - 编译和烧录
 <img src="{{ '/docs/pics/build-flash/编译和烧录.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="编译和烧录">
+
+## 切换控制协议
+
+<img src="{{ '/docs/pics/build-flash/切换控制协议.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="切换控制协议">

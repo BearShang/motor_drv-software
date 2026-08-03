@@ -35,9 +35,9 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 
 | 电阻 | 原值 | 新值 |
 |------|------|------|
-| R213（BEMF 分压 U 相） | 5.1kΩ | 56kΩ |
-| R217（BEMF 分压 V 相） | 5.1kΩ | 56kΩ |
-| R220（BEMF 分压 W 相） | 5.1kΩ | 56kΩ |
+| R213（BEMF 分压 U 相） | 43kΩ | 56kΩ |
+| R217（BEMF 分压 V 相） | 43kΩ | 56kΩ |
+| R220（BEMF 分压 W 相） | 43kΩ | 56kΩ |
 
 <img src="{{ '/docs/pics/performance-tuning/R213R217R220分压.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="R213R217R220分压">
 

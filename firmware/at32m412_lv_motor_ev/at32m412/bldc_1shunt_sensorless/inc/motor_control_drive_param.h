@@ -185,7 +185,7 @@ extern "C" {
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (5.0f)          /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (1.5f)          /*!< usec */
 #define EMF_FALL_BLANK_TIME_LOW_SPD   (12.5f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (4000.0f)      /*!< rpm */
 #define BLANK_TIME_OFFSET             (-100) //官方人员修改的消隐空白窗口
@@ -265,8 +265,8 @@ extern "C" {
 #else
 #define MIN_SPEED_RPM              (350)      /*!< rpm */
 #endif
-#define MAX_SPEED_RPM              (20000)     /*!< rpm */
-#define MAX_CCW_SPEED_RPM          (20000)     /*!< rpm */
+#define MAX_SPEED_RPM              (35000)     /*!< rpm */
+#define MAX_CCW_SPEED_RPM          (35000)     /*!< rpm */
 #define SPEED_RPM_MIN              (1000)     /*!< rpm */
 #define ACC_SPD_SLOPE              (50)        /*!< rpm/ms */
 #define DEC_SPD_SLOPE              (50)
@@ -361,7 +361,7 @@ extern "C" {
 #ifdef BLDC_SENSORLESS_ADC
 #define EMF_PHASE_ADV_SPD               (15000)     /*!< rpm */
 #else
-#define EMF_PHASE_ADV_SPD               (80000)     /*!< rpm */
+#define EMF_PHASE_ADV_SPD               (40000)     /*!< rpm */
 #endif
 #define EMF_MIN_DELAY_US                (10)        /*!< usec */
 #define EMF_AVOID_NOISE_INIT_PERIOD     (1)         /*!< msec */

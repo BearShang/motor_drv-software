@@ -31,7 +31,7 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 |------|------|------|
 | R231（VBUS 分压） | 10kΩ | 5.6kΩ |
 
-<img src="{{ '/docs/pics/performance-tuning/R231（VBUS分压）.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="R231（VBUS分压）">
+<img src="{{ '/docs/pics/performance-tuning/performance-tuning36.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="R231（VBUS分压）">
 
 | 电阻 | 原值 | 新值 |
 |------|------|------|
@@ -39,7 +39,7 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 | R217（BEMF 分压 V 相） | 43kΩ | 56kΩ |
 | R220（BEMF 分压 W 相） | 43kΩ | 56kΩ |
 
-<img src="{{ '/docs/pics/performance-tuning/R213R217R220分压.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="R213R217R220分压">
+<img src="{{ '/docs/pics/performance-tuning/performance-tuning34.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="R213R217R220分压">
 
 ### 软件修改
 
@@ -49,10 +49,12 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 |------|------|
 | `VDC_RATED` | 额定母线电压 |
 | `BAT_LOW_VOLT` | 低电压保护阈值 |
+| `OVER_VOLT_THRESHOLD` | 过电压保护阈值 |
+| `UNDER_VOLT_THRESHOLD` | 欠电压保护阈值 |
 | `V_SENSE_GAIN` | VBUS 电压检测增益 |
 | `EMF_SENSE_GAIN` | 反电动势检测增益 |
 
-<img src="{{ '/docs/pics/performance-tuning/basic.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="VBUS 参数配置">
+<img src="{{ '/docs/pics/performance-tuning/performance-tuning35.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="VBUS 参数配置">
 
 <img src="{{ '/docs/pics/performance-tuning/EMF_gain.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="EMF gain 参数配置">
 
@@ -268,6 +270,56 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 <img src="{{ '/docs/pics/performance-tuning/performance-tuning28.png' | relative_url }}" alt="高速消隐波形 - 3">
 
 消隐调节完成后，将参数写入 `motor_control_drive_param.h` 并重新编译烧录代码。
+
+### 6.5 极限电机转速
+
+当电机需要运行在极高速（如 18000 rpm 以上）时，需要进行相位提前配置，否则换相滞后会导致失步或效率大幅下降。
+
+#### 开启相位提前
+
+在 `motor_control_drive_param.h` 中开启 `PHASE_ADVANCE` 宏定义：
+
+```c
+#define PHASE_ADVANCE
+```
+
+#### 调整相位提前角度
+
+| 参数 | 说明 |
+|------|------|
+| `EMF_PHASE_ADV_SPD` | 相位提前使能转速阈值（rpm）|
+
+该值**越小，相位提前角度越大**（即相位越提前）。建议从较大的值开始逐步下调，观察电机高速运转的稳定性和电流，直到找到最佳值。
+
+```c
+#define EMF_PHASE_ADV_SPD               (40000)     /*!< rpm */
+```
+
+#### 进一步压缩高速消隐窗口
+
+极限高速运行时，换相周期极短，消隐窗口会占用过零点检测的有效时间窗口。`EMF_FALL_BLANK_TIME_HIGH_SPD` 越小，留给 MCU 检测过零点的时间就越多，换相判断也就越及时，从而避免高速失步。
+
+在 6.4 节高速消隐调好的基础上，进入极限转速测试后**进一步减小** `EMF_FALL_BLANK_TIME_HIGH_SPD`：
+
+```c
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (1.5f)          /*!< usec，越小高速检测越快 */
+```
+
+逐步下调，直至电机在目标极限转速下稳定运行。
+
+#### 最高转速限制
+
+| 参数 | 说明 |
+|------|------|
+| `MAX_SPEED_RPM` | 正向最高转速（rpm） |
+| `MAX_CCW_SPEED_RPM` | 反向最高转速（rpm） |
+
+> ⚠️ 如果实际转速超过 `MAX_SPEED_RPM` / `MAX_CCW_SPEED_RPM` 的设定值，上位机会出现**数据乱码**。务必确保这两个值大于等于系统的实际最高运行转速。
+
+```c
+#define MAX_SPEED_RPM              (35000)     /*!< rpm */
+#define MAX_CCW_SPEED_RPM          (35000)     /*!< rpm */
+```
 
 ---
 

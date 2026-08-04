@@ -31,7 +31,7 @@ Tiny_ESC 的核心调参集中在 `firmware/at32m412_lv_motor_ev/at32m412/bldc_1
 |------|------|------|
 | R231（VBUS 分压） | 10kΩ | 5.6kΩ |
 
-<img src="{{ '/docs/pics/performance-tuning/R231（VBUS分压）.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="R231（VBUS分压）">
+<img src="{{ '/docs/pics/performance-tuning/performance-tuning36.png' | relative_url }}?v={{ site.time | date: '%s' }}" alt="R231（VBUS分压）">
 
 | 电阻 | 原值 | 新值 |
 |------|------|------|

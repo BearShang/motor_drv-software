@@ -585,7 +585,13 @@ void tmr_blank_init(void)
   /* subordinate mode selection */
   tmr_sub_mode_select(blank.TMRx, TMR_SUB_RESET_MODE);
   tmr_trigger_input_select(blank.TMRx, BLANK_TMR_SYNC_INPUT_SEL);
-  
+
+  /* clamp blank window within PWM period to prevent overflow at high PWM frequencies */
+  if (blank.blank_window_dt[0] >= (int16_t)PWM_PERIOD)
+    blank.blank_window_dt[0] = (int16_t)(PWM_PERIOD - 1);
+  if (blank.blank_window_dt[1] >= (int16_t)PWM_PERIOD)
+    blank.blank_window_dt[1] = (int16_t)(PWM_PERIOD - 1);
+
   /* dma configuration */
   dma_reset(DMA_CHANNEL_BLANK_WINDOW);
   dma_default_para_init(&dma_init_struct);
@@ -1017,7 +1023,7 @@ void cmp2_config(void)
   cmp_init(BEMF_COMP, &cmp_init_struct);
 
   /* Configure and enable a digital filter for the comparator output. */
-  cmp_filter_config(BEMF_COMP, 0x3f, 0x3f, TRUE);
+  cmp_filter_config(BEMF_COMP, 0x07, 0x07, TRUE);
 
   /* Enable the BEMF comparator. */
   cmp_enable(BEMF_COMP, TRUE);
@@ -1443,6 +1449,7 @@ void bldc_sensorless_detectEMF_config(adc_sample_type *adc_sample)
 #ifdef BLDC_SENSORLESS_COMP
   /* Set DMA blank trigger channel length. */
   dma_data_number_set(DMA_CHANNEL_BLANK_TRIGGER, 2);
+  dma_data_number_set(DMA_CHANNEL_BLANK_WINDOW, 2);
 
   /* Configure ADC preemptive channel length. */
   adc_preempt_channel_length_set(ADC_INSTANT_CONVERTER, 3);
@@ -1487,6 +1494,7 @@ void bldc_sensorless_detectEMF_config(adc_sample_type *adc_sample)
 
   /* Enable blank trigger DMA. */
   dma_channel_enable(DMA_CHANNEL_BLANK_TRIGGER, TRUE);
+  dma_channel_enable(DMA_CHANNEL_BLANK_WINDOW, TRUE);
 
   /* Enable ADC */
   adc_enable(ADC_INSTANT_CONVERTER, TRUE);

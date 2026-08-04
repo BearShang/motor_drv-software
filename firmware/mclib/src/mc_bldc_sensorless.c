@@ -153,11 +153,14 @@ void bldc_detectEMF_param_init(adc_sample_type *adc_sample)
 #if defined (EMF_CONTINOUS_SAMPLE)
   adc_sample->emf.emf_comp_continous_mode = SET;
 #endif
-  /* set blank timer CC4 cval */
-  tmr_channel_value_set(blank_trigger.TMRx, TMR_SELECT_CHANNEL_1, blank_trigger.sample_point[1]);
-  tmr_channel_value_set(blank.TMRx, blank.TMR_CH, blank.blank_window_dt[0]);
-  /* set sample point */
+  /* initialize blank trigger sample points to safe startup values,
+     avoid stale values from previous high-speed run */
   blank_trigger.sample_point[0] = 10;
+  blank_trigger.sample_point[1] = 200;
+  /* set blank timer CH1 cval: use sample_point[0] (safe early value)
+     instead of stale sample_point[1] to ensure blanking fires on first PWM cycle */
+  tmr_channel_value_set(blank_trigger.TMRx, TMR_SELECT_CHANNEL_1, blank_trigger.sample_point[0]);
+  tmr_channel_value_set(blank.TMRx, blank.TMR_CH, blank.blank_window_dt[0]);
   /* set adc timer CC4 cval */
   tmr_channel_value_set(adc_sample->ADC_TMRx, TMR_SELECT_CHANNEL_4, adc_sample->adc_sample_point[0][2]);
 
@@ -427,8 +430,8 @@ void bldc_sensorless_change_phase(hall_sensor_type *hall_handler, adc_sample_typ
 
   emf_zcp_avg_interval_count.long_word = moving_average_update(interval_moving_average_fliter, spd_total_cval);
   rotor_speed->interval_filter.long_word = emf_zcp_avg_interval_count.long_word;
-#if defined INTERNAL_COMP  
-  if(rotor_speed->interval_filter.long_word >= EMF_BLANK_TIME_CG_INTERVAL) 
+#if defined INTERNAL_COMP
+  if(rotor_speed->interval_filter.long_word >= EMF_BLANK_TIME_CG_INTERVAL)
   {
     blank.blank_window_dt[1] = EMF_FALL_BLANK_CNT_LOW_SPD;
   }
@@ -436,6 +439,9 @@ void bldc_sensorless_change_phase(hall_sensor_type *hall_handler, adc_sample_typ
   {
     blank.blank_window_dt[1] = EMF_FALL_BLANK_CNT_HIGH_SPD;
   }
+  /* clamp to PWM_PERIOD in case PWM frequency is increased */
+  if (blank.blank_window_dt[1] >= (int16_t)PWM_PERIOD)
+    blank.blank_window_dt[1] = (int16_t)(PWM_PERIOD - 1);
 #endif
   /* clear tmr counter */
   tmr_counter_value_set(adc_sample->change_phase_tmr_x, 0);

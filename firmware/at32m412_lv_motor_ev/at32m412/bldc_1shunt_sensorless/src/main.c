@@ -111,7 +111,7 @@ int main(void)
     /* enable pwm timer */
   tmr_counter_enable(PWM_ADVANCE_TIMER, TRUE);
 	mc_delay_ms(100);
-	motor_play_startup_tone(80);
+//	motor_play_startup_tone(80);
 
   gpio_output_init(); //for test
     /* enable pwm timer */

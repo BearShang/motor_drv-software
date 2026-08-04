@@ -102,10 +102,10 @@ extern "C" {
 
 /********************************* Motor-related parameter *********************************/
 /* Motor parameters  */
-#define RS_LL                        (0.312f)           /* Stator resistance, ohm */
-#define LS_LL                        (0.0425f)         /* Stator inductance, H */
+#define RS_LL                        (0.2f)           /* Stator resistance, ohm */
+#define LS_LL                        (0.0000064f)         /* Stator inductance, H */
 #define POLE_PAIRS                   (14/2)
-#define KE                           (0.001538f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
+#define KE                           (0.00075f)      /* Back EMF constant(line-to-line, peak voltage), V/rpm */
 #define NOMINAL_CURRENT              (20.0)
 
 /* angle detect duty */
@@ -133,9 +133,9 @@ extern "C" {
 
 /********************************* Drive-related parameter *********************************/
 /* basic */
-#define VDC_RATED                 ((double)16.8f)
-#define BAT_LOW_VOLT              ((double)12.8f)                   /*!< minimum allowable battery voltage*/
-#define V_SENSE_GAIN              (10.0f/(47.0f+10.0f))              /*!< 0.175439 */
+#define VDC_RATED                 ((double)25.2f)
+#define BAT_LOW_VOLT              ((double)19.2f)                   /*!< minimum allowable battery voltage*/
+#define V_SENSE_GAIN              (5.6f/(47.0f+5.6f))              /*!< 0.175439 */
 #define V_SENSE_OFFSET            (0.00f)                            /*!< 0.070 V */
 #define MAX_CURRENT               (29.0f)                            /*!< 控制层的电流限幅（单位：A）。用于限制电流指令和控制器输出的上下界， */
 #define MIN_CURRENT               (-MAX_CURRENT)                     /*!< 防止调节值超出允许范围，但不是保护触发阈值 */
@@ -179,14 +179,14 @@ extern "C" {
 #define CURR_OFFSET_VOLT          (ADC_REFERENCE_VOLT/2.0f)                  /*!< 1.65 V */
 
 /* EMF */
-#define EMF_SENSE_GAIN            (7.5f/(43.0f+7.5f))   /*!< 0.1428 */
+#define EMF_SENSE_GAIN            (7.5f/(56.0f+7.5f))   /*!< 0.1428 */
 #define GATE_DELAY_TIME           (0.8)          /*!< usec */   
 #define EMF_SIG_RISING_TIME       (9.8)          /*!< usec */
 #define EMF_SIG_FALLING_TIME      (21.5)         /*!< usec */ 
 
 #define EMF_RISE_BLANK_TIME           (7.5f)        /*!< usec */
-#define EMF_FALL_BLANK_TIME_HIGH_SPD  (10.5f)         /*!< usec */
-#define EMF_FALL_BLANK_TIME_LOW_SPD   (25.0f)        /*!< usec */
+#define EMF_FALL_BLANK_TIME_HIGH_SPD  (5.0f)          /*!< usec */
+#define EMF_FALL_BLANK_TIME_LOW_SPD   (12.5f)        /*!< usec */
 #define EMF_BLANK_TIME_CHANGED_RPM    (4000.0f)      /*!< rpm */
 #define BLANK_TIME_OFFSET             (-100) //官方人员修改的消隐空白窗口
 #define EMF_MIN_VALUE                 (1980)
@@ -214,8 +214,8 @@ extern "C" {
 #endif
 
 /* Bus voltage */
-#define OVER_VOLT_THRESHOLD       (20)          /*!< V */
-#define UNDER_VOLT_THRESHOLD      (10)          /*!< V */
+#define OVER_VOLT_THRESHOLD       (26)          /*!< V */
+#define UNDER_VOLT_THRESHOLD      (18)          /*!< V */
 /* Temperature sensing section */
 /* V[V]=V0+dV/dT[V/Celsius]*(T-T0)[Celsius]*/
 #define V0_V                      (2.5385)      /*!< in Volts */
@@ -231,7 +231,7 @@ extern "C" {
 
 
 /********************************* Control-related parameter *********************************/
-#define PWM_FREQ                   (24000)                            /*!< Hz */
+#define PWM_FREQ                   (48000)                            /*!< Hz */
 #define MOTOR_CONTROL_MODE         (motor_control_mode)(SPEED_CTRL)
 #define CTRL_SOURCE                (ctrl_source_type)(CTRL_SOURCE_SOFTWARE)  /* 1.CTRL_SOURCE_SOFTWARE 2.CTRL_SOURCE_EXTERNAL */
 #define UI_UART_BAUDRATE           (1500000UL) /*!< bit/s */
@@ -240,7 +240,7 @@ extern "C" {
 #define TUNE_CURRENT_TOTAL_PERIOD  (100)      /*!< msec */
 #define TUNE_CURRENT_STEP_PERIOD   (10)        /*!< msec */
 /* I-SAMPLE PARAMETER */
-#define I_SAMP_MIN_TIME            (140)       /*!< nsec */
+#define I_SAMP_MIN_TIME            (120)       /*!< nsec */
 #define I_SAMP_DELAY               (350)      /*!< nsec */
 #define CURR_LP_BANDWIDTH          (2000.0f)  /*!< 2*pi*freq */
 /* EMF-SAMPLE PARAMETER */
@@ -265,8 +265,8 @@ extern "C" {
 #else
 #define MIN_SPEED_RPM              (350)      /*!< rpm */
 #endif
-#define MAX_SPEED_RPM              (5600)     /*!< rpm */
-#define MAX_CCW_SPEED_RPM          (5600)     /*!< rpm */
+#define MAX_SPEED_RPM              (20000)     /*!< rpm */
+#define MAX_CCW_SPEED_RPM          (20000)     /*!< rpm */
 #define SPEED_RPM_MIN              (1000)     /*!< rpm */
 #define ACC_SPD_SLOPE              (50)        /*!< rpm/ms */
 #define DEC_SPD_SLOPE              (50)
@@ -312,11 +312,11 @@ extern "C" {
 #define SP_RUN_VALUE               (0.2f)    /*!< V */
 #define SP_STOP_VALUE              (0.11f)   /*!< V */
 /* open loop control */
-#define OLC_INIT_SPD               (100)     /*!< rpm */
+#define OLC_INIT_SPD               (200)     /*!< rpm */
 #define OLC_FINAL_SPD              (600)     /*!< rpm */
-#define OLC_TIMES                  (200)     /*!< Accumulated 200 times to reach the final speed */
-#define OLC_INIT_VOLT              (0.7)    /*!< V */
-#define OLC_VOLT_INC               (0.003)
+#define OLC_TIMES                  (100)     /*!< Accumulated 200 times to reach the final speed */
+#define OLC_INIT_VOLT              (0.45)    /*!< V */
+#define OLC_VOLT_INC               (0.0008)
 /* open loop start-up */
 #define OLC_STARTUP_PERIOD         (1500)     /*!< msec */
 /* align and go start-up */
@@ -326,8 +326,8 @@ extern "C" {
 #define LEARN_TIME                 (10000)   /*!< msec */
 #define LEARN_ALIGN_TIME           (500)     /*!< msec */
 /* pi parameter */
-#define PID_IS_KP_DEFUALT          1000
-#define PID_IS_KI_DEFUALT          450
+#define PID_IS_KP_DEFUALT          400
+#define PID_IS_KI_DEFUALT          100
 #define PID_IS_KP_DIV              32768
 #define PID_IS_KP_DIV_LOG          LOG2(PID_IS_KP_DIV)
 #define PID_IS_KI_DIV              32768
@@ -370,9 +370,9 @@ extern "C" {
 #define EMF_SAMPLE_INTERVAL             (0.05f*PWM_PERIOD)  /*!< 5% pwm duty*/
 #define SENSE_GPIN_DELAY                (100)       /*!< the delay from ovf of emf timer to sense input pins of emf. comparators*/
 #define EMF_LOW_SPD_CONT_SAMPLE_END     (PWM_PERIOD - EMF_SAMPLE_INTERVAL - SENSE_GPIN_DELAY)
-#define EMF_AVOID_NOISE_TIMES           (2)
+#define EMF_AVOID_NOISE_TIMES           (1)
 #else
-#define EMF_AVOID_NOISE_TIMES           (2)
+#define EMF_AVOID_NOISE_TIMES           (1)
 #endif
 
 /* led blink setting */

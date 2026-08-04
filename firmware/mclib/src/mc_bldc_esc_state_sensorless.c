@@ -122,6 +122,7 @@ void ESC_State_Init(esc_state_type esc_state_handler)
     adc_preempt_channel_set(ADC_INSTANT_CONVERTER, BEMF_C_ADC_CH, 3, ADC_SAMPLETIME_7_5);
     tmr_counter_enable(COMP_OUT_CAPTURE_TIMER, FALSE);
     dma_channel_enable(DMA_CHANNEL_BLANK_TRIGGER, FALSE);
+    dma_channel_enable(DMA_CHANNEL_BLANK_WINDOW, FALSE);
 #endif
     bldc_rdy = RESET;
     closeloop_rdy = RESET;

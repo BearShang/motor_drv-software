@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "mimo-media-recognition": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mimo_media_recognition_mcp.server"
+      ],
+      "env": {
+        "MIMO_API_KEY": "sk-ckcuv0ovmhwhywx9eq8g0q3k4z7g22et4ar2zqzjbuoewnoe",
+        "MIMO_API_BASE": "https://token-plan-cn.xiaomimimo.com/v1",
+        "MIMO_MODEL": "mimo-v2-omni",
+        "PYTHONPATH": "D:\\mimo-tools\\src"
+      }
+    }
+  }
+}

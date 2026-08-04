@@ -127,6 +127,9 @@ void ADVTMR_PWM_CYCLE_IRQ(void)
 #if defined (BLDC_SENSORLESS_COMP)
       adc_sample.ADC_TMRx->c4dt = adc_sample.current_sampling_point;
 			blank_trigger.sample_point[1] = pwm_comp_value-BLANK_TIME_OFFSET;//官方人员修改的
+		/* clamp to PWM period to prevent overflow at high duty */
+		if (blank_trigger.sample_point[1] >= (int16_t)PWM_PERIOD)
+			blank_trigger.sample_point[1] = (int16_t)(PWM_PERIOD - 1);
 #else
       set_adc_sample_point(&adc_sample);
 #endif
